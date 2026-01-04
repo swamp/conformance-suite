@@ -1,0 +1,22 @@
+// Bug found by @catnipped.
+// Lookahead (mostly used for resource ids), didn't work if a member name was shared by several types,
+// like the `.rnd()` member function
+#[test]
+fn lookahead_int_rnd() {
+    a := (2 + 3).rnd()
+}
+
+#[test]
+fn lookahead_float_rnd() {
+    b := (2.0 + 3.0).rnd()
+}
+
+#[test]
+fn float_rnd() {
+    b := 2.0.rnd()
+}
+
+#[test]
+fn test_int_rnd() {
+    b := 2.rnd()
+}

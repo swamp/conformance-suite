@@ -27,6 +27,8 @@ mod map
 mod match
 mod match_literal
 
+mod member_lookahead
+
 mod named_arguments
 
 mod operator
