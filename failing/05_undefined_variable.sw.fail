@@ -1,0 +1,6 @@
+---
+code: 47
+message: unknown identifier # the undefined start looks like a module name
+---
+x = undefinedVariable + 5
+

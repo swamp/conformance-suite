@@ -1,0 +1,6 @@
+---
+code: 47
+message: unknown identifier
+---
+result = nonExistentFunction(42)
+

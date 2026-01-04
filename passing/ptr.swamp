@@ -1,0 +1,11 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+// Only available in unsafe compilation
+
+#[test]
+fn ptr_test() {
+    p = Ptr::from_u32(23)
+}

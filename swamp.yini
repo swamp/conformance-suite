@@ -1,0 +1,6 @@
+members [
+    passing/
+]
+
+type: :lib
+extension swamp

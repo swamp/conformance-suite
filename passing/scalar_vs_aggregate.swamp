@@ -1,0 +1,49 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+struct Point {
+    x: Int,
+    y: Int,
+}
+
+
+struct GameData {
+    scalar_map: [Int: Int; 5],
+    aggregate_map: [Int: Point; 5],
+}
+
+#[test]
+fn scalar_key_pointer_generation() {
+    mut game = GameData {
+        scalar_map: [1: 100, 2: 200, 3: 300],
+        aggregate_map: [1: Point { x: 1, y: 1 }, 2: Point { x: 2, y: 2 }],
+    }
+
+    key := 2
+    assert(game.scalar_map.has(key), "scalar key variable lookup should work")
+    assert(game.scalar_map[key] == 200, 'scalar key variable access should work {game.scalar_map[key]}') // this is so strange! finds the 300 instead of 200
+
+    assert(game.scalar_map.has(3), "scalar key literal lookup should work")
+    assert(game.scalar_map[3] == 300, "scalar key literal access should work")
+
+    game.scalar_map[key] = 999
+    assert(game.scalar_map[2] == 999, "scalar key modification should work")
+}
+
+#[test]
+fn aggregate_value_pointer_generation() {
+    mut game = GameData {
+        scalar_map: [1: 100, 2: 200],
+        aggregate_map: [1: Point { x: 10, y: 20 }, 2: Point { x: 30, y: 40 }],
+    }
+
+    key := 1
+    assert(game.aggregate_map.has(key), "aggregate value key lookup should work")
+    assert(game.aggregate_map[key].x == 10, "aggregate value access should work")
+
+    game.aggregate_map[key].x = 999
+    assert(game.aggregate_map[1].x == 999, "aggregate value field modification should work")
+    assert(game.aggregate_map[1].y == 20, "other fields should remain unchanged")
+}

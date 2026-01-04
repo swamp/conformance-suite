@@ -1,0 +1,11 @@
+---
+code: 100
+message: unused variable # TODO: should be parameter in the future with error 101
+---
+fn calculate(x: Int, unused_param: Int) -> Int {
+    x * 2
+}
+
+fn main() -> Int {
+    calculate(5, 10)
+}

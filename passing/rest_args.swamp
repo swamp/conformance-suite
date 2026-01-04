@@ -1,0 +1,167 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+struct Entity {
+    health: Int,
+    damage: Int,
+    speed: Float,
+}
+
+impl Entity {
+    fn default() -> Entity {
+        {
+            speed: 1.0,
+            health: 100,
+            damage: 10,
+        }
+    }
+}
+
+struct Config {
+    timeout: Int,
+    retries: Int,
+    verbose: Bool,
+}
+
+impl Config {
+    fn default() -> Config {
+        {
+            retries: 3,
+            timeout: 5000,
+            verbose: false,
+        }
+    }
+}
+
+struct Point {
+    x: Int,
+    y: Int,
+}
+
+// No default() implementation - will use field type defaults
+
+fn process_entity(entity: Entity, multiplier: Int) -> Int {
+    entity.health * multiplier
+}
+
+fn configure_system(cfg: Config, name: String) -> String {
+    if cfg.verbose {
+        'Config \'{name}\': timeout={cfg.timeout}, retries={cfg.retries}'
+    } else {
+        'Config \'{name}\' loaded'
+    }
+}
+
+fn calculate_distance(p: Point) -> Int {
+    (p.x * p.x) + (p.y * p.y)
+}
+
+fn multi_param(a: Int, entity: Entity, b: Int) -> Int {
+    a + entity.health + b
+}
+
+fn with_string(s: String, entity: Entity) -> String {
+    '{s}: health={entity.health}'
+}
+
+#[test]
+fn rest_args_with_named() {
+    // Combine named argument with rest operator
+    result := process_entity(multiplier: 3, ..)
+    assert(result == 300, "should be 100 * 3 = 300")
+}
+
+
+#[test]
+fn rest_args_config_reordered() {
+    // Named arg with rest operator
+    msg := configure_system(name: "prod_system", ..)
+    assert(msg == "Config 'prod_system' loaded", "reordered with rest failed")
+}
+
+#[test]
+fn rest_args_without_struct_default() {
+    // Point has no default() - should use Int's default (0)
+    dist := calculate_distance(..)
+    assert(dist == 0, "default point should be at origin")
+}
+
+#[test]
+fn rest_args_with_string_first() {
+    result := with_string("Status", ..)
+    assert(result == "Status: health=100", "string with rest failed")
+}
+
+// Test with custom defaults
+struct Weapon {
+    damage: Int,
+    durability: Int,
+}
+
+impl Weapon {
+    fn default() -> Weapon {
+        Weapon {
+            damage: 5,
+            durability: 50,
+        }
+    }
+}
+
+fn equip_weapon(w: Weapon, slot: Int) -> Int {
+    w.damage + w.durability + slot
+}
+
+#[test]
+fn rest_args_custom_struct() {
+    result2 := equip_weapon(slot: 2, ..)
+    assert(result2 == 57, "named slot with rest should be 57")
+}
+
+// Test with struct that has no impl block
+struct SimpleData {
+    value: Int,
+    flag: Bool,
+}
+
+fn use_simple(data: SimpleData) -> Int {
+    if data.flag {
+        data.value
+    } else {
+        0
+    }
+}
+
+#[test]
+fn rest_args_no_impl() {
+    // SimpleData has no default() - uses field defaults (Int=0, Bool=false)
+    result := use_simple(..)
+    assert(result == 0, "default bool should be false, returning 0")
+}
+
+// Test rest with member functions
+impl Entity {
+    fn boost(self, factor: Int) -> Int {
+        self.health * factor
+    }
+
+    fn combine(self, other: Entity) -> Int {
+        self.health + other.health
+    }
+}
+
+#[test]
+fn rest_args_member_function() {
+    e := Entity { health: 50, damage: 15, speed: 2.0 }
+    // Note: self can't use .., but other params can
+    result := e.boost(2)
+    assert(result == 100, "boost should work")
+}
+
+#[test]
+fn rest_args_member_with_struct_param() {
+    e := Entity { health: 50, damage: 15, speed: 2.0 }
+    result := e.combine(..) // other: Entity filled with default
+    assert(result == 150, "should be 50 + 100 = 150")
+}

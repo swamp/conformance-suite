@@ -1,0 +1,260 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+#[test]
+fn empty_literal_view() {
+    a := ""
+    assert(a.len() == 0, "empty length")
+    assert(a.capacity() == 0, "empty length")
+}
+
+struct StringInStruct {
+    something_else: Int,
+    str: String<99>,
+}
+
+#[test]
+fn optional_string() {
+    _a: String? = "hello"
+}
+
+
+
+#[test]
+fn utf8_literal_view() {
+    a := "☕ñ🚀"
+    assert(a.len() == 9, "utf8 byte length")
+    assert(a.capacity() == 9, "capacity failed")
+    assert(a == "☕ñ🚀", "must match exactly")
+}
+
+#[test]
+fn set_view_from_view_constant() {
+    _a := "hello"
+}
+
+#[test]
+fn set_view_from_view_constant_equality() {
+    a := "hello"
+    assert(a == "hello", 'must be same')
+}
+
+#[test]
+fn store_in_tuple() {
+    val1, str_val, bool_val = (100, "swamp_tuple", true,) // Intentional trailing comma
+    assert(val1 == 100, 'Simple tuple: val1 is wrong')
+    assert(str_val == "swamp_tuple", 'Simple tuple: str_val is wrong')
+    assert(bool_val == true, 'Simple tuple: bool_val is wrong')
+}
+
+#[test]
+fn string_interpolation_int() {
+	a := 3
+	print('a:{a}')
+}
+
+
+#[test]
+fn set_storage_from_view_constant() {
+    _a: String<42> = "hello"
+}
+
+#[test]
+fn set_storage_from_view_constant_equality() {
+    a: String<42> = "hello"
+    assert(a == "hello", "failed")
+}
+
+
+#[test]
+fn append_views() {
+    a := "hello "
+    b := "world!"
+    c := '{a}{b}'
+    assert(c == "hello world!", "failed")
+}
+
+#[test]
+fn append_storage_and_storage() {
+    a: String<42> = "hello "
+    b: String<32> = "world!"
+    assert(a == "hello ", "a did not match")
+    assert(b == "world!", "b did not match")
+    c := '{a}{b}'
+
+    assert(c.len() == 12, "len failed")
+    assert(c.capacity() == 12, "capacity failed")
+    // TODO: assert(c[0].int() == 104, 'first') //first char failed {c[0].int()}
+
+    assert(c == "hello world!", "equality failed")
+}
+
+
+#[test]
+fn string_interpolation() {
+    name := "catnipped"
+    a := 'hello {name}'
+    assert(a == "hello catnipped", "failed string interpolation")
+}
+
+
+#[test]
+fn string_view_from_storage() {
+    a: String<42> = "hello"
+    b: String = a
+
+    assert(a == "hello", "failed string_view_from_storage")
+    assert(b == "hello", "failed string_view_from_storage")
+    assert(a == b, "failed string_view_from_storage")
+}
+
+
+
+#[test]
+fn view_to_storage_mem_place() {
+    s := StringInStruct { str: "hello",.. }
+    assert(s.str.capacity() == 99, "capacity failed")
+    assert(s.str.len() == 5, "len failed")
+    assert(s.str == "hello", "equality failed")
+}
+
+#[test]
+fn str_storage_to_storage_in_mem_place() {
+    a: String<48> = "hello"
+    s := StringInStruct { str: a,.. }
+    assert(s.str.capacity() == 99, "capacity failed")
+    assert(s.str.len() == 5, "len failed")
+    assert(s.str == "hello", "equality failed")
+}
+
+#[test]
+fn str_view_from_str_storage_in_mem_place() {
+    s := StringInStruct { str: "hello",.. }
+    assert(s.str.capacity() == 99, 'str capacity {s.str.capacity()}')
+    view: String = s.str // TODO: this should make a copy from the storage into the scratch arena. It is not safe to keep the view to a storage.
+    assert(view.capacity() == 5, 'view capacity failed {view.capacity()}') // view should have the length of the string as capacity (5)
+    assert(view.len() == 5, "view len failed")
+
+    assert(s.str.capacity() == 99, "capacity failed")
+    assert(s.str.len() == 5, "len failed")
+    assert(s.str == "hello", "equality failed")
+}
+
+fn return_specific_string_view() -> String {
+	"hello"
+}
+
+fn return_string_view_from_storage() -> String {
+	s: String<42> = "hello"
+	s
+}
+
+#[test]
+fn return_string_view_from_string_view() {
+	a := return_specific_string_view()
+	assert(a == "hello", 'should have worked')
+}
+
+
+fn return_string_storage_to_string_view() {
+	a := return_string_view_from_storage()
+	assert(a == "hello", 'should have worked')
+}
+
+
+#[test]
+fn allowed() {
+    mut a = "hello"
+	a = "goodbye"
+}
+
+#[test]
+fn convert_from_byte_storage_to_string_view() {
+	mut a: Vec<U8; 16> = []
+
+	a.push(0x6d)
+
+	b: String = a // This should make a copy
+	assert(b == "m", "string could not be converted")
+
+	// TODO: a.clear()
+	a.push(0xff)
+	assert(b == "m", "string was modified")
+}
+
+
+#[test]
+fn convert_from_byte_storage_to_string_storage() {
+	mut a: Vec<U8; 16> = []
+
+	a.push(0x6d)
+
+	b: String<96> = a // This should make a copy
+	assert(b == "m", "string could not be converted")
+
+	// TODO: a.clear()
+	a.push(0xff)
+	assert(b == "m", "string was modified")
+}
+
+struct Parser {
+    is_eof: Bool,
+    str: String<2048>,
+}
+
+impl Parser {
+	fn parse(mut self, s: String) {
+		self.str = s
+	}
+}
+
+#[test]
+fn create_parser() {
+	mut p = Parser {..}
+	p.parse("hello")
+
+	assert(p.str == "hello", "initialization wrong")
+}
+
+
+struct Element {
+    name: String<32>,
+}
+
+enum Node {
+	Element Element,
+	Text String<42>,
+}
+
+enum Command {
+    Text String<1024>,
+		Newline,
+}
+
+fn match_node(tag: Node) -> Command {
+
+	result := match tag {
+
+		Element element -> {
+				Command::Newline
+		}
+
+		Text text_str -> {
+			Command::Text(text_str)
+		}
+	}
+
+	result
+}
+
+// FIXME: Crashes MIR:
+// field projection base must be struct/tuple/optional/tagged union, got StringStorage { element_type: AbiType { id: AbiTypeId(2), kind: U8, total_size: MemorySize(1), max_alignment: U8 }, char: AbiType { id: AbiTypeId(4), kind: U32, total_size: MemorySize(4), max_alignment: U32 }, capacity: 42 }
+/*
+#[test]
+fn match_problem() {
+	command := match_node(Node::Text("before"))
+	assert(command.string() == "Command::Text(\"before\")", 'match problem persists {command}')
+}
+*/

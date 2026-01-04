@@ -1,0 +1,6 @@
+---
+code: 34
+message: incompatible types
+---
+x: Int = "hello"
+

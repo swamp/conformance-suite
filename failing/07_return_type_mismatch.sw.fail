@@ -1,0 +1,8 @@
+---
+code: 107
+message: unexpected token
+---
+fn getString() -> String {
+    42
+}
+

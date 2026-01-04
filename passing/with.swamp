@@ -1,0 +1,93 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+#[test]
+fn mutable_reference_to_data_structure() {
+    // NOTE: This test uses aggregate reference semantics (& used with collections).
+    // Aggregates with & create a variable that shares that lvalue and therefor modify the original aggregate.
+    mut numbers: Vec<Int; 10> = [1, 2, 3]
+
+    with mut nums = &numbers {
+        nums.push(4)
+        nums.push(5)
+        nums[0] = 100  // Modify existing element
+    }
+
+    assert(numbers.len() == 5, "numbers should have 5 elements after with block")
+    assert(numbers[0] == 100, "first element should be modified to 100")
+    assert(numbers[3] == 4, "fourth element should be 4")
+    assert(numbers[4] == 5, "fifth element should be 5")
+}
+
+struct Formation {
+    id: Int,
+    name: String<42>,
+}
+
+struct Enemy {
+    id: Int,
+    health: Int,
+    formation: Int
+}
+
+struct GameState {
+    formations: Pool<Formation, 10>,
+    enemies: Pool<Enemy, 10>
+}
+
+/// This test is done to reproduce a bug that existed in the `shmup` example game.
+#[test]
+fn mutable_reference_to_field_access_chain() {
+    // NOTE: This test uses aggregate reference semantics (& used with field access chains).
+    // Aggregates with & create variables that point to the same lvalue as the original aggregate.
+    mut game_state = GameState {
+        formations: [],
+        enemies: []
+    }
+
+    mut formation1_id = game_state.formations.add(Formation { id: 1, name: "Alpha Squad" })
+    mut formation2_id = game_state.formations.add(Formation { id: 2, name: "Beta Team" })
+
+    _ := game_state.enemies.add(Enemy { id: 10, health: 100, formation: formation1_id })
+    _ := game_state.enemies.add(Enemy { id: 20, health: 80, formation: formation1_id })
+    _ := game_state.enemies.add(Enemy { id: 30, health: 90, formation: formation2_id })
+
+    print('Before `with` block - formations: {game_state.formations.len()}, enemies: {game_state.enemies.len()}')
+    assert(game_state.formations.len() == 2, "Should have 2 formations initially")
+    assert(game_state.enemies.len() == 3, "Should have 3 enemies initially")
+
+    with mut formations = &game_state.formations, mut enemies = &game_state.enemies {
+        print('Inside `with` block - formations: {formations.len()}, enemies: {enemies.len()}')
+
+        mut enemy_ids_to_remove: Vec<Int; 10> = []
+
+        for id, mut enemy in enemies {
+            print('Processing enemy {enemy.id} with health {enemy.health}')
+
+            // Just some random game logic :)
+            if enemy.health < 85 {
+                print('Enemy {enemy.id} has low health, marking for removal')
+                enemy_ids_to_remove.push(id)
+            } else {
+                enemy.health -= 5
+                print('Enemy {enemy.id} health reduced to {enemy.health}')
+            }
+        }
+
+        // Remove enemies marked for deletion
+        for id in enemy_ids_to_remove {
+            print('Removing enemy {id}')
+            enemies.remove(id)
+        }
+
+        print('After processing - formations: {formations.len()}, enemies: {enemies.len()}')
+        assert(formations.len() == 2, "Should still have 2 formations")
+        assert(enemies.len() == 2, "Should have 2 enemies after removal")
+    }
+
+    print('After with block - formations: {game_state.formations.len()}, enemies: {game_state.enemies.len()}')
+    assert(game_state.formations.len() == 2, "Original formations should have 2 elements - changes should persist")
+    assert(game_state.enemies.len() == 2, "Original enemies should have 2 elements - changes should persist")
+}

@@ -1,0 +1,165 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+struct Point {
+    x: Int,
+    y: Int,
+}
+
+struct Config {
+    timeout: Int,
+    retries: Int,
+    verbose: Bool,
+}
+
+fn create_point(x: Int, y: Int) -> Point {
+    Point { x: x, y: y }
+}
+
+fn greet(name: String, age: Int, city: String) -> String {
+    '{name} is {age} years old and lives in {city}'
+}
+
+fn calculate(a: Int, b: Int, operation: String) -> Int {
+    match operation {
+        "add" -> a + b,
+        "sub" -> a - b,
+        "mul" -> a * b,
+        "div" -> a.div(b),
+        _ -> 0,
+    }
+}
+
+fn configure(timeout: Int, retries: Int, verbose: Bool) -> Config {
+    Config { timeout: timeout, retries: retries, verbose: verbose }
+}
+
+fn mixed_types(flag: Bool, count: Int, value: Float, label: String) -> String {
+    if flag {
+        '{label}: {count} items at {value}'
+    } else {
+        "disabled"
+    }
+}
+
+#[test]
+fn basic_named_args() {
+    // Named arguments in correct order
+    p := create_point(x: 10, y: 20)
+    assert(p.x == 10, "x should be 10")
+    assert(p.y == 20, "y should be 20")
+}
+
+#[test]
+fn reordered_named_args() {
+    // Named arguments in different order than signature
+    p := create_point(y: 30, x: 15)
+    assert(p.x == 15, "x should be 15")
+    assert(p.y == 30, "y should be 30")
+}
+
+#[test]
+fn named_args_with_strings() {
+    // Named arguments with string types
+    msg := greet(name: "Alice", age: 30, city: "NYC")
+    assert(msg == "Alice is 30 years old and lives in NYC", "greeting message wrong")
+
+    // Reordered
+    msg2 := greet(city: "SF", name: "Bob", age: 25)
+    assert(msg2 == "Bob is 25 years old and lives in SF", "reordered greeting wrong")
+}
+
+#[test]
+fn named_args_partial_ordering() {
+    // Mix of reordering
+    msg := greet(age: 35, city: "LA", name: "Charlie")
+    assert(msg == "Charlie is 35 years old and lives in LA", 'partial reorder wrong {msg}')
+}
+
+#[test]
+fn named_args_with_match() {
+    // Named arguments to function that uses match internally
+    result := calculate(a: 10, b: 5, operation: "add")
+    assert(result == 15, "addition failed")
+
+    result2 := calculate(operation: "mul", b: 7, a: 3)
+    assert(result2 == 21, "multiplication failed")
+}
+
+#[test]
+fn named_args_struct_return() {
+    // Named arguments returning struct
+    cfg := configure(timeout: 100, retries: 3, verbose: true)
+    assert(cfg.timeout == 100, "timeout wrong")
+    assert(cfg.retries == 3, "retries wrong")
+    assert(cfg.verbose, "verbose should be true")
+
+    // Reordered
+    cfg2 := configure(verbose: false, timeout: 200, retries: 5)
+    assert(cfg2.timeout == 200, "reordered timeout wrong")
+    assert(cfg2.retries == 5, "reordered retries wrong")
+    assert(!cfg2.verbose, "reordered verbose should be false")
+}
+
+#[test]
+fn named_args_mixed_types() {
+    // Named arguments with multiple types
+    result := mixed_types(
+        flag: true,
+        count: 42,
+        value: 3.14,
+        label: "Items"
+    )
+    assert(result == "Items: 42 items at 3.140", 'mixed types wrong {result}')
+
+    // Completely reordered
+    result2 := mixed_types(
+        label: "Data",
+        value: 2.5,
+        count: 10,
+        flag: true
+    )
+    assert(result2 == "Data: 10 items at 2.500", 'reordered mixed types wrong {result}')
+}
+
+#[test]
+fn named_args_with_false_bool() {
+    result := mixed_types(
+        label: "Test",
+        flag: false,
+        value: 1.0,
+        count: 5
+    )
+    assert(result == "disabled", "false flag should disable")
+}
+
+#[test]
+fn named_args_nested_call() {
+    // Named arguments in nested call
+    p1 := create_point(x: 5, y: 10)
+    p2 := create_point(y: p1.y * 2, x: p1.x + 5)
+    assert(p2.x == 10, "nested x wrong")
+    assert(p2.y == 20, "nested y wrong")
+}
+
+// Member function with named args
+impl Point {
+    fn distance_from(self, other_x: Int, other_y: Int) -> Float {
+        dx := (self.x - other_x).float()
+        dy := (self.y - other_y).float()
+        (dx * dx) + (dy * dy)
+    }
+}
+
+#[test]
+fn named_args_member_function() {
+    p := Point { x: 0, y: 0 }
+    dist := p.distance_from(other_x: 3, other_y: 4)
+    assert(dist == 25.0, 'distance should be 5.0 {dist}')
+
+    // Reordered
+    dist2 := p.distance_from(other_y: 4, other_x: 3)
+    assert(dist2 == 25.0, 'reordered distance should be 25.0 {dist2}')
+}

@@ -1,0 +1,18 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+struct MyStruct {
+    x: Int,
+    y: Bool,
+}
+
+/* FIXME:
+#[test]
+fn pack_any() {
+    value = MyStruct { x: 24, .. }
+    packed_bytes = std::pack(value)
+//    unpacked_value = std::unpack<MyStruct>(packed_bytes)
+}
+*/

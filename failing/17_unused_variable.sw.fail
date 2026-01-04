@@ -1,0 +1,9 @@
+---
+code: 100
+message: unused variable
+---
+fn main() -> Int {
+    unused_var := 42
+    result := 10 + 5
+    result
+}

@@ -1,0 +1,11 @@
+---
+code: 34
+message: incompatible types
+---
+struct Point {
+    x: Int,
+    y: Int
+}
+
+p = Point { x: 1, y: "two" }
+

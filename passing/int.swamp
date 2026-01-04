@@ -1,0 +1,59 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+#[test]
+fn to_float() {
+    assert(23.float() == 23.0, "to_float(23) is wrong")
+}
+
+#[test]
+fn rnd() {
+    assert(99.rnd() == 1_177_730_931, "rnd(99) is wrong")
+}
+
+#[test]
+fn max() {
+    assert(3.max(-3) == 3, "max(3, -3) is wrong")
+}
+
+#[test]
+fn max_again() {
+    assert(3.max(10) == 10, "max(3, 10    ) is wrong")
+}
+
+#[test]
+fn min() {
+    assert(3.min(-3) == -3, "min(3, -3) is wrong")
+}
+
+#[test]
+fn clamp() {
+    assert((-3).clamp(1, 9) == 1, "clamp() is wrong")
+}
+
+#[test]
+fn clamp_upper() {
+    assert(23988.clamp(1, 9) == 9, "clamp() is wrong")
+}
+
+#[test]
+fn to_string() {
+    assert(3.string() == "3", "to_string(3) is wrong")
+}
+
+#[test]
+fn integer_boundary_operations() {
+    large_positive := 2_000_000_000
+    large_negative := -2_000_000_000
+
+    result1 := large_positive + 100
+    assert(result1 > large_positive, "large positive addition failed")
+
+    result2 := large_negative - 100
+    assert(result2 < large_negative, "large negative subtraction failed")
+
+    result3 := large_positive / 1000
+    assert(result3 == 2_000_000, "large division failed")
+}

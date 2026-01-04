@@ -1,0 +1,11 @@
+---
+code: 13
+message: missing field in struct instantiation
+---
+struct Person {
+    name: Int,
+    age: Int
+}
+
+// missing field 'age'
+person = Person { name: 42 } 

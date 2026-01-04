@@ -1,0 +1,39 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+/// Thanks to @catnipped who found the bug
+struct Decklist {
+    cards: Vec<Int; 32>,
+}
+
+struct DraftSimulation {
+    deck_list: Vec<Int; 16>, // Intentionally another capacity than the Decklist
+}
+
+enum Screen {
+    Draft { draft_sim: DraftSimulation },
+    SomethingElse,
+}
+
+/* FIXME
+#[test]
+fn match_with_optional() {
+
+    screen := Screen::Draft {
+        draft_sim: DraftSimulation {
+            deck_list: [10, 20, 30]
+        }
+    }
+
+    draft_decklist: Decklist? = match screen {
+        Draft { draft_sim } -> { draft_sim.deck_list }
+        _ -> { none }
+    }
+
+    assert(draft_decklist, 'draft decklist should be true (Some)')
+
+}
+
+*/

@@ -1,0 +1,14 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+#[test]
+fn boolean_literals() {
+    is_true := true
+    is_false := false
+    print('is_true:{is_true}, is_false:{is_false}')
+    assert(is_true == true, "true literal is not true")
+    assert(is_false == false, "false literal is not false")
+    assert(is_true != is_false, "true should not be equal to false")
+}

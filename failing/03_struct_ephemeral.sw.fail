@@ -1,0 +1,8 @@
+---
+code: 84
+message: storage needed
+---
+struct StructWithEphemeralTypes {
+    string: String, // should not be allowed to hold pointers
+}
+

@@ -1,0 +1,253 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+struct Point {
+    x: Int,
+    y: Int,
+}
+
+impl Point {
+    fn add(self, other: Point) -> Point {
+        Point { x: self.x + other.x, y: self.y + other.y }
+    }
+}
+
+struct Something {
+    first_point: Point,
+    second_point: Point,
+}
+
+
+#[test]
+fn add_points() {
+    a := Point { x: 10, y: 20 }
+    b := Point { x: 30, y: 40 }
+    c := a.add(b)
+    print('x:{c.x}, y:{c.y}')
+    assert(c.x == 40, 'x value is wrong')
+    assert(c.y == 60, 'y value is wrong')
+}
+
+#[test]
+fn literal_struct() {
+    a := Point { x: 10, y: 20 }
+    print('x:{a.x}, y:{a.y}')
+    assert(a.x == 10, 'x value is wrong')
+    assert(a.y == 20, 'y value is wrong')
+}
+
+
+fn overwrite_point(mut p: Point) {
+    p.x = 100
+    p.y = 200
+}
+
+#[test]
+fn borrow_point() {
+    // Intentional dummy variable `dummy` to take up the r1 register.
+    // that forces a `mov r1, r2` (r1=first parameter, r2=point variable) to happen before calling `overwrite_point`.
+    dummy :=  3
+
+    mut point = Point { x: 10, y: 20 }
+
+    print('before overwrite: x:{point.x}, y:{point.y}')
+    assert(point.x == 10, 'before: x value is wrong')
+    assert(point.y == 20, 'before: y value is wrong')
+
+    overwrite_point(&point)
+
+    print('after overwrite: x:{point.x}, y:{point.y}')
+    assert(point.x == 100, 'after: x value is wrong')
+    assert(point.y == 200, 'after: y value is wrong')
+}
+
+
+fn partial_overwrite_point(mut p: Point) {
+    p.y = 200
+}
+
+
+#[test]
+fn borrow_point_partial_overwrite() {
+    // Intentional dummy variable `dummy` to take up the r1 register.
+    // that forces a `mov r1, r2` (r1=first parameter, r2=point variable) to happen before calling `overwrite_point`.
+    dummy :=  3
+
+    mut point = Point { x: 10, y: 20 }
+
+    print('before overwrite: x:{point.x}, y:{point.y}')
+    assert(point.x == 10, 'before: x value is wrong')
+    assert(point.y == 20, 'before: y value is wrong')
+
+    partial_overwrite_point(&point)
+
+    print('after overwrite: x:{point.x}, y:{point.y}')
+    assert(point.x == 10, 'after: x value should not have been changed')
+    assert(point.y == 200, 'after: y value is wrong')
+}
+
+
+
+#[test]
+fn borrow_point_inside_struct() {
+    // Intentional dummy variable `dummy` to take up the r1 register.
+    // that forces a `mov r1, r2` (r1=first parameter, r2=point variable) to happen before calling `overwrite_point`.
+    dummy := 3
+
+    mut something = Something {
+        first_point: Point { x: 10, y: 20 },
+        second_point: Point { x: 30, y: 40 },
+    }
+
+    print('before overwrite: x:{something.first_point.x}, y:{something.first_point.y}')
+    assert(something.first_point.x == 10, 'before: x value is wrong')
+    assert(something.first_point.y == 20, 'before: y value is wrong')
+    assert(something.second_point.x == 30, 'before: x value is wrong')
+    assert(something.second_point.y == 40, 'before: y value is wrong')
+
+    partial_overwrite_point(&something.second_point)
+
+    print('after overwrite: first: x:{something.first_point.x}, y:{something.first_point.y}')
+    print('after overwrite: second: x:{something.second_point.x}, y:{something.second_point.y}')
+
+    assert(something.first_point.x == 10, 'after: x value should not have been changed')
+    assert(something.first_point.y == 20, 'after: y value should not have been changed')
+    assert(something.second_point.x == 30, 'after: x value should not have been changed')
+    assert(something.second_point.y == 200, 'after: y value is wrong')
+    print('after overwrite: x:{something.second_point.x}, y:{something.second_point.y}')
+}
+
+
+struct DeepNest {
+    a: Something,
+    b: Something,
+}
+
+#[test]
+fn deep_nesting() {
+    dummy := 3
+    mut deep = DeepNest {
+        a: Something {
+          first_point: Point { x: 1, y: 2 },
+          second_point: Point { x: 3, y: 4 }
+        },
+        b: Something {
+          first_point: Point { x: 5, y: 6 },
+          second_point: Point { x: 7, y: 8 }
+        }
+    }
+
+    partial_overwrite_point(&deep.a.first_point)
+    partial_overwrite_point(&deep.b.second_point)
+
+    assert(deep.a.first_point.y == 200, "deep nested first point not updated")
+    assert(deep.b.second_point.y == 200, "deep nested second point not updated")
+    assert(deep.a.first_point.x == 1, "shouldnt have changed")
+    assert(deep.b.second_point.x == 7, "shouldnt have changed")
+}
+
+
+struct Mixed {
+    num: Int,
+    flag: Bool,
+    text: String<42>,
+}
+
+
+#[test]
+fn test_string_to_string() {
+    s := "hello world!"
+    result := s.string()
+    assert(result == "\"hello world!\"", 'result is wrong {s}')
+}
+
+#[test]
+fn automatic_to_string() {
+    mut mixed = Mixed { num: 42, flag: false, text: "hello" }
+    print('Mixed struct: {mixed}')
+    result := mixed.string()
+    assert(result == "Mixed { flag: false, num: 42, text: hello }", 'to_string failed "{result}"')
+}
+
+/*
+#[test]
+fn automatic_anon_to_string() {
+    mut mixed = { num: 42, flag: false, text: "hello" }
+    print('Mixed struct: {mixed}')
+    result := mixed.string()
+    // NOTE: Anonymous struct fields are always sorted alphabetically
+    assert(result == "{ flag: false, num: 42, text: \"hello\" }", 'to_string failed "{result}"')
+}
+
+#[test]
+fn automatic_anon_to_pretty_string() {
+    mut mixed = { num: 42, flag: false, text: "hello" }
+    print('Mixed struct: {mixed}')
+    result := mixed.pretty_string()
+    // NOTE: Anonymous struct fields are always sorted alphabetically
+    assert(result == "{ flag: false, num: 42, text: \"hello\" }", 'to_pretty_string failed "{result}"')
+}
+*/
+
+/// This test is to ensure that the automatic conversion to short string works correctly.
+/// to_short_string shows named structs as anonymous structs (without the type name)
+/* FIXME: short_string() is not implemented yet
+#[test]
+fn automatic_to_short_string() {
+    mut mixed = Mixed { num: 42, flag: false, text: "hello" }
+    print('Mixed struct short: {mixed.short_string()}')
+    assert(mixed.short_string() == "{ num: 42, flag: false, text: \"hello\" }", "to_short_string failed")
+}
+*/
+
+
+
+#[test]
+fn rest_operator() {
+    mut point = Point {
+        x: 10
+        ..
+    }
+    assert(point.x == 10, "x value is wrong")
+    assert(point.y == 0, "y value is wrong")
+}
+
+#[test]
+fn rest_operator_again() {
+    mut point = Point {
+        y: 20
+        ..
+    }
+    assert(point.x == 0, "x value is wrong")
+    assert(point.y == 20, "y value is wrong")
+}
+
+
+#[test]
+fn compare_structs() {
+    point1 := Point {
+        y: 20
+        ..
+    }
+    point2 := Point {
+        y: 20,
+        x: 0,
+    }
+    assert(point1 == point2, "structs should be equal")
+}
+
+
+#[test]
+fn compare_structs_not_equal() {
+    point1 := Point {
+        y: 20
+        ..
+    }
+    point2 := Point {
+        y: 20,
+        x: 1,
+    }
+    assert(point1 != point2, "structs should be equal")
+}

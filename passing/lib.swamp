@@ -1,0 +1,63 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+mod anonymous_struct
+mod arithmetic
+mod array
+mod bool
+mod byte
+mod callee_save
+mod constant
+mod enum
+mod enum_bugs
+mod enum_guards
+mod float
+mod for
+mod guard
+
+mod indirect_memory
+mod int
+mod intrinsic_materialization
+
+mod logical
+
+mod map
+
+mod match
+mod match_literal
+
+mod named_arguments
+
+mod operator
+mod pool
+mod queue
+
+mod rest_args
+mod rest_operator
+
+mod scalar_vs_aggregate
+mod slice
+
+mod sret_out_param
+mod stack
+
+mod string_basic
+mod string_other
+
+mod struct_map
+mod struct
+
+mod transformer_bugs
+mod transformer_filter_bugs
+mod transformer
+
+mod tuple
+mod unwrap
+mod vec
+
+mod when
+
+mod while
+
+mod with

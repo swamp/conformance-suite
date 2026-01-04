@@ -1,0 +1,56 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+struct Pos {
+    x: Int,
+    y: Int,
+}
+
+#[test]
+fn add_remove() {
+    mut pool: Pool<Pos; 10> = []
+    assert(pool.is_empty(), "should be empty at start")
+
+    id := pool.add(Pos { x: -909, .. } )
+    assert(pool.len() == 1, "length should be 1 after adding one element")
+
+    assert(pool[id].x == -909, 'element should be -909 after adding: {pool[id]}')
+
+    pool[id] = Pos { x: 100, .. }
+    assert(pool[id].x == 100, 'element should be updated to 100: {pool[id]}')
+
+    pool.remove(id)
+
+    assert(pool.len() == 0, "length should be 0 after removing the element")
+}
+
+#[test]
+fn iterate() {
+    mut pool: Pool<Pos; 10> = []
+
+    assert(!pool.is_alive(0), "an invalid handle should not be alive")
+
+    a := pool.add(Pos { x: 1, .. })
+    assert(pool.is_alive(a), "element should be alive after adding")
+
+    b := pool.add(Pos { x: 2, .. })
+    _c := pool.add(Pos { x: 3, .. })
+
+    mut count = 0
+    for v in pool {
+        print('element: {count}: {v}')
+        count += 1
+    }
+    assert(count == 3, 'count of elements should be 3, got {count}')
+
+    assert(pool.is_alive(b), "element should be alive after adding")
+    pool.remove(b)
+    assert(!pool.is_alive(b), "element should not be alive after removing it")
+
+    for id, v in pool {
+        print('element: {id}: {v}')
+    }
+}
+

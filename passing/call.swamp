@@ -1,0 +1,29 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+struct Artifact {
+    id: Int,
+}
+
+fn function_with_anon_struct(params: { layer: Int, artifacts: Vec<Artifact> }) {
+    assert(params.artifacts.len() == 1, 'artifacts len is wrong {params.artifacts.len()}')
+}
+
+struct Main {
+    artifacts: Vec<Artifact; 4>,
+}
+
+
+#[test]
+fn call_anon_param() {
+    main = Main {
+        artifacts: [ { id: 3 } ],
+    }
+
+    function_with_anon_struct( {
+        layer: 20,
+        artifacts: main.artifacts
+    })
+}

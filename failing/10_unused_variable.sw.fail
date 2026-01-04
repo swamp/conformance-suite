@@ -1,0 +1,6 @@
+---
+code: 100
+message: unused variable
+---
+a := 3
+// never used...

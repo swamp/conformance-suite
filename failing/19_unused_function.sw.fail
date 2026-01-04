@@ -1,0 +1,15 @@
+---
+code: 102
+message: unused function
+---
+fn unused_function(x: Int) -> Int {
+    x + 10
+}
+
+fn helper(y: Int) -> Int {
+    y * 2
+}
+
+fn main() -> Int {
+    helper(5)
+}
