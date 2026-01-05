@@ -92,7 +92,6 @@ impl Parser {
             b' '
         } else {
             ch := self.str[self.pos]
-            print('looked up {ch.char()} at {self.pos}')
             self.pos += 1
             if self.pos == self.str.len() {
                 self.is_eof = true
@@ -122,25 +121,26 @@ impl Parser {
     fn skip_ws(mut self) {
         while !self.is_eof && self.peek() == b' ' {
             debug_ch := self.peek()
-            print('skipping: {debug_ch} {debug_ch.char()}')
             self.skip()
         }
     }
 
     fn starts_with(self, str: String) -> Bool {
-        print('pos: {self.pos} len: {self.str.len()}')
-        rest : [U8; 64] = self.str.slice(self.pos, self.str.len()) // FIXME: slice()
-        rest_str:  String = rest.string()
-        //self.str.starts_with(str)
-        rest_str.starts_with(str)
-    }
+        len := self.str.len()
+        a := self.pos
+        assert(a <= len, 'pos: {len}')
+        rest : Vec<U8; 64> = self.str.slice(a, len)
+        rest_str := rest.utf8()
+        did_start_with := rest_str.starts_with(str)
+
+        did_start_with
+   }
 
     fn parse_identifier(mut self, mut raw_name: Vec<U8>) {
         mut done = false
         while !done && !self.is_eof {
             ch := self.peek()
             if (ch >= b'a' && ch <= b'z') || ch == b'_' {
-                print('adding {ch.char()}')
                 raw_name.push(ch)
                 self.skip()
             } else {
@@ -346,7 +346,7 @@ impl Parser {
                 done = true
             } else if self.is_eof {
                 done = true
-            }else {
+            } else {
                 // TODO: Handle escaped \[ or \]
                 self.skip()
                 raw_text.push(ch)
@@ -355,7 +355,7 @@ impl Parser {
         raw_text
     }
 
-    fn parse(mut self, text: String) -> [Node] {
+    fn parse(mut self, text: String) {
         self.str = text
         while !self.is_eof {
             if self.starts_with("[/") {
@@ -367,11 +367,12 @@ impl Parser {
             } else {
                 parsed_text := self.parse_text()
 
-                self.nodes.push(Node::Text(parsed_text))
+                if !parsed_text.is_empty() {
+
+                    self.nodes.push(Node::Text(parsed_text))
+                }
             }
         }
-
-        self.nodes
     }
 }
 
@@ -379,20 +380,32 @@ impl Parser {
 fn parse() {
     mut parser = Parser::new()
 
-    nodes: Vec<Node; 128> = parser.parse('[test]hello [after 23 a=3 b="text value"] and then [color rgb(23,44,98)] [color rgba(191, 201, 233, 0.99)]')
-    //print('nodes: {nodes}')
+    parser.parse('[test]hello [after 23 a=3 b="text value"] and then [color rgb(23,44,98)] [color rgba(191, 201, 233, 0.99)]')
 
-    match nodes[0] {
-        Element element -> {
-            assert(element.name == "test", 'element name is wrong {element.name}')
-        }
-        _ -> panic('should have been element'),
-    }
+    with nodes = &parser.nodes {
+        assert(nodes.len() > 0, "must be non empty")
 
-    match nodes[1] {
-        Text text -> {
-            assert(text == "hello ", 'text is wrong "{text}"')
+        match nodes[0] {
+            Element element -> {
+                assert(element.name == "test", 'element name is wrong "{element.name}"')
+            }
+            _ -> panic('should have been element'),
         }
-        _ -> panic('should have been text'),
+
+        match nodes[1] {
+            Text text -> {
+                assert(text == "hello ", 'text is wrong "{text}"')
+            }
+            _ -> panic('should have been text'),
+        }
+
+        match nodes[2] {
+            Element element -> {
+                assert(element.name == "after", 'element name is wrong "{element.name}"')
+                assert(element.args.len() == 3, 'args: {element.args}')
+                assert(element.args[0].value.string() == "23i", 'wrong first argument {element.args[0].value}')
+            }
+            _ -> panic('should have been text'),
+        }
     }
 }

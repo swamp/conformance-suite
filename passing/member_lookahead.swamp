@@ -3,20 +3,20 @@
 // like the `.rnd()` member function
 #[test]
 fn lookahead_int_rnd() {
-    a := (2 + 3).rnd().float() // using float() to test that the return type is Int
+    _a := (2 + 3).rnd().float() // using float() to test that the return type is Int
 }
 
 #[test]
 fn lookahead_float_rnd() {
-    b := (2.0 + 3.0).rnd().round() // using round to verify that the return type is Float
+    _b := (2.0 + 3.0).rnd().round() // using round to verify that the return type is Float
 }
 
 #[test]
 fn float_rnd() {
-    b := 2.0.rnd()
+    _b := 2.0.rnd()
 }
 
 #[test]
 fn test_int_rnd() {
-    b := 2.rnd()
+    _b := 2.rnd()
 }

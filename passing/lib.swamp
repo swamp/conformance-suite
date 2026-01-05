@@ -54,6 +54,8 @@ mod transformer_bugs
 mod transformer_filter_bugs
 mod transformer
 
+mod text_tags
+
 mod tuple
 mod unwrap
 mod vec
