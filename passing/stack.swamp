@@ -50,6 +50,29 @@ fn init_and_push() {
     assert(stack[0] == 23, "element 0 should be 23")
 }
 
+struct Position {
+    x: Int,
+    y: Int,
+}
+
+
+#[test]
+fn init_and_push_aggregate() {
+    mut stack: Stack<Position; 42> = [{x:10, y: 20}, {x:30, y: 40}]
+
+    assert(stack.capacity() == 42, "capacity failed")
+    assert(stack.len() == 2, "len")
+    assert(stack[0] == Position {x:10, y:20}, "element 0 should be 23")
+    assert(stack.is_empty() == false, "should not be empty")
+    stack.push(Position{x:99, y: 99})
+    assert(stack.len() == 3, "len")
+    value := stack.pop()
+    assert(value == Position{x:99, y: 99}, 'popped value should be the last one pushed: {value}')
+    assert(stack.len() == 2, "len after pop")
+    assert(stack[0] == Position{x:10, y:20}, "element 0 should be 23")
+}
+
+
 #[test]
 fn for_loop() {
     mut stack: Stack<Int; 42> = [1, 2, 3, 4, 5]
