@@ -43,6 +43,7 @@ fn match_float() {
     result := match x {
         -1.0 -> 'freezing',
         42.0 -> "burning",
+        _ -> panic('should have been matched earlier {x}')
     }
 
     assert(result == "burning", 'should have match {result}')

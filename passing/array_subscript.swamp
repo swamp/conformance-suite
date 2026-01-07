@@ -1,0 +1,21 @@
+struct Stuff {}
+
+impl Stuff {
+    fn shuffle_int_list(mut self, mut list: [Int]) {
+        for i in 0..list.len() {
+            rand :=  2 // self.random_range_int(0, list.len()-1)
+            mut temp = list[rand]
+            list[rand] = list[i]
+            list[i] = temp
+        }
+    }
+}
+
+#[test]
+fn test_shuffle() {
+    mut array = [10, 20, 30]
+
+    mut s := Stuff {}
+
+    s.shuffle_int_list(&array)
+}

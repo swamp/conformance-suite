@@ -194,7 +194,6 @@ fn matching_mut_enum_tuple_one_field() {
             color = Color::Green
             100
         }
-        _ -> 200,
     }
     print('result: {result}')
     assert(result == 255, "enum value is wrong")

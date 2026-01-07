@@ -21,10 +21,6 @@ impl ArgValue {
             Hex array -> '#{array}',
             Keyword keyword -> 'keyword "{keyword}"',
             Str string -> '"{string}"',
-            _ -> {
-                panic('internal error')
-                "error"
-            }
         }
     }
 }
@@ -65,10 +61,6 @@ impl Node {
         match self {
             Element element -> '{element}',
             Text text -> '"{text}"',
-            _ -> {
-                panic('severe internal error')
-                ""
-            }
         }
     }
 }

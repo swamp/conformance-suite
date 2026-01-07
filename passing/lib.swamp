@@ -4,6 +4,7 @@
  */
 mod anonymous_struct
 mod arithmetic
+mod array_subscript
 mod array
 mod bool
 mod byte

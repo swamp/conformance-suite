@@ -36,12 +36,11 @@ fn complex_guard_with_multiple_conditions() {
         Value _x -> "test",
         Range start, end && start > 0 && end < 100 -> "valid range",
         None -> "no value",
-        _ -> "other",
+        _ -> panic('should not get here')
     }
 
     assert(result == "in range", 'complex guard failed: {result}')
 }
-
 
 
 
@@ -73,6 +72,7 @@ fn guard_with_external_variables_and_functions() {
         Pending reason && reason == "review" -> "under review",
         Pending _ -> "waiting",
         Inactive -> "not active",
+        _ -> "no number",
     }
 
     assert(result == "good", 'complex external guard failed: {result}')
@@ -91,6 +91,7 @@ fn nested_enum_with_guards() {
         Range _start, end && end < target -> "range below target",
         Range start, _end && start > target -> "range above target",
         None -> "no value",
+        _ -> "no number",
     }
 
     assert(result == "target in range", 'nested enum guard failed: {result}')
@@ -185,6 +186,7 @@ fn check_with_guards() {
         }
         TupleValue _a, _b -> 999,
         StructValue {  } -> 888,
+        _ -> panic("should not reach this"),
     }
 
     assert(direct_result == 84, "direct syntax matching failed")  // 42 * 2 = 84
