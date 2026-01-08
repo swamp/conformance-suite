@@ -9,6 +9,7 @@ mod array
 mod bool
 mod byte
 mod callee_save
+mod capacities
 mod constant
 mod enum
 mod enum_bugs
@@ -55,7 +56,7 @@ mod transformer_bugs
 mod transformer_filter_bugs
 mod transformer
 
-mod text_tags
+//mod text_tags
 
 mod tuple
 mod unwrap

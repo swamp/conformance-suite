@@ -1,0 +1,51 @@
+enum Counter {
+	None,
+	Delay,
+    Harmonised,
+}
+
+struct UnitTemplate {
+	strength: Int,
+	counters: [Counter:Int; 10],
+}
+
+
+struct UnitData {
+	tier: Int,
+	template: UnitTemplate,
+}
+
+enum UnitDataID {
+	None,
+	Jade2,
+}
+
+const UNIT_LIB: [UnitDataID:UnitData;200] = [
+	None: {..},
+	Jade2: UnitData {
+		tier: 2,
+		template:{
+			strength: 4,
+			counters: [Delay:1, Harmonised: 2],
+			..
+		},
+	..},
+]
+
+#[test]
+fn initializer_list_with_default() {
+    assert(UNIT_LIB[Jade2].template.counters[Harmonised] == 2, "expected counters to be initialized")
+}
+
+
+
+/*
+impl UnitTemplate {
+	fn default() -> UnitTemplate {
+		    {
+                counters: [:],
+                ..
+            }
+    }
+}
+*/
