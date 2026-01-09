@@ -1,0 +1,22 @@
+---
+code: -1
+message: incompatible types
+---
+
+type VecInMap20 = [Int : Vec<Int;10>  ;30]
+
+struct Game {
+    something:    [Int : Vec<Int;20>  ;40],
+}
+
+impl Game {
+    fn new(other_map: VecInMap20) -> Game {
+        Game {
+            // This should be a type checking error. the "inner" types are not the same. 10 vs 20.
+            // Swamp only allows bitwise copyable types
+            something: other_map,
+        }
+    }
+}
+
+Game::new( [ 2: [99, 80] ] )
