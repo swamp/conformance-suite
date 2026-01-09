@@ -1,7 +1,6 @@
 ---
-code: 34
-message: incompatible types
+code: 112
+message: expected numeric type (Int or Float) for arithmetic operation
 ---
-a = "hello"
-b = a + 23
-
+a := "hello"
+b := a + 23

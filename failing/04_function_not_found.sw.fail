@@ -2,5 +2,5 @@
 code: 47
 message: unknown identifier
 ---
-result = nonExistentFunction(42)
+result := nonExistentFunction(42)
 

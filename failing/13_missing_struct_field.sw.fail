@@ -8,4 +8,4 @@ struct Person {
 }
 
 // missing field 'age'
-person = Person { name: 42 } 
+person := Person { name: 42 }

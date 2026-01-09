@@ -1,6 +1,6 @@
 ---
-code: 100
-message: unused variable # TODO: should be parameter in the future with error 101
+code: 101
+message: unused parameter
 ---
 fn calculate(x: Int, unused_param: Int) -> Int {
     x * 2

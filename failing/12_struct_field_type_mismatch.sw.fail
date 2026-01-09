@@ -7,5 +7,5 @@ struct Point {
     y: Int
 }
 
-p = Point { x: 1, y: "two" }
+p := Point { x: 1, y: "two" }
 
