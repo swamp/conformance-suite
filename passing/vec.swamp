@@ -315,3 +315,30 @@ fn clear() {
 
     assert(another.things.len() == 0, 'should be zero {another.things.len()}')
 }
+
+
+
+enum InputEvent {
+	None,
+	DebugStartBattle,
+	LeaveScreen,
+}
+
+fn copy_to_events( mut input_events: Vec<InputEvent> ) {
+	mut processed_input_events: Vec<InputEvent; 100> = []
+    assert(processed_input_events.capacity() == 100, "must be 100")
+	input_events = processed_input_events
+}
+
+// Tests problem where a VecView couldn't be a target for a copy
+#[test]
+fn copy_from_storage_to_view() {
+	mut test_events: Vec<InputEvent; 32> = [None, DebugStartBattle, None]
+
+    assert(test_events.len() == 3, "3 events")
+    assert(test_events.capacity() == 32, "capacity before")
+    copy_to_events(&test_events)
+    assert(test_events.len() == 0, "should have been copied over")
+    assert(test_events.capacity() == 32, "capacity after")
+}
+
