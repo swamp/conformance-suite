@@ -62,11 +62,18 @@ struct Aggregate {
     colors: Vec<ColorType; 16>,
 }
 
-fn fill_in() -> Aggregate {
+fn fill_in_nothing() -> Aggregate {
     Aggregate {
         ..
     }
 }
+
+fn fill_in_one_color() -> Aggregate {
+    Aggregate {
+        colors: [ColorType::Red],
+    }
+}
+
 
 /// Was a problem where MapGetOrCreateAddr didn't do init capacities if the aggregate needed it
 #[test]
@@ -74,9 +81,19 @@ fn map_create_addr_init_capacity() {
     mut some_map : [Int : Aggregate; 8] = [:]
 
     assert(some_map.capacity() == 8, 'map should have 8')
+    assert(some_map.len() == 0, 'map should be empty')
+    assert(some_map.is_empty(), 'map should be empty')
 
-    some_map[2] = fill_in()
+    some_map[2] = fill_in_nothing()
     assert(some_map[2].colors.capacity() == 16, 'map entry should have 16')
-
+    assert(some_map[2].colors.len() == 0, 'map entry should not have been set')
     assert(some_map.capacity() == 8, 'map should still have 8')
+    assert(some_map.len() == 1, 'map should have one entry')
+
+
+    some_map[40] = fill_in_one_color()
+    assert(some_map[40].colors.capacity() == 16, 'map entry should have 16')
+    assert(some_map[40].colors.len() == 1, 'map entry should have set one color')
+    assert(some_map.capacity() == 8, 'map should still have 8')
+    assert(some_map.len() == 2, 'map should have two entries')
 }
