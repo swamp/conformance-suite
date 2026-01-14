@@ -30,6 +30,7 @@ mod match
 mod match_literal
 
 mod member_lookahead
+mod member
 
 mod named_arguments
 

@@ -1,0 +1,56 @@
+struct UnitInstance {
+	data_id: Int,
+}
+
+type TieredUnitList = [Int:[Int:UnitInstance;5];5]
+
+struct BattleUnitInstance {
+	tier: Int,
+}
+
+type BattleWarband = [Int: Vec<BattleUnitInstance; 10>; 10]
+
+#[test]
+fn member_should_not_copy() {
+    mut new_warband: BattleWarband = [:]
+
+    tiered_warband : TieredUnitList = [
+        2: [ 3 : {data_id: 4} ],
+    ]
+
+
+    for i in 1..=3 {
+        new_warband[i] = []
+    }
+
+    for tier, list in tiered_warband {
+		for u in list {
+            unit := BattleUnitInstance{
+				tier: tier,
+            }
+            new_warband[tier].push(unit)
+        }
+    }
+    assert(new_warband.has(2), "should have tier 2")
+    assert(new_warband[2].len() == 1, 'should have on in length. probably added a copy: {new_warband[2].len()}')
+    assert(new_warband[2][0].tier == 2, 'should have len tier {new_warband[2].len()}')
+}
+
+#[test]
+fn member_should_not_copy_simple() {
+    mut new_warband: BattleWarband = [:]
+
+    tier := 2
+
+    new_warband[tier] = []
+
+    unit := BattleUnitInstance{
+        tier: tier,
+    }
+
+    new_warband[tier].push(unit)
+
+    assert(new_warband.has(2), "should have tier 2")
+    assert(new_warband[2].len() == 1, 'should have on in length. probably added a copy: {new_warband[2].len()}')
+    assert(new_warband[2][0].tier == 2, 'should have len tier {new_warband[2].len()}')
+}

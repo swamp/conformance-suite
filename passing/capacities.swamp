@@ -49,3 +49,34 @@ impl UnitTemplate {
     }
 }
 */
+
+
+
+
+enum ColorType {
+	Neutral,
+    Red,
+}
+
+struct Aggregate {
+    colors: Vec<ColorType; 16>,
+}
+
+fn fill_in() -> Aggregate {
+    Aggregate {
+        ..
+    }
+}
+
+/// Was a problem where MapGetOrCreateAddr didn't do init capacities if the aggregate needed it
+#[test]
+fn map_create_addr_init_capacity() {
+    mut some_map : [Int : Aggregate; 8] = [:]
+
+    assert(some_map.capacity() == 8, 'map should have 8')
+
+    some_map[2] = fill_in()
+    assert(some_map[2].colors.capacity() == 16, 'map entry should have 16')
+
+    assert(some_map.capacity() == 8, 'map should still have 8')
+}
