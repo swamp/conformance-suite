@@ -1,6 +1,6 @@
-members [
-    passing/
-]
+workspace {
+    members [
+        passing/
+    ]
+}
 
-type: :lib
-extension swamp

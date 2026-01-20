@@ -1,0 +1,37 @@
+
+struct UnitInstance {
+	data_id: Int,
+    lots_of_data: [Int; 64],
+}
+
+type TieredUnitList = [Int:[Int:UnitInstance;5];5]
+
+/// Found this bug while compiling source from an awesome upcoming game by `@catnipped`.
+///
+/// When a map is used directly as an lvalue (like `a[2][3] = ...`), the compiler was missing
+/// a call to init capacities for newly created map entries.
+///
+/// Init capacities are the header metadata that collections need at runtime ---
+/// for maps that's stuff like capacity, key type size, value type size.
+/// Every time we "create" a new collection, this metadata needs to be set up.
+///
+/// Side note on the fix: The tricky part was keeping the address to the map entry and overwriting
+/// that address if creating a new one. Aggregates are always addresses in registers (which is good!),
+/// but without pointer types at the IR level (mainly MIR), it can be hard to determine when two aggregate types
+/// need a full copy vs just overwriting the register with the new address.
+#[test]
+fn map_in_map() {
+    mut a: TieredUnitList = [:]
+
+    assert(!a.has(2), "shouldn't find anything yet")
+    assert(a.len() == 0, "map starts empty")
+
+    // This is where the magic happens: a[2] gets created right before we access [3].
+    // Since a[2] is type `[Int:UnitInstance; 5]`, it needs those init capacities set up properly.
+    a[2][3] = { data_id: 1, .. }
+
+    assert(a.has(2), "now it should be there")
+    assert(a.len() == 1, "should have one entry now")
+    memprint(a, "checking a") // would trap if capacity fields were missing
+    assert(a[2].has(3), "nested lookup should work too")
+}

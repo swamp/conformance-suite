@@ -56,7 +56,7 @@ fn basic_map() {
 
 
 #[test]
-#[should_trap(expected="map_entry_or_create_failed")]
+#[should_trap(expected="map_out_of_space")]
 fn add_too_many() {
     mut game = Game {
         card_templates: [

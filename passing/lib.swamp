@@ -25,6 +25,7 @@ mod intrinsic_materialization
 mod logical
 
 mod map
+mod map_in_map
 
 mod match
 mod match_literal
