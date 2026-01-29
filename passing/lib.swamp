@@ -19,6 +19,7 @@ mod for
 mod guard
 
 mod indirect_memory
+mod initializer
 mod int
 mod intrinsic_materialization
 

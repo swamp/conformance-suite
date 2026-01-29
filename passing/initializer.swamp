@@ -1,0 +1,19 @@
+struct Planet {
+    x: Int,
+    y: Int,
+}
+
+#[test]
+fn empty_initializer() {
+    x : Planet
+
+    print('worked {x}')
+
+}
+
+#[test]
+fn empty_initializer_array() {
+    x : [Planet; 32]
+
+    assert(x.capacity() == 32, "must be 32")
+}
