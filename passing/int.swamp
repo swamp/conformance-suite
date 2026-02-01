@@ -38,6 +38,18 @@ fn clamp_upper() {
     assert(23988.clamp(1, 9) == 9, "clamp() is wrong")
 }
 
+// Bug found in Global Game Jam 2026 that it was mapped wrong to div.
+
+#[test]
+fn div() {
+    assert((-3).div(3) == -1, "div() is wrong")
+}
+
+#[test]
+fn mod() {
+    assert((-3).mod(2) == 1, "mod() is wrong")
+}
+
 #[test]
 fn to_string() {
     assert(3.string() == "3", "to_string(3) is wrong")

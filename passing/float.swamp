@@ -31,6 +31,17 @@ fn mid() {
 }
 
 #[test]
+fn div() {
+    assert((-3.0).div(3.0) == -1.0, "div() is wrong")
+}
+
+#[test]
+fn mod() {
+    assert((-3.0).mod(2.0) == -1.0, "mod() is wrong")
+}
+
+
+#[test]
 fn to_string() {
     print('{3.0}')
     assert(3.0.string() == "3.000", 'to_string(3.0) is wrong: `{3.0.string()}`')
