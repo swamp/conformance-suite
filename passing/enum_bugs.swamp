@@ -163,3 +163,16 @@ fn temp_memory_for_enum_function_return() {
 	function_that_uses_enum(store.wind.opposite())
 	function_that_uses_enum(opposite(store.wind))
 }
+
+// Bug found during Global Game Jam 2026
+// that enum *statements* does not require default or exhaustiveness
+#[test]
+fn match_statement_without_match() {
+    wind := Wind::East
+
+    match wind {
+        West -> panic('should not find it')
+    }
+
+    print('worked!')
+}
