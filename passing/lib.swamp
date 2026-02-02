@@ -7,10 +7,12 @@ mod arithmetic
 mod array_subscript
 mod array
 mod bool
+mod break
 mod byte
 mod callee_save
 mod capacities
 mod constant
+mod continue
 mod enum
 mod enum_bugs
 mod enum_guards

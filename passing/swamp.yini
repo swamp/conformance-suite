@@ -1,2 +1,5 @@
 type: :lib
 extension swamp
+
+packages "./"
+

@@ -1,0 +1,30 @@
+#[test]
+fn break_test() {
+
+    mut loop_count := 0
+    for i in 0..4 {
+        if i == 2 {
+            break
+        }
+        loop_count += 1
+    }
+
+    assert(loop_count == 2, 'sum unexpected {loop_count}')
+}
+
+
+#[test]
+fn break_test_else() {
+    mut loop_count := 0
+    for i in 0..4 {
+        if i != 2 {
+            print('loop')
+        } else {
+            break
+        }
+        loop_count += 1
+    }
+
+    assert(loop_count == 2, 'sum unexpected {loop_count}')
+}
+
