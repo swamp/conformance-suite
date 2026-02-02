@@ -1,0 +1,12 @@
+---
+code: 158
+message: unreachable code after continue statement
+---
+
+for _ in 0..2 {
+    if true {
+        print('hello world!')
+        continue
+        print('after continue')
+    }
+}

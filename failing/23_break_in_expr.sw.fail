@@ -1,0 +1,6 @@
+---
+code: 60
+message: break outside of a loop
+---
+
+a := if true { 2 } else { break }

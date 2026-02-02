@@ -1,0 +1,8 @@
+---
+code: 64
+message: continue outside of a loop
+---
+
+a := if true { 2 } else {
+        continue
+    }
