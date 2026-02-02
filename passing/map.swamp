@@ -443,9 +443,9 @@ fn hotspot_push_workaround(mut hotspot_map: [Int:Vec<DeckbuilderMouseHotspot; 10
 }
 
 
-fn hotspot_push(mut hotspot_map: [Int:Vec<DeckbuilderMouseHotspot>], layer: Int, hotspot: DeckbuilderMouseHotspot) {
+fn hotspot_push(mut hotspot_map: [Int:Vec<DeckbuilderMouseHotspot;10>], layer: Int, hotspot: DeckbuilderMouseHotspot) {
     if hotspot_map.has(layer) {
-        // hotspot_map[layer].push(hotspot)  // FIXME: Error: can not create temporary storage for unknown reason
+        hotspot_map[layer].push(hotspot)  // FIXME: Error: can not create temporary storage for unknown reason
     } else {
         hotspot_map[layer] = [hotspot]
     }
