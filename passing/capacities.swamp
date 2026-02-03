@@ -20,23 +20,6 @@ enum UnitDataID {
 	Jade2,
 }
 
-const UNIT_LIB: [UnitDataID:UnitData;200] = [
-	None: {..},
-	Jade2: UnitData {
-		tier: 2,
-		template:{
-			strength: 4,
-			counters: [Delay:1, Harmonised: 2],
-			..
-		},
-	..},
-]
-
-#[test]
-fn initializer_list_with_default() {
-    assert(UNIT_LIB[Jade2].template.counters[Harmonised] == 2, "expected counters to be initialized")
-}
-
 
 
 /*
@@ -62,11 +45,11 @@ struct Aggregate {
     colors: Vec<ColorType; 16>,
 }
 
-fn fill_in_nothing() -> Aggregate {
-    Aggregate {
-        ..
+    fn fill_in_nothing() -> Aggregate {
+        Aggregate {
+            ..
+        }
     }
-}
 
 fn fill_in_one_color() -> Aggregate {
     Aggregate {
@@ -80,12 +63,16 @@ fn fill_in_one_color() -> Aggregate {
 fn map_create_addr_init_capacity() {
     mut some_map : [Int : Aggregate; 8] = [:]
 
+    print('========= a')
     assert(some_map.capacity() == 8, 'map should have 8')
     assert(some_map.len() == 0, 'map should be empty')
     assert(some_map.is_empty(), 'map should be empty')
+    print('========= b')
 
     some_map[2] = fill_in_nothing()
+    print('========= c')
     assert(some_map[2].colors.capacity() == 16, 'map entry should have 16')
+    print('========= d')
     assert(some_map[2].colors.len() == 0, 'map entry should not have been set')
     assert(some_map.capacity() == 8, 'map should still have 8')
     assert(some_map.len() == 1, 'map should have one entry')

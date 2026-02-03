@@ -11,6 +11,7 @@ mod break
 mod byte
 mod callee_save
 mod capacities
+mod const_capacities
 mod constant
 mod continue
 mod enum
