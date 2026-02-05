@@ -1,0 +1,19 @@
+---
+code: 18
+message: expected a mutable location
+---
+
+struct Enemy {
+    id: Int,
+    health: Int,
+    formation: Int
+}
+
+mut enemy := Enemy { id: -1, .. }
+
+mut outside_scope = 2
+
+with enemy_immut_borrow = &enemy {
+    outside_scope += 1
+    enemy_immut_borrow.health = -404 // should not be allowed
+}
