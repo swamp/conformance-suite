@@ -91,3 +91,43 @@ fn mutable_reference_to_field_access_chain() {
     assert(game_state.formations.len() == 2, "Original formations should have 2 elements - changes should persist")
     assert(game_state.enemies.len() == 2, "Original enemies should have 2 elements - changes should persist")
 }
+
+
+#[test]
+fn with_has_access_to_everything() {
+    mut game_state = GameState {
+        formations: [],
+        enemies: []
+    }
+
+    mut outside_scope := 2
+
+    with mut enemy_borrow = &game_state.enemies {
+        outside_scope += 1
+        created_id := enemy_borrow.add( {
+            id: 2,
+            health: 101,
+            ..
+        })
+    }
+
+    assert(outside_scope == 3, 'should have access to variables inside scope')
+}
+
+#[test]
+fn with_has_access_to_everything_immut() {
+    mut game_state = GameState {
+        formations: [],
+        enemies: []
+    }
+
+    secret_id := game_state.enemies.add( {id: 2, health: 303, ..} )
+
+    mut outside_scope := 2
+
+    with enemy_borrow = &game_state.enemies {
+        outside_scope += enemy_borrow[secret_id].id
+    }
+
+    assert(outside_scope == 4, 'should have access to variables inside scope')
+}
