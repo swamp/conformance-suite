@@ -1,6 +1,6 @@
 ---
 code: 100
-message: unused variable
+message: Unused variable 'a'
 ---
 a := 3
 // never used...

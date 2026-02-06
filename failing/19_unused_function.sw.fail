@@ -1,6 +1,6 @@
 ---
 code: 102
-message: unused function
+message: Unused function 'unused_function'
 ---
 fn unused_function(x: Int) -> Int {
     x + 10
