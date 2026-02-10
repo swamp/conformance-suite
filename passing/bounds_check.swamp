@@ -1,0 +1,91 @@
+#[test]
+#[should_trap(expected="vec_subscript_out_of_bounds")]
+fn static_capacity() {
+    a: [Int; 10]
+
+    _b := a[10]
+}
+
+
+#[test]
+fn static_capacity_ok() {
+    a: [Int; 10]
+
+    b := a[9]
+}
+
+#[test]
+#[should_trap(expected="vec_subscript_out_of_bounds")]
+fn static_capacity_set() {
+    mut a: [Int; 10]
+
+    a[10] = 3
+}
+
+
+
+#[test]
+fn static_capacity_set_ok() {
+    mut a: [Int; 10]
+
+    a[9] = -1
+}
+
+
+#[test]
+#[should_trap(expected="vec_subscript_out_of_bounds")]
+fn fail_vec_trap() {
+    a: Vec<Int; 10>
+
+    _b := a[0]
+}
+
+
+#[test]
+fn vec_within_range() {
+    mut a: Vec<Int; 10>
+
+    a.push(2)
+
+    _b := a[0]
+}
+
+
+#[test]
+#[should_trap(expected="vec_subscript_out_of_bounds")]
+fn fail_vec_trap_set() {
+    mut a: Vec<Int; 10>
+
+    a[0] = 0
+}
+
+
+#[test]
+fn vec_within_range_set() {
+    mut a: Vec<Int; 10>
+
+    a.push(2)
+
+    a[0] = 1
+}
+
+
+#[test]
+fn vec_within_range_len() {
+    mut a: Vec<Int; 10>
+
+    a.push(2)
+
+    _b := a[a.len()-1]
+}
+
+
+#[test]
+#[should_trap(expected="vec_subscript_out_of_bounds")]
+fn vec_within_range_len_fail() {
+    mut a: Vec<Int; 10>
+
+    a.push(2)
+
+    _b := a[a.len()]
+}

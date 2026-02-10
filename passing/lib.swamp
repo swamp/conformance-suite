@@ -7,6 +7,7 @@ mod arithmetic
 mod array_subscript
 mod array
 mod bool
+mod bounds_check
 mod break
 mod byte
 mod callee_save
