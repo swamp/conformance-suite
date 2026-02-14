@@ -1,0 +1,13 @@
+---
+code: 28
+message: argument is not mutable
+---
+
+struct Position {
+    x: Int
+    y: Int
+}
+
+const SOMETHING = Position { x: 10, y: 20 }
+
+mut borrow = &SOMETHING

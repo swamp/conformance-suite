@@ -1,0 +1,13 @@
+struct Position {
+    x: Int
+    y: Int
+}
+
+const SOMETHING = Position { x: 10, y: 20 }
+
+
+#[test]
+fn const_immute_borrow() {
+    borrow = &SOMETHING
+    assert(borrow.y == 20, 'const borrow failed')
+}

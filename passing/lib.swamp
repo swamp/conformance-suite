@@ -5,6 +5,7 @@
 mod anonymous_struct
 mod arithmetic
 mod array_subscript
+mod array_to_struct
 mod array
 mod bool
 mod bounds_check
@@ -12,6 +13,7 @@ mod break
 mod byte
 mod callee_save
 mod capacities
+mod const_borrow
 mod const_capacities
 mod constant
 mod continue
