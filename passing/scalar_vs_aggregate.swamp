@@ -17,8 +17,12 @@ struct GameData {
 #[test]
 fn scalar_key_pointer_generation() {
     mut game = GameData {
-        scalar_map: [1: 100, 2: 200, 3: 300],
-        aggregate_map: [1: Point { x: 1, y: 1 }, 2: Point { x: 2, y: 2 }],
+        scalar_map: [
+            1: 100
+            2: 200
+            3: 300
+        ],
+        aggregate_map: [1: { x: 1, y: 1 }, 2: { x: 2, y: 2 }],
     }
 
     key := 2
@@ -36,7 +40,10 @@ fn scalar_key_pointer_generation() {
 fn aggregate_value_pointer_generation() {
     mut game = GameData {
         scalar_map: [1: 100, 2: 200],
-        aggregate_map: [1: Point { x: 10, y: 20 }, 2: Point { x: 30, y: 40 }],
+        aggregate_map: [1: [ 
+            10
+            20
+         ], 2: Point { x: 30, y: 40 }],
     }
 
     key := 1

@@ -19,3 +19,26 @@ fn array_to_struct() {
     assert(c3.g == 2.0, 'expected anonymous colors to be the same')
     assert(c3.b == 3.0, 'expected anonymous colors to be the same')
 }
+
+
+struct Different {
+    a: Float
+    b: Int
+    c: String<32>
+}
+
+#[test]
+fn array_to_struct_different_types() {
+    c1 := Different { a: 1.0 , b: 2, c: 'hello' }
+    c2: Different = [ 1.0, 2, 'hello' ]
+
+    c3 : { a: Float, b: Int, c: String<32> } = [ 1.0, 2, 'hello' ]
+
+    print('c3: {c3.a}')
+
+    assert(c1 == c2, 'expected colors to be the same')
+    
+    assert(c3.a == 1.0, 'expected anonymous colors to be the same')
+    assert(c3.b == 2, 'expected anonymous colors to be the same')
+    assert(c3.c == 'hello', 'expected anonymous colors to be the same')
+}

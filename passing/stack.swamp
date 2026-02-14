@@ -87,7 +87,13 @@ fn for_loop() {
 
 #[test]
 fn for_loop_index() {
-    mut stack: Stack<Int; 42> = [1, 2, 3, 4, 5]
+    mut stack: Stack<Int; 42> = [
+        1
+        2
+        3
+        4
+        5
+    ]
 
     assert(stack.capacity() == 42, "capacity failed")
     assert(stack.len() == 5, "len")
