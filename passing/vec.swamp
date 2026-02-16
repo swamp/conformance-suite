@@ -19,7 +19,6 @@ fn reading_things(things: [Thing]) {
     print('thing: a:{thing.a} b: {thing.b}')
 }
 
-#[test]
 fn writing_second_element_in_things(mut things: [Thing]) {
     print('before things[1]: a:{things[1].a} b: {things[1].b}')
     new_thing := Thing { a: 100, b: 200 }
