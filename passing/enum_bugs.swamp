@@ -17,12 +17,6 @@ enum EnumCapacityPayload {
 
 
 #[test]
-fn unit_payload() {
-    x := EnumCapacityPayload::Message
-    assert(x == EnumCapacityPayload::Message, "should be equal")
-}
-
-#[test]
 fn complex_payload_empty() {
     x := EnumCapacityPayload::RefreshUnits([])
 

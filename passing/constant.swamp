@@ -86,7 +86,7 @@ fn check_constant_array() {
 #[test]
 fn check_constant_map() {
     assert(SPAWN_POINTS.capacity() == 2, 'spawn points capacity {SPAWN_POINTS.capacity()}') // capacity is always what the struct defined, doesn't matter if it is copied later. do not change
-    //assert(SPAWN_POINTS.len() == 2, 'spawn points length {SPAWN_POINTS.len()}') // FIXME: required type string encountered Map<Player, etc>. maybe .len() doesn't work for SPAWN_POINTS
+    assert(SPAWN_POINTS.len() == 2, 'spawn points length {SPAWN_POINTS.len()}') 
     assert(SPAWN_POINTS[Blue][0].x == -42, 'lookup failed blue[0]:x {SPAWN_POINTS[Blue][0].x}')
     assert(SPAWN_POINTS[Blue][0].y == -43, 'lookup failed blue[0]:y {SPAWN_POINTS[Blue][0].y}')
     assert(SPAWN_POINTS[Red][0].x == 12, 'lookup failed red[0]:x {SPAWN_POINTS[Red][0].x}')

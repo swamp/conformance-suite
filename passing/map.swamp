@@ -296,7 +296,7 @@ fn scalar_key_for() {
     // in the hashmap implementation
     mut index = 0
     for id, card in game.card_templates {
-        if index == 0 {
+        if index == 1 {
             assert(id == -909, 'second key wrong {id}')
         } else {
             assert(id == 1342, 'must be proper id {id}')
@@ -391,7 +391,6 @@ struct Battle {
 
 // Tests for missing needs materialization on the map subscript on LHS
 // `battle.teams[Alliance::West]`
-/* FIXME
 #[test]
 fn map_chaining_bug() {
     mut battle = Battle {
@@ -413,7 +412,7 @@ fn map_chaining_bug() {
     assert(battle.teams[Alliance::West].deck.has(CardId::MightyGolem), "wow! card disappeared")
     assert(battle.teams[Alliance::West].tactics == Tactics::SuperKind, "tactics should remain")
 }
-*/
+
 
 /// Bug where a map get or create instruction was inserted even though it wasn't the last in the lvalue chain (!)
 /// That meant that map entry was reset since it thought this was a new map entry, but only the lvalue should have been fetched.

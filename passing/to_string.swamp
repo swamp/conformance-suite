@@ -1,0 +1,146 @@
+enum BasicEnum {
+    First
+    Second(Int)
+}
+
+#[test]
+fn simple_enum_to_string() {
+    a := BasicEnum::Second(2).string()
+    assert(a == "BasicEnum::Second(2)", "incorrect")
+}
+
+
+struct SimpleStruct {
+    i: Int,
+    x: Float,
+}
+
+#[test]
+fn simple_struct_to_string() {
+    a : SimpleStruct = { i: 42, x: -1.1 }
+
+    s := a.string()
+
+    print('s: "{s}"')
+    assert(s == "SimpleStruct { i: 42, x: -1.100 }", "incorrect")
+}
+
+
+
+#[test]
+fn simple_tuple_to_string() {
+    s := (42, 99).string()
+
+    print('s: "{s}"')
+    assert(s == "(42, 99)", "incorrect")
+}
+
+struct InnerStruct {
+    s: String<32>
+    f: Float
+}
+
+
+struct SubStruct {
+    i: Int
+    inner: InnerStruct
+}
+
+#[test]
+fn substruct_to_string() {
+    s := SubStruct { i: -1, inner: { s: "hello, world", f: 42.42 } }.string()
+
+    print('s: "{s}"')
+    assert(s == "SubStruct { i: -1, inner: InnerStruct { s: \"hello, world\", f: 42.420 } }", "incorrect")
+}
+
+/*
+#[test]
+fn optional() {
+    a: Int? = 3
+
+    print('a: {a}')
+    assert(a.string(), "something")
+}
+*/
+
+#[test]
+fn simple_vec() {
+    a := [ 2, 3, 4 ].string()
+
+    print('a {a}')
+    assert(a == "[ 2, 3, 4 ]", "incorrect")
+}
+
+
+#[test]
+fn simple_vec_struct() {
+    a : Vec<SimpleStruct; 32> = [ { i: 10, x: 20.0 }, { i: 30, x: 40.0 } ]
+    
+    s := a.string()
+
+    print('s {s}')
+    assert(s == "[ SimpleStruct { i: 10, x: 20.000 }, SimpleStruct { i: 30, x: 40.000 } ]", "incorrect")
+}
+
+
+
+#[test]
+fn simple_map_struct() {
+    a : [Int : SimpleStruct; 32] = [ 2: { i: 10, x: 20.0 },  3: { i: 30, x: 40.0 } ]
+    
+    s := a.string()
+
+    print('s {s}')
+    assert(s == "[ 2 : SimpleStruct { i: 10, x: 20.000 }, 3 : SimpleStruct { i: 30, x: 40.000 } ]", "incorrect")
+}
+
+#[test]
+fn simple_map_enum() {
+    a : [Int : BasicEnum; 32] = [ 2: BasicEnum::Second(2),  3: BasicEnum::First ]
+    
+    s := a.string()
+
+    print('s {s}')
+    assert(s == "[ 2 : BasicEnum::Second(2), 3 : BasicEnum::First ]", "incorrect")
+}
+
+
+struct CustomStruct {
+    i: Int,
+    x: Float,
+}
+
+impl CustomStruct {
+    fn string(self) -> String {
+        'so cool i:{.i}'
+    }
+}
+
+#[test]
+fn custom() {
+    a : [Int : CustomStruct; 32] = [ 2: CustomStruct { i: 20, x: 40.0 }, 3: CustomStruct {i: 30, x: 50.0 } ]
+    
+    s := a.string()
+
+    print('s {s}')
+    assert(s == "[ 2 : so cool i:20, 3 : so cool i:30 ]", "incorrect")
+}
+
+
+#[test]
+fn custom_empty() {
+    a : [Int : CustomStruct; 32]
+    
+    s := a.string()
+
+    print('s {s}')
+    assert(s == "[:]", "incorrect")
+}
+
+#[test]
+fn custom_empty_interpolate() {
+    a : [Int : CustomStruct; 32]
+    
+    print('s {a}')
+}

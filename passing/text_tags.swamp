@@ -121,7 +121,7 @@ impl Parser {
         len := self.str.len()
         a := self.pos
         assert(a <= len, 'pos: {len}')
-        rest : Vec<U8; 64> = self.str.slice(a, len)
+        rest : Vec<U8; 128> = self.str.slice(a, len)
         rest_str := rest.utf8()
         did_start_with := rest_str.starts_with(str)
 

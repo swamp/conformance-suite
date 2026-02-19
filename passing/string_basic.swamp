@@ -115,7 +115,7 @@ fn string_view_from_storage() {
 #[test]
 fn view_to_storage_mem_place() {
     s := StringInStruct { str: "hello",.. }
-    assert(s.str.capacity() == 99, "capacity failed")
+    assert(s.str.capacity() == 99, 'capacity failed {s.str.capacity()}')
     assert(s.str.len() == 5, "len failed")
     assert(s.str == "hello", "equality failed")
 }
@@ -249,12 +249,9 @@ fn match_node(tag: Node) -> Command {
 	result
 }
 
-// FIXME: Crashes MIR:
 // field projection base must be struct/tuple/optional/tagged union, got StringStorage { element_type: AbiType { id: AbiTypeId(2), kind: U8, total_size: MemorySize(1), max_alignment: U8 }, char: AbiType { id: AbiTypeId(4), kind: U32, total_size: MemorySize(4), max_alignment: U32 }, capacity: 42 }
-/*
 #[test]
 fn match_problem() {
 	command := match_node(Node::Text("before"))
 	assert(command.string() == "Command::Text(\"before\")", 'match problem persists {command}')
 }
-*/

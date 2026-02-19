@@ -55,6 +55,11 @@ struct Position {
     y: Int,
 }
 
+impl Position {
+    fn eq(self, other: Position) -> Bool {
+        .x == other.x && .y == other.y
+    }
+}
 
 #[test]
 fn init_and_push_aggregate() {
@@ -62,14 +67,14 @@ fn init_and_push_aggregate() {
 
     assert(stack.capacity() == 42, "capacity failed")
     assert(stack.len() == 2, "len")
-    assert(stack[0] == Position {x:10, y:20}, "element 0 should be 23")
+    assert(stack[0].eq(Position {x:10, y:20}), "element 0 should be 23")
     assert(stack.is_empty() == false, "should not be empty")
     stack.push(Position{x:99, y: 99})
     assert(stack.len() == 3, "len")
     value := stack.pop()
-    assert(value == Position{x:99, y: 99}, 'popped value should be the last one pushed: {value}')
+    assert(value.x == 99 && value.y == 99, 'popped value should be the last one pushed: {value}')
     assert(stack.len() == 2, "len after pop")
-    assert(stack[0] == Position{x:10, y:20}, "element 0 should be 23")
+    assert(stack[0].x == 10 && stack[0].y == 20, "element 0 should be 23")
 }
 
 

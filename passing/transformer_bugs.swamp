@@ -74,7 +74,7 @@ fn filter_without_call() {
 	possible_targets = game.unit_turn_order.filter(|id| id != this_unit.id && game.units_spawned[id].alliance == this_unit.alliance.opposite())
 
 	assert(possible_targets.len() == 1, 'expected one in the opposite alliance {possible_targets.len()}')
-	// assert(possible_targets[0] == 2, 'the target should be 2, but got {possible_targets}') // FIXME:Missing to_string implementation Vec<Int, 15>
+	assert(possible_targets[0] == 2, 'the target should be 2, but got {possible_targets}') // FIXME:Missing to_string implementation Vec<Int, 15>
 }
 
 
@@ -125,7 +125,7 @@ fn find_in_bool_condition() {
 
     keyword_to_find := Keyword::Confused
     instance_id : UnitId = 2
-    if game.units_spawned[instance_id].keywords.find(|k| k == keyword_to_find) {
+    if game.units_spawned[instance_id].keywords.find(|k| k.discriminant() == keyword_to_find.discriminant()) {
         print('worked!')
     } else {
         panic("was not correct")
@@ -134,7 +134,7 @@ fn find_in_bool_condition() {
 
     keyword_to_not_find := Keyword::EnterAction({ type: Blank })
 
-    if game.units_spawned[instance_id].keywords.find(|k| k == keyword_to_not_find) {
+    if game.units_spawned[instance_id].keywords.find(|k| k.discriminant() == keyword_to_not_find.discriminant()) {
         panic("you should NOT find it")
     } else {
        print('worked - could not find it')

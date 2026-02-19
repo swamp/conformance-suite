@@ -28,7 +28,7 @@ fn enqueue() {
     assert(queue[1] == 3, "element 1 should have been changed")
 }
 
-/* FIXME:
+/* FIXME: gets misaligned(!)
 #[test]
 fn init_and_enqueue() {
     mut queue: Queue<Int; 42> = [23, 44, -1]

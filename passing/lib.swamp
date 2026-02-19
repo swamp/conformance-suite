@@ -17,9 +17,9 @@ mod const_borrow
 mod const_capacities
 mod constant
 mod continue
-mod enum
 mod enum_bugs
 mod enum_guards
+mod enum
 mod float
 mod for
 mod guard
@@ -31,11 +31,11 @@ mod intrinsic_materialization
 
 mod logical
 
-mod map
 mod map_in_map
+mod map
 
-mod match
 mod match_literal
+mod match
 
 mod member_lookahead
 mod member
@@ -44,8 +44,10 @@ mod named_arguments
 
 mod operator
 mod pool
+// mod ptr
 mod queue
 
+mod range // slice
 mod rest_args
 mod rest_operator
 
@@ -61,11 +63,13 @@ mod string_other
 mod struct_map
 mod struct
 
+mod tag
+mod text_tags
+mod to_string
+
 mod transformer_bugs
 mod transformer_filter_bugs
 mod transformer
-
-//mod text_tags
 
 mod tuple
 mod unwrap

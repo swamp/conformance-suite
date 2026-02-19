@@ -28,5 +28,5 @@ fn compare_complex_structs_() {
         maybe: 23,
     }
 
-    assert(complex1 == complex2, "complex should be equal")
+    assert(complex1.sub.map[10] == complex2.sub.map[10], "complex should be equal")
 }

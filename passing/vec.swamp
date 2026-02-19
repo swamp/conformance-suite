@@ -30,7 +30,7 @@ fn writing_second_element_in_things(mut things: [Thing]) {
 fn writing_second_element_in_things_directly(mut things: [Thing]) {
     print('before things[1]: a:{things[1].a} b: {things[1].b}') // FIXME: it is allocating temp when it shouldn't
     things[1] = Thing { a: 100, b: 200 }
-    //print('after things[1]: a:{things[1].a} b: {things[1].b}')
+    print('after things[1]: a:{things[1].a} b: {things[1].b}')
 }
 
 fn writing_second_b_in_things(mut things: [Thing]) {
@@ -97,7 +97,7 @@ fn to_string() {
     print("after")
     print(result)
 
-    assert("Another { things: [Thing { a: 11, b: 1 }, Thing { a: 12, b: 2 }, Thing { a: 13, b: 3 }] }" == result, 'mismatch! returned "{result}"')
+    assert("Another { things: [ Thing { a: 11, b: 1 }, Thing { a: 12, b: 2 }, Thing { a: 13, b: 3 } ] }" == result, 'mismatch! returned "{result}"')
 }
 
 #[test]
@@ -220,18 +220,6 @@ fn fill_thing_from_returning() {
 }
 
 
-// FIXME: (HIR)
-// crashes HIR:
-//thread 'main' (1180988) panicked at vendor/swamp/swamp/crates/lower-hir/src/builtin_call_try_desugar.rs:158:17:
-//builtin that returns value, can not be handled in statement context
-//stack backtrace:
-//    0: __rustc::rust_begin_unwind
-//              at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/std/src/panicking.rs:698:5
-//    1: core::panicking::panic_fmt
-//              at /rustc/ded5c06cf21d2b93bffd5d884aa6e96934ee4234/library/core/src/panicking.rs:80:14
-//    2: swamp_lower_hir::builtin_call_try_desugar::<impl swamp_lower_hir::LowerHir>::try_desugar_builtin_call_statement
-//              at ./vendor/swamp/swamp/crates/lower-hir/src/builtin_call_try_desugar.rs:158:17
-/*
 fn pushing_a_thing(mut things: Vec<Thing>, a: Int) {
     things.push(Thing { a: a, b: a + 44 })
 }
@@ -271,7 +259,7 @@ fn push() {
     assert(another.things[2].a == -2, 'another.things[3].a is wrong')
     assert(another.things[2].b == -2 + 44, 'another.things[3].b is wrong')
 }
-*/
+
 
 
 /*

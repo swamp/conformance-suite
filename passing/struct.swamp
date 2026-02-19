@@ -12,6 +12,10 @@ impl Point {
     fn add(self, other: Point) -> Point {
         Point { x: self.x + other.x, y: self.y + other.y }
     }
+
+    fn eq(self, other: Point) -> Bool {
+        self.x == other.x && self.y == other.y
+    }
 }
 
 struct Something {
@@ -163,12 +167,12 @@ fn test_string_to_string() {
     assert(result == "\"hello world!\"", 'result is wrong {s}')
 }
 
-//#[test] FIXME: Bring back when to_string has correct format
+#[test]
 fn automatic_to_string() {
     mut mixed = Mixed { num: 42, flag: false, text: "hello" }
     print('Mixed struct: {mixed}')
     result := mixed.string()
-    assert(result == "Mixed { flag: false, num: 42, text: hello }", 'to_string failed "{result}"')
+    assert(result == "Mixed { num: 42, flag: false, text: \"hello\" }", 'to_string failed "{result}"')
 }
 
 /*
@@ -235,7 +239,7 @@ fn compare_structs() {
         y: 20,
         x: 0,
     }
-    assert(point1 == point2, "structs should be equal")
+    assert(point1.eq(point2), "structs should be equal")
 }
 
 
@@ -249,5 +253,5 @@ fn compare_structs_not_equal() {
         y: 20,
         x: 1,
     }
-    assert(point1 != point2, "structs should be equal")
+    assert(!point1.eq(point2), "structs should be equal")
 }

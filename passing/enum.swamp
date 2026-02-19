@@ -7,6 +7,7 @@ enum Color {
     Red,
     Green,
     Blue,
+    Unknown(Int)
 }
 
 impl Color {
@@ -15,6 +16,7 @@ impl Color {
             Red -> "Red",
             Green -> "Green",
             Blue -> "Blue",
+            Unknown -> "Who knows",
         }
     }
 }
@@ -64,6 +66,7 @@ fn matching() {
         Red -> 0,
         Green -> 1,
         Blue -> 2,
+        Unknown -> -1, 
     }
     assert(result == 1, "enum value is wrong")
 }
@@ -609,7 +612,7 @@ fn mixed_to_pretty_string() {
 
     s := variants.string() // pretty_string()
 
-    assert(s == "[MixedSyntaxEnum::DirectInt(42), MixedSyntaxEnum::TuplePair(10, 20), MixedSyntaxEnum::StructData { count: 5, value: 100 }]", 'mismatch {s}')
+    assert(s == "[ MixedSyntaxEnum::DirectInt(42), MixedSyntaxEnum::TuplePair(10, 20), MixedSyntaxEnum::StructData { count: 5, value: 100 } ]", 'mismatch {s}')
 }
 
 

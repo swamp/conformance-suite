@@ -32,6 +32,5 @@ fn map_in_map() {
 
     assert(a.has(2), "now it should be there")
     assert(a.len() == 1, "should have one entry now")
-    memprint(a, "checking a") // would trap if capacity fields were missing
     assert(a[2].has(3), "nested lookup should work too")
 }

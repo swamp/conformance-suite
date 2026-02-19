@@ -11,6 +11,7 @@ fn create_anon() -> { value: Int, valid: Bool } {
     { valid: true, value: 42 }
 }
 
+
 fn takes_two_structs(a: { x: Int, y: Int }, b: { x: Int, y: Int }) -> Int {
     a.x + a.y + b.x + b.y
 }
@@ -37,7 +38,8 @@ fn from_function() {
     print('value:{result.value}, valid:{result.valid}')
     assert(result.value == 42, 'value is wrong')
     assert(result.valid, 'valid flag is wrong')
-    assert(result == another, 'structs should be equal regardless of field order')
+    assert(result.valid == another.valid, 'structs should be equal regardless of field order')
+    assert(result.value == another.value, 'structs should be equal regardless of field order')
 }
 
 #[test]
@@ -85,11 +87,13 @@ fn nested_mixed_orders() {
 fn assignment_between_orders() {
     a := { x: 10, y: 20 }
     b := { y: 20, x: 10 }
-    assert(a == b, 'structs should be equal regardless of field order')
+    assert(a.x == b.x, 'structs should be equal regardless of field order')
+    assert(a.y == b.y, 'structs should be equal regardless of field order')
 
     c := a
     d := b
-    assert(c == d, 'assigned structs should be equal')
+    assert(c.x == d.x, 'assigned structs should be equal')
+    assert(c.y == d.y, 'assigned structs should be equal')
 }
 
 

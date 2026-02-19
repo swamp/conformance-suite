@@ -1,0 +1,30 @@
+enum Color {
+    Red,
+    Green,
+    Blue,
+}
+
+#[test]
+fn equality_different() {
+    a := Color::Red
+    b := Color::Green
+
+    if a != b {
+        print('worked!')
+    } else {
+        panic('comparison failed')
+    }
+}
+
+
+#[test]
+fn equality_same() {
+    a := Color::Green
+    b := Color::Green
+
+    if a == b {
+        print('worked!')
+    } else {
+        panic('comparison failed')
+    }
+}
