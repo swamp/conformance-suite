@@ -255,3 +255,38 @@ fn match_problem() {
 	command := match_node(Node::Text("before"))
 	assert(command.string() == "Command::Text(\"before\")", 'match problem persists {command}')
 }
+
+
+
+/// For equality it is not using VecBytesEqual and just incorrectly compare the atom
+/// Bug found in the game done by @catnipped
+#[test]
+fn match_string() {
+    storage: String<42> = "color"
+    mut found := false
+
+    match storage {
+        "color" -> {
+            print('color')
+            found = true
+        }
+    }
+
+    assert(found, "should have been found")
+}
+
+#[test]
+fn match_expr_string() {
+    storage: String<42> = "color"
+    mut found := false
+
+    x := match storage {
+        "color" -> {
+            print('color')
+            true
+        }
+        _ -> false
+    }
+
+    assert(x, "should have been found")
+}

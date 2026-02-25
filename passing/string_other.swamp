@@ -337,3 +337,14 @@ fn string_rest() {
 
     assert(region_string.string.is_empty(), "it should be empty, move is not handled")
 }
+
+
+#[test]
+fn string_interpolate_to_storage() {
+    i := 33
+    r := RegionString  {
+        string: 'this is a test of {i}. hope it works',..
+    }
+
+    assert(r.string == "this is a test of 33. hope it works", "expected matching strings")
+}
