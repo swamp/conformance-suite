@@ -40,7 +40,9 @@ fn for_loop_ascii() {
     mut codepoints = 0
     mut build_string_again = ""
 
-    for char in "hello, world!".chars() {
+    chars : Vec<Char; 25> = "hello, world!".chars()
+
+    for char in chars {
         output := char.string()
         build_string_again = '{build_string_again}{output}'
 
@@ -55,7 +57,9 @@ fn for_loop_ascii() {
 fn for_loop_unicode() {
     mut codepoints = 0
     mut rebuilt = ""
-    for c in "🧛✨🌟".chars() {
+
+    chars : Vec<Char; 25> = "🧛✨🌟".chars()
+    for c in chars {
         rebuilt = '{rebuilt}{c}'
         print('found codepoint: {c}')
         codepoints += 1
@@ -68,7 +72,9 @@ fn for_loop_unicode() {
 fn chars_lookup() {
     string := "🧛✨🌟"
 
-    middle_char := string.chars()[1]
+        chars : Vec<Char; 25> = string.chars()
+
+    middle_char := chars[1]
     assert(middle_char.int() == 0x2728, 'middle char was wrong')
 }
 
