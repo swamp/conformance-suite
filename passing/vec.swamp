@@ -374,6 +374,31 @@ struct Position {
 }
 
 #[test]
+fn vec_prepend_scalar() {
+    mut ints: Vec<Int; 10>
+
+    ints.prepend(-1)
+
+    print('prepend {ints}')
+
+    assert(ints[0] == -1, 'should be -1')
+}
+
+#[test]
+fn vec_prepend_aggregate() {
+    mut positions: Vec<Position; 10> = [ [10, 20] ]
+
+    positions.prepend( { x: 30, y: 40 } )
+
+    print('prepend {positions}')
+
+    assert(positions[0].x == 30, 'should be 30')
+    assert(positions[0].y == 40, 'should be 40')
+    assert(positions.len() == 2, 'expected len to be correct')
+}
+
+
+#[test]
 fn shuffle_positions() {
     mut shuffled_indices: Vec<Int; 2>
     seed := 4
