@@ -260,6 +260,26 @@ fn push() {
     assert(another.things[2].b == -2 + 44, 'another.things[3].b is wrong')
 }
 
+#[test]
+fn pop() {
+    mut another = Another {
+        things: [
+            Thing { b:  -1024, a: 42 } // Intentionally swapped
+            Thing { a:  32, b: 8086 }
+        ]
+    }
+
+    assert(another.things.len() == 2, "wrong length after initialization")
+
+    assert(another.things[1].a == 32, 'another.things[1].a is wrong')
+    assert(another.things[1].b == 8086, 'another.things[1].b is wrong')
+
+    popped_last := another.things.pop()
+
+    print('popped: {popped_last}')
+
+    assert(popped_last.b == 8086, 'last was not correct')
+}
 
 
 /*
@@ -329,3 +349,143 @@ fn copy_from_storage_to_view() {
     assert(test_events.capacity() == 32, "capacity after")
 }
 
+
+#[test]
+fn shuffle() {
+    mut ints: [Int; 10]
+
+    seed := 2
+
+    ints.shuffle_index(seed, ints.capacity())
+
+    print('order: {ints}')
+
+    assert(ints[2] == 3, "must be same")
+
+    next_seed := 42
+    ints.shuffle_index(next_seed, 10)
+
+    print('order after: {ints}')
+
+    assert(ints[1] == 9, "must be same")
+}
+
+
+
+struct Position {
+    x: Int
+    y: Int
+}
+
+
+#[test]
+fn shuffle_positions() {
+    mut shuffled_indices: Vec<Int; 2>
+    seed := 4
+    shuffled_indices.shuffle_index(seed, shuffled_indices.capacity())
+
+    source_positions : Vec<Position; 8> = [ [10, 20], [30, 40] ]
+    shuffle_positions : Vec<Position; 8> = source_positions.copy_from_index(shuffled_indices)
+
+    print('before: {source_positions} after: {shuffle_positions}')
+}
+
+
+#[test]
+fn vec_reverse() {
+    ints := [1, 2, 3, 4]
+    reversed: Vec<Int; 4> = ints.rev()
+    print('before: {ints} and reversed: {reversed}')
+    assert(reversed[0] == 4, 'expected to be reversed {reversed}')
+}
+
+
+#[test]
+fn vec_reverse_aggregate() {
+    positions : Vec<Position; 8> = [ [10, 20], [30, 40] ]
+    reversed: Vec<Position; 4> = positions.rev()
+    print('before: {positions} and reversed: {reversed}')
+    assert(reversed[0].x == 30, 'expected to be reversed {reversed}')
+}
+
+
+#[test]
+fn vec_first_aggregate() {
+    positions : Vec<Position; 8> = [ [10, 20], [30, 40] ]
+    first := positions.first()
+
+    print('got first: {first}')
+    assert(first.x == 10, 'first should be 10')
+    assert(first.y == 20, 'first should be 10')
+}
+
+#[test]
+fn vec_last_aggregate() {
+    positions : Vec<Position; 8> = [ [10, 20], [30, 40] ]
+    last := positions.last()
+
+    print('got last: {last}')
+    assert(last.x == 30, 'last should be 10')
+    assert(last.y == 40, 'last should be 10')
+}
+
+#[test]
+fn vec_first_scalar() {
+    values : Vec<Int; 8> = [ 
+        10
+        20
+        30
+     ]
+    first := values.first()
+
+    print('got first: {first}')
+
+    assert(first == 10, 'should be last scalar')
+}
+
+/*
+    VecRemoveIndex,
+    VecSwapRemove,
+    VecClear,
+    VecSwap,
+    VecInsert,
+    VecFirst,
+    VecSlice,
+    VecLast,
+    VecLen,
+    VecCapacity,
+    VecIsEmpty,
+    VecExtend,
+    VecBytesEqual,
+    VecShuffleIndex,
+    VecCopyFromIndex,
+    VecReverse,
+    */
+
+#[test]
+fn vec_last_scalar() {
+    values : Vec<Int; 8> = [ 
+        10
+        20
+        30
+     ]
+    last := values.last()
+
+    print('got last: {last}')
+    assert(last == 30, 'should be last scalar')
+}
+
+
+#[test]
+fn vec_insert() {
+    mut values : Vec<Int; 8> = [ 
+        10
+        20
+        30
+     ]
+    
+    values.insert(1, 15)
+
+    print('got values: {values}')
+    assert(values[1] == 15, 'should be last scalar')
+}
