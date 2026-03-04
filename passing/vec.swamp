@@ -37,8 +37,6 @@ fn writing_second_b_in_things(mut things: [Thing]) {
     things[1].b = -999
 }
 
-
-
 fn pass_things_slice(things: [Thing]) {
     for x in things {
         print('slice: thing: {x.a}')
@@ -370,13 +368,10 @@ fn shuffle() {
     assert(ints[1] == 9, "must be same")
 }
 
-
-
 struct Position {
     x: Int
     y: Int
 }
-
 
 #[test]
 fn shuffle_positions() {
@@ -421,7 +416,10 @@ fn vec_first_aggregate() {
 
 #[test]
 fn vec_last_aggregate() {
-    positions : Vec<Position; 8> = [ [10, 20], [30, 40] ]
+    positions : Vec<Position; 8> = [
+        [10, 20]
+        [30, 40] 
+    ]
     last := positions.last()
 
     print('got last: {last}')
@@ -435,7 +433,7 @@ fn vec_first_scalar() {
         10
         20
         30
-     ]
+    ]
     first := values.first()
 
     print('got first: {first}')
@@ -443,49 +441,68 @@ fn vec_first_scalar() {
     assert(first == 10, 'should be last scalar')
 }
 
-/*
-    VecRemoveIndex,
-    VecSwapRemove,
-    VecClear,
-    VecSwap,
-    VecInsert,
-    VecFirst,
-    VecSlice,
-    VecLast,
-    VecLen,
-    VecCapacity,
-    VecIsEmpty,
-    VecExtend,
-    VecBytesEqual,
-    VecShuffleIndex,
-    VecCopyFromIndex,
-    VecReverse,
-    */
-
 #[test]
 fn vec_last_scalar() {
     values : Vec<Int; 8> = [ 
         10
         20
         30
-     ]
+    ]
+    
     last := values.last()
 
     print('got last: {last}')
     assert(last == 30, 'should be last scalar')
 }
 
-
 #[test]
 fn vec_insert() {
-    mut values : Vec<Int; 8> = [ 
+    mut values : Vec<Int; 4> = [ 
         10
         20
         30
-     ]
+    ]
     
     values.insert(1, 15)
 
     print('got values: {values}')
     assert(values[1] == 15, 'should be last scalar')
+}
+
+#[test]
+fn fail_vec_insert_at_the_end() {
+    mut values : Vec<Int; 8> = [ 
+        10
+        20
+        30
+    ]
+    
+    values.insert(3, 15)
+    print('got values: {values}')
+}
+
+#[test]
+#[should_trap(expected="vec_insert_out_of_bounds")]
+fn fail_vec_insert_beyond_the_end() {
+    mut values : Vec<Int; 8> = [ 
+        10
+        20
+        30
+    ]
+    
+    values.insert(4, 15) // should fail. the index is beyond the length
+    print('got values: {values}')
+}
+
+#[test]
+#[should_trap(expected="vec_bounds_fail")]
+fn fail_vec_insert_beyond_capacity() {
+    mut values := [ 
+        10
+        20
+        30
+    ]
+    
+    values.insert(0, 15) // should fail. no capacity for the insert
+    print('got values: {values}')
 }
