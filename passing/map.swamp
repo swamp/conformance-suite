@@ -480,3 +480,68 @@ fn borrow_with_workaround() {
     mut mouse_hotspots: [Int:Vec<DeckbuilderMouseHotspot;10>;100] = [:]
     hotspot_push_workaround(&mouse_hotspots, 1, DeckbuilderMouseHotspot { layer: 10 } )
 }
+
+
+
+#[test]
+fn map_keys_scalar_key_and_value() {
+    values := [23: 4.0, 44: 4.4]
+
+    found_keys: Vec<Int; 8> = values.keys()
+
+    // note: the order is implementation specific (but always deterministic)
+    assert(found_keys[0] == 44 && found_keys[1] == 23, 'it should work {found_keys}')
+}
+
+#[test]
+fn map_keys_scalar_key_and_aggregate_value() {
+    values : [CardId: CardTemplate ; 8] = [
+        MightyGolem: [10, 20.0]
+        EtherealDragon: [20, 30.0]
+    ]
+
+    found_keys: Vec<CardId; 8> = values.keys()
+
+    // note: the order is implementation specific (but always deterministic)
+    assert(found_keys[0] == MightyGolem && found_keys[1] == EtherealDragon, 'it should work {found_keys}')
+}
+
+#[test]
+fn map_values_scalar_key_and_aggregate_value() {
+    values : [CardId: CardTemplate ; 8] = [
+        MightyGolem: [10, 20.0]
+        EtherealDragon: [20, 30.0]
+    ]
+
+    found_values: Vec<CardTemplate; 8> = values.values()
+
+    // note: the order is implementation specific (but always deterministic)
+    assert(found_values[0].mana == 10 && found_values[1].mana == 20, 'it should work {found_values}')
+}
+
+struct CardPosition {
+    x: Int
+    y: Int
+}
+
+impl CardPosition {
+    fn hash(self) -> Int {
+        .x * 8 + .y
+    }
+}
+
+enum ComplexEnum {
+    Empty
+    CardPosition CardPosition
+    Normal
+}
+
+impl ComplexEnum {
+    fn hash(self) -> Int {
+        match self {
+            CardPosition card_pos -> card_pos.hash(),
+            _ -> .discriminant()
+        }
+    }
+}
+
