@@ -1,0 +1,122 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
+#[bench]
+fn arithmetic_loop() {
+    mut sum := 0
+
+    for i in 0..1000 {
+        sum += i * 2 - 1
+    }
+
+    assert(sum == 998000, 'arithmetic loop incorrect {sum}')
+}
+
+#[bench]
+fn for_loop_iteration() {
+    mut sum := 0
+
+    for i in 0..100_000 {
+        sum += i % 100
+    }
+
+    assert(sum == 4950000, 'for loop iteration incorrect {sum}')
+}
+
+struct Point {
+    x: Int,
+    y: Int,
+}
+
+#[bench]
+fn struct_creation() {
+    mut last_point := Point { x: 0, y: 0 }
+
+    for i in 0..1000 {
+        last_point = [ i, i * 2 ]
+    }
+
+    assert(last_point.x == 999, 'struct creation failed {last_point}')
+}
+
+#[bench]
+fn array_iteration() {
+    arr := [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    mut sum := 0
+
+    for _ in 0..100 {
+        for item in arr {
+            sum += item
+        }
+    }
+
+    assert(sum == 5500, 'array iteration failed {sum}')
+}
+
+#[bench]
+fn fibonacci() {
+    mut a := 0
+    mut b := 1
+
+    for _ in 0..30 {
+        temp := a + b
+        a = b
+        b = temp
+    }
+
+    assert(b == 1346269, 'fibonacci failed {b}')
+}
+
+#[bench]
+fn nested_loops() {
+    mut count := 0
+
+    for _ in 0..50 {
+        for _ in 0..50 {
+            count += 1
+        }
+    }
+
+    assert(count == 2500, 'nested loops failed {count}')
+}
+
+struct Data {
+    values: [Int; 10],
+    multiplier: Int,
+}
+
+#[bench]
+fn struct_field_access() {
+    data := Data {
+        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        multiplier: 2
+    }
+
+    mut sum := 0
+
+    for _ in 0..100 {
+        for i in 0..10 {
+            sum += data.values[i] * data.multiplier
+        }
+    }
+
+    assert(sum == 11000, 'struct field access failed {sum}')
+}
+
+fn add(a: Int, b: Int) -> Int {
+    a + b
+}
+
+#[bench]
+fn function_calls() {
+    mut result := 0
+
+    for i in 0..1000 {
+        result = add(result, i)
+    }
+
+    assert(result == 499500, 'function calls failed {result}')
+}

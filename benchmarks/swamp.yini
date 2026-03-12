@@ -1,4 +1,4 @@
-name conformance suite
+name benchmarks
 type: :lib
 extension swamp
 packages_directory ../packages
