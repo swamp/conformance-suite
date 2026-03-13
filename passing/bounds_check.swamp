@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 #[test]
 #[should_trap(expected="vec_subscript_out_of_bounds")]
 fn static_capacity() {

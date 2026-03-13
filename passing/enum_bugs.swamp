@@ -2,8 +2,7 @@
  * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
-
- /// # Problem
+/// # Problem
  ///
  /// When initializing enum variants with collection payloads (like Vec), the collection's capacity
  /// wasn't being properly set.

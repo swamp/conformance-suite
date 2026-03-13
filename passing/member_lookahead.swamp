@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 // Bug found by @catnipped.
 // Lookahead (mostly used for resource ids), didn't work if a member name was shared by several types,
 // like the `.rnd()` member function
