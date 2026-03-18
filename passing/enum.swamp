@@ -1,8 +1,6 @@
-/*
- * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
- * Licensed under the MIT License. See LICENSE in the project root for license information.
- */
-
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
 enum Color {
     Red,
     Green,
@@ -616,18 +614,17 @@ fn mixed_to_pretty_string() {
 }
 
 
-/* FIXME: from_discriminant()
+// FIXME: from_discriminant()
 
-#[test]
-fn from_discriminant() {
-    mut variant1 = MixedSyntaxEnum::TuplePair(10, 20)
-    before := variant1.discriminant()
-    assert(before == 1, 'wrong discriminant before {before}')
-    variant1.from_discriminant(2) // very unsafe overwriting
-    d := variant1.discriminant()
-    assert(d == 2, 'wrong discriminant {d}')
+// #[test]
+// fn from_discriminant() {
+//     mut variant1 = MixedSyntaxEnum::TuplePair(10, 20)
+//     before := variant1.discriminant()
+//     assert(before == 1, 'wrong discriminant before {before}')
+//     variant1.from_discriminant(2) // very unsafe overwriting
+//     d := variant1.discriminant()
+//     assert(d == 2, 'wrong discriminant {d}')
 
-    //assert(variant1 == MixedSyntaxEnum::StructData { count: 10, value: 20 }, 'variant is: {variant1}')
-}
+//     //assert(variant1 == MixedSyntaxEnum::StructData { count: 10, value: 20 }, 'variant is: {variant1}')
+// }
 
-*/

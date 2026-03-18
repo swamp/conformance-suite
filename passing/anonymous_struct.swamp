@@ -1,8 +1,6 @@
-/*
- * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
- * Licensed under the MIT License. See LICENSE in the project root for license information.
- */
-
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
 fn add_x_and_y_point_like(point: { x: Int, y: Int }) -> Int {
     point.x + point.y
 }

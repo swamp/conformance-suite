@@ -1,8 +1,6 @@
-/*
- * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
- * Licensed under the MIT License. See LICENSE in the project root for license information.
- */
-
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
 struct Point {
     x: Int,
     y: Int,
@@ -175,36 +173,33 @@ fn automatic_to_string() {
     assert(result == "Mixed { num: 42, flag: false, text: \"hello\" }", 'to_string failed "{result}"')
 }
 
-/*
-#[test]
-fn automatic_anon_to_string() {
-    mut mixed = { num: 42, flag: false, text: "hello" }
-    print('Mixed struct: {mixed}')
-    result := mixed.string()
-    // NOTE: Anonymous struct fields are always sorted alphabetically
-    assert(result == "{ flag: false, num: 42, text: \"hello\" }", 'to_string failed "{result}"')
-}
+// #[test]
+// fn automatic_anon_to_string() {
+//     mut mixed = { num: 42, flag: false, text: "hello" }
+//     print('Mixed struct: {mixed}')
+//     result := mixed.string()
+//     // NOTE: Anonymous struct fields are always sorted alphabetically
+//     assert(result == "{ flag: false, num: 42, text: \"hello\" }", 'to_string failed "{result}"')
+// }
 
-#[test]
-fn automatic_anon_to_pretty_string() {
-    mut mixed = { num: 42, flag: false, text: "hello" }
-    print('Mixed struct: {mixed}')
-    result := mixed.pretty_string()
-    // NOTE: Anonymous struct fields are always sorted alphabetically
-    assert(result == "{ flag: false, num: 42, text: \"hello\" }", 'to_pretty_string failed "{result}"')
-}
-*/
+// #[test]
+// fn automatic_anon_to_pretty_string() {
+//     mut mixed = { num: 42, flag: false, text: "hello" }
+//     print('Mixed struct: {mixed}')
+//     result := mixed.pretty_string()
+//     // NOTE: Anonymous struct fields are always sorted alphabetically
+//     assert(result == "{ flag: false, num: 42, text: \"hello\" }", 'to_pretty_string failed "{result}"')
+// }
 
-/// This test is to ensure that the automatic conversion to short string works correctly.
-/// to_short_string shows named structs as anonymous structs (without the type name)
-/* FIXME: short_string() is not implemented yet
-#[test]
-fn automatic_to_short_string() {
-    mut mixed = Mixed { num: 42, flag: false, text: "hello" }
-    print('Mixed struct short: {mixed.short_string()}')
-    assert(mixed.short_string() == "{ num: 42, flag: false, text: \"hello\" }", "to_short_string failed")
-}
-*/
+// /// This test is to ensure that the automatic conversion to short string works correctly.
+// /// to_short_string shows named structs as anonymous structs (without the type name)
+//  FIXME: short_string() is not implemented yet
+// #[test]
+// fn automatic_to_short_string() {
+//     mut mixed = Mixed { num: 42, flag: false, text: "hello" }
+//     print('Mixed struct short: {mixed.short_string()}')
+//     assert(mixed.short_string() == "{ num: 42, flag: false, text: \"hello\" }", "to_short_string failed")
+// }
 
 
 

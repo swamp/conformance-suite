@@ -1,8 +1,6 @@
-/*
- * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
- * Licensed under the MIT License. See LICENSE in the project root for license information.
- */
-
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
 #[test]
 fn mutable_reference_to_data_structure() {
     // NOTE: This test uses aggregate reference semantics (& used with collections).

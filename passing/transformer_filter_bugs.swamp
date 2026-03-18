@@ -1,8 +1,6 @@
-/*
- * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
- * Licensed under the MIT License. See LICENSE in the project root for license information.
- */
-
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
 const ARENA_SIZE_W = 11
 const ARENA_SIZE_H = 32
 
@@ -21,52 +19,51 @@ impl Point {
 }
 
 
-/*
-FIXME:Bring back when `Grid` is implemented
-struct GamePoints {
-    grid: Grid<Int?; (25, 25)>,
-}
+// FIXME:Bring back when `Grid` is implemented
+// struct GamePoints {
+//     grid: Grid<Int?; (25, 25)>,
+// }
 
-impl GamePoints {
-    fn get(self, point: Point ) -> Int? {
-        self.grid.get(point.x,point.y)
-    }
+// impl GamePoints {
+//     fn get(self, point: Point ) -> Int? {
+//         self.grid.get(point.x,point.y)
+//     }
 
-    fn get_neighbor_positions(self, point: Point) -> Vec<Point> {
-        points := [Point::new(point.x,point.y-1), Point::new(point.x-1,point.y), Point::new(point.x+1,point.y), Point::new(point.x,point.y+1)]
-        points.filter(|point| {
-                is_inside := point.y >= 0 && point.y < ARENA_SIZE_H && point.x >= 0 && point.x < ARENA_SIZE_W
-                print('point: {point} inside:{is_inside}')
-                is_inside
-            }
-        )
-    }
+//     fn get_neighbor_positions(self, point: Point) -> Vec<Point> {
+//         points := [Point::new(point.x,point.y-1), Point::new(point.x-1,point.y), Point::new(point.x+1,point.y), Point::new(point.x,point.y+1)]
+//         points.filter(|point| {
+//                 is_inside := point.y >= 0 && point.y < ARENA_SIZE_H && point.x >= 0 && point.x < ARENA_SIZE_W
+//                 print('point: {point} inside:{is_inside}')
+//                 is_inside
+//             }
+//         )
+//     }
 
-    fn get_empty_neighbor_positions(self, point: Point) -> Vec<Point> {
-        self.get_neighbor_positions(point)
-            .filter(|point| !self.get(point))
-    }
-}
-*/
+//     fn get_empty_neighbor_positions(self, point: Point) -> Vec<Point> {
+//         self.get_neighbor_positions(point)
+//             .filter(|point| !self.get(point))
+//     }
+// }
 
 
-/// Tests filter operations inside method calls that return aggregate types.
-///
-/// # Problem/Bug
-///
-/// The callee `get_neighbor_positions()` was trying to initialize the return destination
-/// memory, but return destinations should be initialized by the caller, not the callee.
-/// This violated the calling convention where the caller owns and manages return space.
 
-/*
-#[test]
-fn filter_with_function_calls_does_not_work() {
-    game := GamePoints {..}
-    result: Vec<Point; 25> = game.get_neighbor_positions(Point{x: 10, y: 20})
+// /// Tests filter operations inside method calls that return aggregate types.
+// ///
+// /// # Problem/Bug
+// ///
+// /// The callee `get_neighbor_positions()` was trying to initialize the return destination
+// /// memory, but return destinations should be initialized by the caller, not the callee.
+// /// This violated the calling convention where the caller owns and manages return space.
 
-    assert(result.len() == 3, 'len mismatch {result.len()}')
-}
-*/
+
+// #[test]
+// fn filter_with_function_calls_does_not_work() {
+//     game := GamePoints {..}
+//     result: Vec<Point; 25> = game.get_neighbor_positions(Point{x: 10, y: 20})
+
+//     assert(result.len() == 3, 'len mismatch {result.len()}')
+// }
+
 
 /// Tests filter-transformer operations on local variables.
 ///

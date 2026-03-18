@@ -1,8 +1,6 @@
-/*
- * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
- * Licensed under the MIT License. See LICENSE in the project root for license information.
- */
-
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
 enum Counter {
 	None,
 	Delay,
@@ -27,16 +25,16 @@ enum UnitDataID {
 
 
 
-/*
-impl UnitTemplate {
-	fn default() -> UnitTemplate {
-		    {
-                counters: [:],
-                ..
-            }
-    }
-}
-*/
+// FIXME:
+// impl UnitTemplate {
+// 	fn default() -> UnitTemplate {
+// 		    {
+//                 counters: [:],
+//                 ..
+//             }
+//     }
+// }
+
 
 
 

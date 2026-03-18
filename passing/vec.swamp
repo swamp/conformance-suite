@@ -1,8 +1,6 @@
-/*
- * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
- * Licensed under the MIT License. See LICENSE in the project root for license information.
- */
-
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
 struct Thing {
     a: Int,
     b: Int,
@@ -280,23 +278,22 @@ fn pop() {
 }
 
 
-/*
 //#[test] // TODO: Bring this back when you can have arguments for trap expectations
-#[should_trap(expected="vec_bounds_fail")]
-fn trap_remove() {
-    mut another = Another {
-        things: [
-            Thing { b:  -1024, a: 42 }, // Intentionally swapped
-            Thing { a:  32, b: 8086 },
-        ]
-    }
-    assert(another.things.len() == 2, "wrong length after initialization")
+// #[should_trap(expected="vec_bounds_fail")]
+// fn trap_remove() {
+//     mut another = Another {
+//         things: [
+//             Thing { b:  -1024, a: 42 }, // Intentionally swapped
+//             Thing { a:  32, b: 8086 },
+//         ]
+//     }
+//     assert(another.things.len() == 2, "wrong length after initialization")
 
-    another.things.remove(2) // This should trap
+//     another.things.remove(2) // This should trap
 
-    panic("should not be reached")
-}
-*/
+//     panic("should not be reached")
+// }
+
 
 #[test]
 fn pass_in_param() {

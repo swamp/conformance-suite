@@ -1,8 +1,6 @@
-/*
- * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
- * Licensed under the MIT License. See LICENSE in the project root for license information.
- */
-
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
 fn create_some(value: Int) -> Int? {
     value
 }
@@ -144,29 +142,29 @@ fn none_coalesce_chained_all_none_int() {
 }
 
 
-/* FIXME: does not work
- #[test]
-fn none_coalesce_string() {
-    s := create_optional_string(true)
-    result := s ?? "Default String"
-    assert(result == "Hello", '?? with Some(String) should be "Hello" but we got {result}')
+//  FIXME: does not work
+//  #[test]
+// fn none_coalesce_string() {
+//     s := create_optional_string(true)
+//     result := s ?? "Default String"
+//     assert(result == "Hello", '?? with Some(String) should be "Hello" but we got {result}')
 
-    s_none := create_optional_string(false)
-    result_none := s_none ?? "Default String"
-    assert(result_none == "Default String", "?? with None(String) should be 'Default String'")
-    print('Result: {result}, Result None: {result_none}')
-}
-*/
+//     s_none := create_optional_string(false)
+//     result_none := s_none ?? "Default String"
+//     assert(result_none == "Default String", "?? with None(String) should be 'Default String'")
+//     print('Result: {result}, Result None: {result_none}')
+// }
 
-/* FIXME: does not work
-#[test]
-fn unwrap_on_method_call_some() {
-    wrapper: Wrapper? = Wrapper { value: 20 }
-    result := get_wrapper_value(wrapper)
-    assert(result == 20, '? on method call with Some should be 20 but was {result}')
-    print('Result: {result}')
-}
-*/
+
+//  FIXME: does not work
+// #[test]
+// fn unwrap_on_method_call_some() {
+//     wrapper: Wrapper? = Wrapper { value: 20 }
+//     result := get_wrapper_value(wrapper)
+//     assert(result == 20, '? on method call with Some should be 20 but was {result}')
+//     print('Result: {result}')
+//}
+
 
 #[test]
 fn unwrap_on_method_call_none_wrapper() {

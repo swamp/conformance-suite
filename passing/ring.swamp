@@ -1,0 +1,141 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+// Ring is a traditional ring buffer, that can only be written to if there is capacity for it
+
+#[test]
+fn create() {
+    ring: Ring<Int; 8>
+    assert(ring.is_empty(), "should be empty")
+    assert(ring.capacity() == 8, "capacity should be 8")
+}
+
+#[test]
+fn push() {
+    mut ring: Ring<Int; 8>
+
+    assert(ring.is_empty(), "should be empty")
+    ring.push(10)
+    assert(ring.len() == 1, "should be one")
+    assert(ring[0] == 10, "element 0 should be 10")
+
+    ring.push(20)
+    assert(ring.len() == 2, "should be 2")
+    assert(ring[1] == 20, "element 1 should be 20")
+}
+
+#[test]
+fn init_and_push() {
+    mut ring: Ring<Int; 8> = [1, 2, 3]
+
+    assert(ring.capacity() == 8, "capacity should be 8")
+    assert(ring.len() == 3, "len should be 3")
+    assert(ring[0] == 1, "element 0 should be 1")
+    assert(ring[1] == 2, "element 1 should be 2")
+    assert(ring[2] == 3, "element 2 should be 3")
+    assert(!ring.is_empty(), "should not be empty")
+
+    ring.push(4)
+    assert(ring.len() == 4, "len should be 4")
+    assert(ring[3] == 4, "element 3 should be 4")
+}
+
+#[test]
+fn fill_to_capacity() {
+    mut ring: Ring<Int; 4>
+
+    ring.push(10)
+    ring.push(20)
+    ring.push(30)
+    ring.push(40)
+    assert(ring.len() == 4, "ring should be full")
+    assert(ring[0] == 10, "element 0 should be 10")
+    assert(ring[1] == 20, "element 1 should be 20")
+    assert(ring[2] == 30, "element 2 should be 30")
+    assert(ring[3] == 40, "element 3 should be 40")
+}
+
+#[test]
+#[should_trap(expected="vec_bounds_fail")]
+fn push_when_full_trap() {
+    mut ring: Ring<Int; 4>
+
+    ring.push(1)
+    ring.push(2)
+    ring.push(3)
+    ring.push(4)
+    assert(ring.len() == 4, "ring should be full")
+
+    // This should trap
+    ring.push(5)
+}
+
+#[test]
+fn for_loop() {
+    mut ring: Ring<Int; 8> = [1, 2, 3, 4, 5]
+
+    assert(ring.len() == 5, "len should be 5")
+    mut sum = 0
+    for val in ring {
+        sum += val
+    }
+    assert(sum == 15, "sum should be 15")
+}
+
+#[test]
+fn for_loop_index() {
+    mut ring: Ring<Int; 8> = [10, 20, 30]
+
+    assert(ring.capacity() == 8, "capacity should be 8")
+    assert(ring.len() == 3, "len should be 3")
+    mut sum = 0
+    mut index = 0
+    for i, val in ring {
+        assert(i == index, "index should match")
+        sum += val
+        index += 1
+    }
+    assert(sum == 60, "sum should be 60")
+}
+
+struct Position {
+    x: Int
+    y: Int
+}
+
+impl Position {
+    fn eq(self, other: Position) -> Bool {
+        .x == other.x && .y == other.y
+    }
+}
+
+#[test]
+fn ring_with_structs() {
+    mut ring: Ring<Position; 4> = [{x: 1, y: 2}, {x: 3, y: 4}]
+
+    assert(ring.len() == 2, "len should be 2")
+    assert(ring[0].eq({x: 1, y: 2}), 'first position should be (1, 2) {ring[0]}')
+    assert(ring[1].eq({x: 3, y: 4}), 'second position should be (3, 4)  {ring[1]}')
+
+    ring.push({x: 5, y: 6})
+    ring.push({x: 7, y: 8})
+    assert(ring.len() == 4, "ring should be full")
+
+    assert(ring[0].eq({x: 1, y: 2}), "element 0 correct")
+    assert(ring[1].eq({x: 3, y: 4}), "element 1 correct")
+    assert(ring[2].eq({x: 5, y: 6}), "element 2 correct")
+    assert(ring[3].eq({x: 7, y: 8}), "element 3 correct")
+}
+
+#[test]
+#[should_trap(expected="vec_bounds_fail")]
+fn push_struct_when_full_trap() {
+    mut ring: Ring<Position; 2>
+
+    ring.push({x: 1, y: 1})
+    ring.push({x: 2, y: 2})
+
+    // This should trap
+    ring.push({x: 3, y: 3})
+}

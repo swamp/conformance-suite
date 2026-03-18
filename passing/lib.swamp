@@ -1,7 +1,6 @@
-/*
- * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
- * Licensed under the MIT License. See LICENSE in the project root for license information.
- */
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
 mod anonymous_struct
 mod arithmetic
 mod array_subscript
@@ -50,6 +49,8 @@ mod queue
 mod range // slice
 mod rest_args
 mod rest_operator
+mod ring
+
 
 mod scalar_vs_aggregate
 mod slice
@@ -74,6 +75,7 @@ mod transformer
 mod tuple
 mod unwrap
 mod vec
+mod wheel
 
 mod when
 

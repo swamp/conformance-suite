@@ -1,8 +1,6 @@
-/*
- * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
- * Licensed under the MIT License. See LICENSE in the project root for license information.
- */
-
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
 enum BasicEnum {
     First
     Second(Int)
@@ -59,15 +57,15 @@ fn substruct_to_string() {
     assert(s == "SubStruct { i: -1, inner: InnerStruct { s: \"hello, world\", f: 42.420 } }", "incorrect")
 }
 
-/*
-#[test]
-fn optional() {
-    a: Int? = 3
+// FIXME: 
+//#[test]
+// fn optional() {
+//     a: Int? = 3
 
-    print('a: {a}')
-    assert(a.string(), "something")
-}
-*/
+//     print('a: {a}')
+//     assert(a.string(), "something")
+// }
+
 
 #[test]
 fn simple_vec() {

@@ -1,8 +1,6 @@
-/*
- * Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
- * Licensed under the MIT License. See LICENSE in the project root for license information.
- */
-
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
 struct Point {
     x: Int,
     y: Int,
@@ -82,21 +80,19 @@ fn function_returning_tuple_and_destructuring() {
     assert(active_val == false, 'Function return destructure: active_val is wrong')
 }
 
-/*
 // TODO: @Feature: nested tuple destructuring
-#[test]
-fn nested_tuple_destructuring() {
-    outer_tuple = (10, (200, "inner_text"), 3000)
+// #[test]
+// fn nested_tuple_destructuring() {
+//     outer_tuple = (10, (200, "inner_text"), 3000)
 
-    val_a, (inner_val_x, inner_val_y), val_c = outer_tuple
+//     val_a, (inner_val_x, inner_val_y), val_c = outer_tuple
 
-    print('nested_tuple_destructuring: a:{val_a}, inner_x:{inner_val_x}, inner_y:"{inner_val_y}", c:{val_c}')
-    assert(val_a == 10, 'Nested destructure: val_a is wrong')
-    assert(inner_val_x == 200, 'Nested destructure: inner_val_x is wrong')
-    assert(inner_val_y == "inner_text", 'Nested destructure: inner_val_y is wrong')
-    assert(val_c == 3000, 'Nested destructure: val_c is wrong')
-}
-*/
+//     print('nested_tuple_destructuring: a:{val_a}, inner_x:{inner_val_x}, inner_y:"{inner_val_y}", c:{val_c}')
+//     assert(val_a == 10, 'Nested destructure: val_a is wrong')
+//     assert(inner_val_x == 200, 'Nested destructure: inner_val_x is wrong')
+//     assert(inner_val_y == "inner_text", 'Nested destructure: inner_val_y is wrong')
+//     assert(val_c == 3000, 'Nested destructure: val_c is wrong')
+// }
 
 #[test]
 fn destructure_tuple_ignoring_elements() {
@@ -117,34 +113,33 @@ fn destructure_tuple_ignoring_elements() {
 
 type UnitID = Int
 
-/*
-enum Something {
-    Nothing,
-    PerformAction Vec<(Int,CardId);15>,
-}
 
-fn helper(e: Something) {
-    match e {
-        PerformAction targets -> {
-            for i, target_tuple in targets {
-                index, card_id = target_tuple
-                assert(index == 23, "wrong index")
-                assert(card_id == GoblinScout, "wrong card id")
-            }
-        }
-        _ -> panic('wrong choice'),
-    }
-}
+// enum Something {
+//     Nothing,
+//     PerformAction Vec<(Int,CardId);15>,
+// }
+
+// fn helper(e: Something) {
+//     match e {
+//         PerformAction targets -> {
+//             for i, target_tuple in targets {
+//                 index, card_id = target_tuple
+//                 assert(index == 23, "wrong index")
+//                 assert(card_id == GoblinScout, "wrong card id")
+//             }
+//         }
+//         _ -> panic('wrong choice'),
+//     }
+// }
 
 
-#[test]
-fn destructure_enum() {
-    mut prepare_targets: Vec<(UnitID,CardId);15> = []
+// #[test]
+// fn destructure_enum() {
+//     mut prepare_targets: Vec<(UnitID,CardId);15> = []
 
-    prepare_targets.push((23, CardId::GoblinScout))
+//     prepare_targets.push((23, CardId::GoblinScout))
 
-    e = Something::PerformAction(prepare_targets)
-    helper(e)
-}
+//     e = Something::PerformAction(prepare_targets)
+//     helper(e)
+// }
 
-*/

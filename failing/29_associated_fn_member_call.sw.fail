@@ -1,0 +1,23 @@
+---
+code: 165
+message: 'add' is an associated function and must be called with '::' syntax, not '.' syntax
+---
+struct Vector {
+    x: Int,
+    y: Int,
+}
+
+struct Math {
+}
+
+impl Math {
+    fn add(a: Vector) -> Vector {
+        { x: a.x + 2, y: a.y + 3 }
+    }
+}
+
+m := Math {}
+v1 := Vector { x: 1, y: 2 }
+
+// Must use Math::add(v1) instead of m.add()
+result := m.add()
