@@ -19,6 +19,7 @@ mod continue
 mod enum_bugs
 mod enum_guards
 mod enum
+mod fixed_size_array
 mod float
 mod for
 mod guard

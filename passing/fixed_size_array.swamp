@@ -1,0 +1,102 @@
+#[test]
+fn fill_out_scalar() {
+    arr: [Int; 8] = [3, 2, 1]
+
+    assert(arr[3] == 0, 'it should have filled up with zero')
+    assert(arr[7] == 0, 'it should have filled up to the end with zero')
+
+    assert(arr[0] == 3, 'first should be unchanged')
+}
+
+
+#[test]
+#[should_trap(expected="vec_subscript_out_of_bounds")]
+fn bounds_check() {
+    arr: [Int; 8] = [3, 2, 1]
+
+    _a := arr[8]
+}
+
+enum SomeTag {
+    First
+    Second
+    Third
+}
+
+impl SomeTag {
+    fn default() -> SomeTag {
+       Second
+    }
+}
+
+
+#[test]
+fn fill_with_scalar_zii() {
+     arr: [SomeTag; 4] = [Third, Third]
+     assert(arr[0] == Third, 'expected initializer list value - Third')
+     assert(arr[3] == First, 'expected zero (zii)')
+}
+
+
+#[test]
+fn fill_with_scalar_default() {
+     arr: [SomeTag; 4] = [Third, Third, ..]
+     assert(arr[0] == Third, 'expected initializer list value - Third')
+     assert(arr[3] == Second, 'expected default {arr[3]}')
+}
+
+
+struct Position {
+    x: Int
+    y: Int
+}
+
+
+#[test]
+fn fill_aggregate_no_default_with_zii() {
+    arr: [Position; 8] = [ [10, 20], [30, 40], .. ] // even if .. is specified it has ZII as fallback
+
+    assert(arr[0].y == 20, 'first should be set')
+    assert(arr[2].x == 0, 'should be zero')
+    assert(arr[7].y == 0, 'should be zero')
+}
+
+#[test]
+fn fill_aggregate_no_default_rest_with_zii() {
+    arr: [Position; 8] = [ [10, 20], [30, 40], .. ] // even if .. is specified it has ZII as fallback
+
+    assert(arr[0].y == 20, 'first should be set')
+    assert(arr[2].x == 0, 'should be zero')
+    assert(arr[7].y == 0, 'should be zero')
+}
+
+struct Color {
+    r: U8
+    g: U8
+    b: U8
+}
+
+impl Color {
+    fn default() -> Color {
+        [64, 128, 255]
+    }
+}
+
+#[test]
+fn fill_aggregate_with_zii() {
+    arr: [Color; 4] = [ [3, 2, 1] ]
+
+    assert(arr[0].g == 2, 'first should be set {arr[0]}')
+    assert(arr[1].r == 0, 'zero should not be filled in')
+    assert(arr[3].b == 0, 'zero should be filled in')
+}
+
+
+#[test]
+fn fill_aggregate_with_default() {
+    arr: [Color; 4] = [ [3, 2, 1], .. ]
+
+    assert(arr[0].g == 2, 'first should be set {arr[0]}')
+    assert(arr[1].r == 64, 'default should be filled in')
+    assert(arr[3].b == 255, 'default should be filled in')
+}
