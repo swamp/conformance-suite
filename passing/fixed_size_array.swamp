@@ -87,7 +87,7 @@ fn fill_aggregate_with_zii() {
     arr: [Color; 4] = [ [3, 2, 1] ]
 
     assert(arr[0].g == 2, 'first should be set {arr[0]}')
-    assert(arr[1].r == 0, 'zero should not be filled in')
+    assert(arr[1].r == 0, 'zero should be filled in')
     assert(arr[3].b == 0, 'zero should be filled in')
 }
 

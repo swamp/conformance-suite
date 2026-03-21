@@ -2,24 +2,22 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 
-
-//  **Wheel** implements a circular buffer with "silent" overwriting semantics
-
+// Queue is a traditional ring buffer, that can only be written to if there is capacity for it
 
 #[test]
 fn create() {
-    ring: Ring<Int; 8> 
+    ring: Queue<Int; 8>
     assert(ring.is_empty(), "should be empty")
     assert(ring.capacity() == 8, "capacity should be 8")
 }
 
 #[test]
 fn push() {
-    mut ring: Ring<Int; 8> 
+    mut ring: Queue<Int; 8>
 
     assert(ring.is_empty(), "should be empty")
     ring.enqueue(10)
-    assert(ring.len() == 1, "should be one in length")
+    assert(ring.len() == 1, "should be one")
     assert(ring[0] == 10, "element 0 should be 10")
 
     ring.enqueue(20)
@@ -27,10 +25,9 @@ fn push() {
     assert(ring[1] == 20, "element 1 should be 20")
 }
 
-
 #[test]
 fn init_and_push() {
-    mut ring: Ring<Int; 8> = [1, 2, 3]
+    mut ring: Queue<Int; 8> = [1, 2, 3]
 
     assert(ring.capacity() == 8, "capacity should be 8")
     assert(ring.len() == 3, "len should be 3")
@@ -45,8 +42,8 @@ fn init_and_push() {
 }
 
 #[test]
-fn push_overwrite_when_full() {
-    mut ring: Ring<Int; 4> 
+fn fill_to_capacity() {
+    mut ring: Queue<Int; 4>
 
     ring.enqueue(10)
     ring.enqueue(20)
@@ -57,25 +54,26 @@ fn push_overwrite_when_full() {
     assert(ring[1] == 20, "element 1 should be 20")
     assert(ring[2] == 30, "element 2 should be 30")
     assert(ring[3] == 40, "element 3 should be 40")
+}
 
-    // Push more elements - should overwrite from the first index
-    ring.enqueue(50)
-    assert(ring.len() == 4, "ring should still be at capacity")
-    assert(ring[0] == 20, 'element 0 should 20 but got {ring[0]}')
-    assert(ring[1] == 30, "element 1 should be 30")
+#[test]
+#[should_trap(expected="vec_bounds_fail")]
+fn push_when_full_trap() {
+    mut ring: Queue<Int; 4>
 
-    ring.enqueue(60)
-    assert(ring[0] == 30, "element 0 should be 30")
-    assert(ring[1] == 40, "element 1 should be 40")
-    assert(ring[2] == 50, "element 2 should be 50")
+    ring.enqueue(1)
+    ring.enqueue(2)
+    ring.enqueue(3)
+    ring.enqueue(4)
+    assert(ring.len() == 4, "ring should be full")
 
-    ring.enqueue(70)
-    assert(ring[2] == 60, "element 2 should be 60")
+    // This should trap
+    ring.enqueue(5)
 }
 
 #[test]
 fn for_loop() {
-    mut ring: Ring<Int; 8> = [1, 2, 3, 4, 5]
+    mut ring: Queue<Int; 8> = [1, 2, 3, 4, 5]
 
     assert(ring.len() == 5, "len should be 5")
     mut sum = 0
@@ -87,7 +85,7 @@ fn for_loop() {
 
 #[test]
 fn for_loop_index() {
-    mut ring: Ring<Int; 8> = [10, 20, 30]
+    mut ring: Queue<Int; 8> = [10, 20, 30]
 
     assert(ring.capacity() == 8, "capacity should be 8")
     assert(ring.len() == 3, "len should be 3")
@@ -101,31 +99,43 @@ fn for_loop_index() {
     assert(sum == 60, "sum should be 60")
 }
 
-struct Point {
+struct Position {
     x: Int
     y: Int
 }
 
-impl Point {
-    fn eq(self, other: Point) -> Bool {
+impl Position {
+    fn eq(self, other: Position) -> Bool {
         .x == other.x && .y == other.y
     }
 }
 
 #[test]
 fn ring_with_structs() {
-    mut ring: Ring<Point; 4> = [{x: 1, y: 2}, {x: 3, y: 4}]
+    mut ring: Queue<Position; 4> = [{x: 1, y: 2}, {x: 3, y: 4}]
 
     assert(ring.len() == 2, "len should be 2")
-    assert(ring[0].eq( {x: 1, y: 2}), "first point should be (1, 2)")
-    assert(ring[1].eq( {x: 3, y: 4}), "second point should be (3, 4)")
+    assert(ring[0].eq({x: 1, y: 2}), 'first position should be (1, 2) {ring[0]}')
+    assert(ring[1].eq({x: 3, y: 4}), 'second position should be (3, 4)  {ring[1]}')
 
     ring.enqueue({x: 5, y: 6})
     ring.enqueue({x: 7, y: 8})
     assert(ring.len() == 4, "ring should be full")
 
-    // Overwrite when full
-    ring.enqueue({x: 9, y: 10})
-    assert(ring.len() == 4, "ring should still be at capacity")
-    assert(ring[0].eq( {x: 3, y: 4}), "cursor should have moved")
+    assert(ring[0].eq({x: 1, y: 2}), "element 0 correct")
+    assert(ring[1].eq({x: 3, y: 4}), "element 1 correct")
+    assert(ring[2].eq({x: 5, y: 6}), "element 2 correct")
+    assert(ring[3].eq({x: 7, y: 8}), "element 3 correct")
+}
+
+#[test]
+#[should_trap(expected="vec_bounds_fail")]
+fn push_struct_when_full_trap() {
+    mut ring: Queue<Position; 2>
+
+    ring.enqueue({x: 1, y: 1})
+    ring.enqueue({x: 2, y: 2})
+
+    // This should trap
+    ring.enqueue({x: 3, y: 3})
 }

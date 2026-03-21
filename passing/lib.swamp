@@ -46,6 +46,7 @@ mod operator
 mod pool
 // mod ptr
 mod queue
+mod queue2
 
 mod range // slice
 mod rest_args
@@ -76,7 +77,6 @@ mod transformer
 mod tuple
 mod unwrap
 mod vec
-mod wheel
 
 mod when
 
