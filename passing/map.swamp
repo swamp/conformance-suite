@@ -52,7 +52,6 @@ fn basic_map() {
     assert(game.card_templates[CardId::MysticSpring].mana == 2, "should be 2")
 }
 
-
 #[test]
 #[should_trap(expected="map_out_of_space")]
 fn add_too_many() {
@@ -543,3 +542,68 @@ impl ComplexEnum {
     }
 }
 
+
+/// Clear with assigning to `[:]`. found by @catnipped
+#[test]
+fn clear_with_empty_initializer() {
+    mut game := Game {
+        card_templates: [
+            MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
+            Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 },
+            MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 },
+        ]
+    }
+    assert(game.card_templates.capacity() == 4, 'expected capacity to be initialized')
+    assert(game.card_templates.len() == 3, 'expected len() to be 3')
+
+    game.card_templates = [:]
+    
+    assert(game.card_templates.capacity() == 4, 'expected capacity to remain')
+    assert(game.card_templates.len() == 0, 'expected len() to be zero')
+    assert(game.card_templates.is_empty(), 'expected to be empty')
+}
+
+
+/// missing `clear` for map. found by @catnipped
+#[test]
+fn clear_map() {
+    mut game := Game {
+        card_templates: [
+            MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
+            Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 },
+            MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 },
+        ]
+    }
+
+    game.card_templates.clear()
+    // it round up to nearest power of two
+    assert(game.card_templates.capacity() == 4, 'expected capacity to remain {game.card_templates.capacity()}')
+    assert(game.card_templates.len() == 0, 'expected len() to be zero')
+    assert(game.card_templates.is_empty(), 'expected to be empty')
+}
+
+
+/// missing handling of reassigning with new elements for map. found by @catnipped
+#[test]
+fn reassign_new_elements() {
+    mut game := Game {
+        card_templates: [
+            MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
+            Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 },
+            MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 },
+        ]
+    }
+    // it round up to nearest power of two
+    assert(game.card_templates.capacity() == 4, 'expected capacity')
+    assert(game.card_templates.len() == 3, 'expected len() to be 3')
+    assert(!game.card_templates.has(GoblinScout), 'should not have goblin scout now')
+
+    // clearing by assigning new elements
+    game.card_templates = [
+            GoblinScout:  CardTemplate { mana: 999, healing_per_second: 42.13 } ]
+
+    // it round up to nearest power of two
+    assert(game.card_templates.capacity() == 4, 'expected capacity to remain {game.card_templates.capacity()}')
+    assert(game.card_templates.len() == 1, 'expected len() to be zero')
+    assert(game.card_templates[GoblinScout].mana == 999, 'replaced with goblin scout')
+}
