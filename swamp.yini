@@ -1,7 +1,11 @@
 workspace {
     members [
-        passing/
         # benchmarks/
     ]
 }
 
+name conformance suite
+type: :lib
+extension swamp
+# packages_directory packages
+src_dir passing/
