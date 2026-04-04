@@ -1,0 +1,26 @@
+struct Position {
+    x: Int
+    y: Int
+}
+
+fn takes_optional(o: Position?) {
+
+}
+
+#[test]
+fn test_infer() {
+    takes_optional( { x: 10, y: 20 } )
+}
+
+
+#[test]
+fn infer_pos() {
+    mut maybe : Position?
+    maybe = { x: 10, y : 20 }
+
+    when maybe {
+        assert(maybe.y == 20, "worked")
+    } else {
+        panic("it didnt convert properly")
+    }
+}

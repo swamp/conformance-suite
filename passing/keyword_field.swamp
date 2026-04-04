@@ -1,0 +1,21 @@
+struct Something {
+    if: Int
+    while: Bool
+    with: Float
+    fn: Int
+    mod: Int
+}
+
+#[test]
+fn create_with_keyword_fields() {
+    s := Something {
+        if: 3
+        while: true
+        with: 3.0
+        fn: 42
+        mod: 99
+    }
+    assert(s.while == true, "while must be set")
+    assert(s.fn == 42, "should be 42")
+}
+

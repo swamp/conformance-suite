@@ -1,0 +1,68 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+enum Direction {
+    North,
+    South,
+    East,
+    West,
+}
+
+enum Message {
+    Quit,
+    Move(Int, Int),
+    Write(Int),
+}
+
+// Basic discriminant check with payload variant
+#[test]
+fn is_variant_with_payload() {
+    a := Message::Move(10, 20)
+    assert(a == Move(_), "should match Move variant")
+}
+
+// != check
+#[test]
+fn is_not_variant() {
+    a := Message::Quit
+    assert(a != Move(_), "Quit should not match Move")
+}
+
+// Unit variant (no payload) — just use == directly, no wildcard needed
+#[test]
+fn unit_variant_match() {
+    d := Direction::North
+    assert(d == North, "should match North")
+    assert(d != South, "should not match South")
+}
+
+// Used as if condition
+#[test]
+fn if_pattern_match() {
+    a := Message::Write(99)
+    result := if a == Write(_) { 1 } else { 0 }
+    assert(result == 1, "should enter then branch")
+}
+
+// if / else if chain
+#[test]
+fn if_else_if_chain() {
+    a := Direction::East
+    result := if a == North {
+        0
+    } else if a == East {
+        1
+    } else {
+        2
+    }
+    assert(result == 1, "should match East")
+}
+
+// Wrong variant does not match
+#[test]
+fn wrong_variant_no_match() {
+    a := Message::Move(3, 4)
+    result := if a == Write(_) { 1 } else { 0 }
+    assert(result == 0, "Move should not match Write")
+}

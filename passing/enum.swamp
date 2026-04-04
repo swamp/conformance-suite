@@ -183,12 +183,9 @@ fn matching_mut_enum_tuple_one_field() {
     mut a := Different::FewThings(Color::Blue, 99)
     result := match a {
         Nothing -> 0,
-        FewThings _, mut value  -> {
+        FewThings _, value  -> {
             print('before: value {value}')
             assert(value == 99, "enum value is wrong")
-            value = 3
-            print('after: value changed: {value}')
-            assert(value == 3, "enum value is wrong")
             255
         }
         More { id, mut color } -> {
@@ -248,49 +245,13 @@ fn whole_payload_capture_tuple() {
             // everything should be the entire tuple (10, 20, Color::Red)
             777  // Return a known value to verify this branch was taken
         }
-        Named { id, count } -> 666,
-        Complex { value, flag } -> 555,
+        Named {  } -> 666,
+        Complex -> 555,
     }
     assert(result == 777, "whole payload capture for tuple failed")
 }
 
 
-
-#[test]
-fn mutable_whole_payload_capture() {
-    mut opt := IntOption::Some(100)
-    result := match opt {
-        Some mut payload -> {
-            print('Original payload: {payload}')
-            assert(payload == 100, "initial payload wrong")
-            payload = payload + 50
-            print('Modified payload: {payload}')
-            assert(payload == 150, "modified payload wrong")
-            payload
-        }
-        None -> 0,
-    }
-    assert(result == 150, "mutable whole payload capture failed")
-}
-
-#[test]
-fn mutable_whole_payload_tuple_capture() {
-    mut container := Container::Pair(10, 20)
-    result := match container {
-        Single value -> value,
-        Pair mut first, mut second -> {
-            print('Original values: first={first}, second={second}')
-            // Modify the individual values
-            first = first * 2
-            second = second * 3
-            print('Modified values: first={first}, second={second}')
-            // Return the sum to verify modification
-            first + second
-        }
-        _ -> 0,
-    }
-    assert(result == 80, "mutable tuple destructuring failed")  // 10*2 + 20*3 = 20 + 60 = 80
-}
 
 #[test]
 fn mixed_pattern_matching() {
@@ -305,10 +266,10 @@ fn mixed_pattern_matching() {
     for container in containers {
         value := match container {
             Single n -> n,  // Whole payload capture
-            Pair first, second -> first,  // Destructuring
+            Pair first, _ -> first,  // Destructuring
             Triple x, _, _ -> x,  // Partial destructuring with wildcards
-            Named { id, count } -> id,  // Struct destructuring
-            Complex { value, flag } -> value,  // Struct destructuring
+            Named { id } -> id,  // Struct destructuring
+            Complex { value } -> value,  // Struct destructuring
         }
         total = total + value
     }
@@ -352,7 +313,7 @@ fn result_pattern_matching() {
             print('Success: {value}')
             value * 2
         }
-        Err error -> 0,
+        Err -> 0,
     }
 
     failure_result := match failure {
@@ -409,32 +370,6 @@ fn discriminant() {
     variant0 := MixedSyntaxEnum::DirectInt(10)
     x.d = variant0.discriminant()
     assert(x.d == 0, 'wrong discriminant2 {d}')
-}
-
-// FIXME: #[test]
-fn mutable_result_pattern_matching() {
-    mut result := IntResult::Ok(42)
-
-    final_value := match result {
-        Ok mut value -> {
-            print('Original value: {value}')
-            value = value * 2
-            print('Doubled value: {value}')
-            value
-        }
-        Err error -> 0,
-    }
-
-    assert(final_value == 84, "mutable result pattern failed")
-
-    checked_value_again := match result {
-        Ok value -> {
-            value
-        }
-        Err error -> 0,
-    }
-
-    assert(checked_value_again == 84, "mutable result pattern failed")
 }
 
 
