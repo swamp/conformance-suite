@@ -1,0 +1,113 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+// Packed bitfield: 1+4+1 = 6 bits, stored as U8
+bits Flags {
+    is_attacking: 1
+    small_id: 4
+    is_flying: 1
+}
+
+// Explicit storage size forced to U16
+bits FlagsU16 : U16 {
+    is_active: 1
+    level: 4
+    is_boss: 1
+}
+
+#[test]
+fn create_default() {
+    a : Flags
+    assert(a.is_attacking == 0, "is_attacking should be 0 by default")
+    assert(a.small_id == 0, "small_id should be 0 by default")
+    assert(a.is_flying == 0, "is_flying should be 0 by default")
+}
+
+#[test]
+fn create_with_field() {
+    a := Flags { small_id: 3, .. }
+    assert(a.small_id == 3, "small_id should be 3")
+    assert(a.is_attacking == 0, "is_attacking should still be 0")
+    assert(a.is_flying == 0, "is_flying should still be 0")
+}
+
+#[test]
+fn write_boolean_field() {
+    mut a := Flags {..}
+    a.is_attacking = 1
+    assert(a.is_attacking == 1, "is_attacking should be 1 after write")
+    assert(a.small_id == 0, "small_id should be unaffected")
+}
+
+#[test]
+fn write_multi_bit_field() {
+    mut a := Flags {..}
+    a.small_id = 7
+    assert(a.small_id == 7, "small_id should be 7")
+    assert(a.is_attacking == 0, "is_attacking should be unaffected")
+    assert(a.is_flying == 0, "is_flying should be unaffected")
+}
+
+#[test]
+fn write_multiple_fields() {
+    mut a := Flags {..}
+    a.is_attacking = 1
+    a.small_id = 5
+    a.is_flying = 1
+    assert(a.is_attacking == 1, "is_attacking should be 1")
+    assert(a.small_id == 5, "small_id should be 5")
+    assert(a.is_flying == 1, "is_flying should be 1")
+}
+
+#[test]
+fn read_field_as_int() {
+    a := Flags { small_id: 9, .. }
+    found_id: Int = a.small_id.int()
+    assert(found_id == 9, "small_id read as Int should be 9")
+}
+
+#[test]
+fn bool_check_on_flag() {
+    mut a : Flags
+    a.is_flying = 1
+    if a.is_flying != 0 { // maybe auto convert to bool for bit flags?
+        print("is_flying is set")
+    } else {
+        panic("is_flying check failed")
+    }
+}
+
+#[test]
+fn bool_check_unset_flag() {
+    a := Flags {..}
+    if a.is_attacking != 0 { // maybe auto convert to bool for bit flags?
+        panic("is_attacking should not be set")
+    } else {
+        print("is_attacking correctly unset")
+    }
+}
+
+#[test]
+fn overwrite_field() {
+    mut a := Flags { small_id: 3,.. }
+    a.small_id = 10
+    assert(a.small_id == 10, "small_id should be 10 after overwrite")
+}
+
+#[test]
+fn explicit_u16_storage() {
+    a := FlagsU16 { level: 8,.. }
+    assert(a.level == 8, "level should be 8")
+    assert(a.is_active == 0, "is_active should be 0")
+    assert(a.is_boss == 0, "is_boss should be 0")
+}
+
+#[test]
+fn explicit_u16_write() {
+    mut a := FlagsU16 {..}
+    a.is_boss = 1
+    a.level = 15
+    assert(a.is_boss == 1, "is_boss should be 1")
+    assert(a.level == 15, "level should be 15")
+}

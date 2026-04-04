@@ -1,11 +1,14 @@
 //
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
+mod and_block
 mod anonymous_struct
 mod arithmetic
 mod array_subscript
 mod array_to_struct
 mod array
+mod bits
+mod bitwise
 mod bool
 mod bounds_check
 mod break
@@ -42,6 +45,7 @@ mod member_lookahead
 mod member
 
 mod named_arguments
+mod only
 
 mod operator
 mod optional_infer

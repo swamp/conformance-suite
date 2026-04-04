@@ -14,6 +14,11 @@ fn test_infer() {
 
 
 #[test]
+fn test_infer_initializer_list() {
+    takes_optional( [ 10, 20 ] )
+}
+
+#[test]
 fn infer_pos() {
     mut maybe : Position?
     maybe = { x: 10, y : 20 }

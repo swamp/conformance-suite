@@ -1,0 +1,164 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+#[test]
+fn bitwise_or() {
+    a := 0b00001111
+    b := 0b11110000
+    result := a | b
+    assert(result == 0b11111111, "bitwise OR failed")
+}
+
+#[test]
+fn bitwise_or_overlap() {
+    a := 0b00111100
+    b := 0b00001111
+    result := a | b
+    assert(result == 0b00111111, "bitwise OR with overlap failed")
+}
+
+#[test]
+fn bitwise_or_compound() {
+    mut a := 0b00111100
+    b := 0b00001111
+    a |= b
+    assert(a == 0b00111111, "bitwise OR with compound failed")
+}
+
+#[test]
+fn assign_bitwise_or() {
+    mut flags := 0b00000000
+    flags = flags | 0b00000101
+    assert(flags == 0b00000101, "assign via OR failed")
+}
+
+#[test]
+fn bitwise_and() {
+    a := 0b11111111
+    b := 0b00001111
+    result := a & b
+    assert(result == 0b00001111, "bitwise AND failed")
+}
+
+#[test]
+fn bitwise_and_no_overlap() {
+    a := 0b11110000
+    b := 0b00001111
+    result := a & b
+    assert(result == 0, "bitwise AND with no overlap should be 0")
+}
+
+
+#[test]
+fn bitwise_and_compound() {
+    mut a := 0b11111111
+    b := 0b00001111
+    a &= b
+    assert(a == 0b00001111, "bitwise AND failed")
+}
+
+
+#[test]
+fn bitwise_xor() {
+    a := 0b11001100
+    b := 0b10101010
+    result := a ^ b
+    assert(result == 0b01100110, "bitwise XOR failed")
+}
+
+#[test]
+fn bitwise_xor_same() {
+    a := 0b10110101
+    result := a ^ a
+    assert(result == 0, "XOR of value with itself should be 0")
+}
+
+#[test]
+fn bitwise_xor_toggle() {
+    flags := 0b00000101
+    toggle_mask := 0b00000100
+    result := flags ^ toggle_mask
+    assert(result == 0b00000001, "XOR toggle of bit 2 failed")
+}
+
+#[test]
+fn shift_left() {
+    a := 1
+    result := a << 3
+    assert(result == 8, "left shift 1 << 3 should be 8")
+}
+
+#[test]
+fn shift_left_multi() {
+    a := 0b00000001
+    result := a << 4
+    assert(result == 0b00010000, "left shift by 4 failed")
+}
+
+#[test]
+fn shift_right() {
+    a := 0b10000000
+    result := a >> 4
+    assert(result == 0b00001000, "right shift by 4 failed")
+}
+
+#[test]
+fn shift_right_divide() {
+    a := 64
+    result := a >> 2
+    assert(result == 16, "right shift 64 >> 2 should be 16")
+}
+
+
+
+#[test]
+fn combined_mask_and_shift() {
+    // extract bits 4..7 from a value
+    value := 0b10110100
+    mask := 0b11110000
+    extracted := (value & mask) >> 4
+    assert(extracted == 0b00001011, "mask+shift extraction failed")
+}
+
+
+
+#[test]
+fn assign_bitwise_and_clear() {
+    mut flags := 0b11111111
+    flags = flags & 0b11110000
+    assert(flags == 0b11110000, "assign via AND clear failed")
+}
+
+
+#[test]
+fn rotate_left() {
+    // rotating 0b00000001 left by 1 in an 8-bit context gives 0b00000010
+    a := 0b00000001
+    result := a <<< 1
+    assert(result == 0b00000010, "rotate left by 1 failed")
+}
+
+#[test]
+fn rotate_left_wrap() {
+    // rotating 0b10000000 left by 1 in an 8-bit context wraps to 0b00000001
+    a := 0b10000000000000000000000000000000
+    result := a <<< 1
+    assert(result == 0b00000001, "rotate left wrap-around failed")
+}
+
+#[test]
+fn rotate_right() {
+    // rotating 0b10000000 right by 1 in an 8-bit context gives 0b01000000
+    a := 0b10000000
+    result := a >>> 1
+    assert(result == 0b01000000, "rotate right by 1 failed")
+}
+
+#[test]
+fn rotate_right_wrap() {
+    // rotating 0b00000001 right by 1 wraps to 0b10000000
+    a := 0b00000000000000000000000000000001
+    result := a >>> 1
+    assert(result == 0b10000000000000000000000000000000, "rotate right wrap-around failed")
+}

@@ -13,3 +13,11 @@ fn basic_guard() {
 
     assert(a == -1, "guard failed")
 }
+
+#[test]
+fn one_line_guard() {
+    i := -99
+    a := | i > 3 -> 0, | i < 0 -> -1, | _ -> 0x0FFF_FFFF
+
+    assert(a == -1, "guard failed")
+}
