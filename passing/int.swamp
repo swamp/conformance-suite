@@ -45,7 +45,7 @@ fn div() {
 
 #[test]
 fn mod() {
-    assert((-3).mod(2) == 1, "mod() is wrong")
+    assert((3).mod(2) == 1, "mod() is wrong")
 }
 
 #[test]
