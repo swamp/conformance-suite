@@ -19,6 +19,7 @@ mod const_borrow
 mod const_capacities
 mod constant
 mod continue
+mod embed
 mod enum_bugs
 mod enum_guards
 mod enum_pattern_match
@@ -33,6 +34,7 @@ mod initializer
 mod int
 mod intrinsic_materialization
 mod keyword_field
+mod lambda
 mod logical
 
 mod map_in_map

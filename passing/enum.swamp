@@ -2,58 +2,57 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 enum Color {
-    Red,
-    Green,
-    Blue,
+    Red
+    Green
+    Blue
     Unknown(Int)
 }
 
 impl Color {
     fn string(self) -> String {
         match self {
-            Red -> "Red",
-            Green -> "Green",
-            Blue -> "Blue",
-            Unknown -> "Who knows",
+            Red -> "Red"
+            Green -> "Green"
+            Blue -> "Blue"
+            Unknown -> "Who knows"
         }
     }
 }
 
 enum Different {
-    Nothing,
-    FewThings(Color, Int),
+    Nothing
+    FewThings(Color, Int)
     More { id: Int, color: Color}
 }
 
 enum SimpleEnum {
-    First,
-    Second,
-    Third,
+    First
+    Second
+    Third
 }
 
 enum IntOption {
-    Some Int,
-    None,
+    Some Int
+    None
 }
 
 enum IntResult {
-    Ok Int,
-    Err Int,
+    Ok Int
+    Err Int
 }
 
 enum Container {
-    Single Int,
-    Pair (Int, Int),
-    Triple (Int, Int, Color),
-    Named { id: Int, count: Int },
-    Complex { value: Int, flag: Bool },
+    Single Int
+    Pair (Int, Int)
+    Triple (Int, Int, Color)
+    Named { id: Int, count: Int }
+    Complex { value: Int, flag: Bool }
 }
 
 
 #[test]
 fn literal_enum() {
     a := Color::Red
-    //print('a: `{a}`')
     assert(a == Color::Red, "enum value is wrong")
 }
 
@@ -64,13 +63,10 @@ fn matching() {
         Red -> 0,
         Green -> 1,
         Blue -> 2,
-        Unknown -> -1, 
+        Unknown -> -1,
     }
     assert(result == 1, "enum value is wrong")
 }
-
-
-
 
 #[test]
 fn matching_enum_with_container() {
@@ -124,8 +120,8 @@ fn matching_mut_enum_struct() {
             print('before: id: {id}, color: {color}')
 
             assert(id == 42, "id is wrong")
-            assert(color == Color::Blue, "enum value is wrong")
-            color = Color::Red
+            assert(color == Blue, "enum value is wrong")
+            color = Red
             print('after color change: id: {id}, color: {color}')
             assert(color == Color::Red, "enum value is wrong")
 
@@ -159,15 +155,15 @@ fn simple_struct_inside_enum() {
 
 #[test]
 fn matching_mut_enum_struct_one_field() {
-    mut a := Different::More {id: 42, color: Color::Blue}
+    mut a := Different::More {id: 42, color: Blue}
     result := match a {
         Nothing -> 0,
         More { id, mut color } -> {
             print('before: id: {id}, color: {color}')
             assert(color == Color::Blue, "enum value is wrong")
-            color = Color::Green // change color
+            color = Green // change color
             print('after: id: {id}, color: {color}')
-            assert(color == Color::Green, "enum value is wrong")
+            assert(color == Green, "enum value is wrong")
             100
         }
         _ -> 200,
@@ -218,20 +214,20 @@ fn whole_payload_capture_simple() {
 fn tuple_vs_struct_variant_patterns() {
     container := Container::Named { id: 123, count: 456 }
     result := match container {
-        Single value -> value,  // Tuple variant - whole payload capture
-        Pair a, b -> a,         // Tuple variant - destructuring
-        Triple x, y, z -> x,    // Tuple variant - partial destructuring
-        Named { id, count } -> {  // Struct variant - must destructure fields
+        Single value -> value,
+        Pair a, b -> a,
+        Triple x, y, z -> x,
+        Named { id, count } -> {
             print('Got named data: id={id}, count={count}')
-            999  // Return a known value to verify this branch was taken
+            999
         }
-        Complex { value, flag } -> 888,  // Struct variant - must destructure fields
+        Complex { value, flag } -> 888,
     }
     assert(result == 999, "struct variant destructuring failed")
 }
 
 
-//#[test]
+#[test]
 fn whole_payload_capture_tuple() {
     container := Container::Triple(10, 20, Color::Red)
     result := match container {
@@ -242,8 +238,7 @@ fn whole_payload_capture_tuple() {
         }
         Triple everything -> {
             print('Got triple everything: {everything}')
-            // everything should be the entire tuple (10, 20, Color::Red)
-            777  // Return a known value to verify this branch was taken
+            777
         }
         Named {  } -> 666,
         Complex -> 555,
@@ -265,11 +260,11 @@ fn mixed_pattern_matching() {
     mut total := 0
     for container in containers {
         value := match container {
-            Single n -> n,  // Whole payload capture
-            Pair first, _ -> first,  // Destructuring
-            Triple x, _, _ -> x,  // Partial destructuring with wildcards
-            Named { id } -> id,  // Struct destructuring
-            Complex { value } -> value,  // Struct destructuring
+            Single n -> n
+            Pair first, _ -> first
+            Triple x, _, _ -> x
+            Named { id } -> id
+            Complex { value } -> value
         }
         total = total + value
     }
@@ -329,7 +324,6 @@ fn result_pattern_matching() {
 }
 
 
-// Test automatic to_string generation for enums (shows full enum::variant)
 #[test]
 fn automatic_enum_to_string() {
     a := SimpleEnum::First
@@ -340,9 +334,6 @@ fn automatic_enum_to_string() {
     print('SimpleEnum to_string: {b.string()}')
     assert(b.string() == "SimpleEnum::Second", "enum to_string failed")
 }
-
-
-
 
 enum MixedSyntaxEnum {
     DirectInt Int,
@@ -385,7 +376,7 @@ fn wildcard_with_whole_payload() {
     for container in containers {
         value := match container {
             Single n -> n,
-            _ -> 1000,  // Catch-all with no payload capture
+            _ -> 1000,
         }
         total = total + value
     }
@@ -395,7 +386,6 @@ fn wildcard_with_whole_payload() {
 }
 
 
-// Test automatic to_short_string generation for enums (shows only variant name)
 #[test]
 fn automatic_enum_to_short_string() {
     a := SimpleEnum::First
@@ -549,17 +539,20 @@ fn mixed_to_pretty_string() {
 }
 
 
-// FIXME: from_discriminant()
+#[test]
+fn from_discriminant() {
+    first := SimpleEnum::First
+    d := first.discriminant()
+    assert(d == 0, 'wrong discriminant for First {d}')
 
-// #[test]
-// fn from_discriminant() {
-//     mut variant1 = MixedSyntaxEnum::TuplePair(10, 20)
-//     before := variant1.discriminant()
-//     assert(before == 1, 'wrong discriminant before {before}')
-//     variant1.from_discriminant(2) // very unsafe overwriting
-//     d := variant1.discriminant()
-//     assert(d == 2, 'wrong discriminant {d}')
+    second := SimpleEnum::from_int(1)
+    assert(second == SimpleEnum::Second, 'from_int(1) should be Second')
 
-//     //assert(variant1 == MixedSyntaxEnum::StructData { count: 10, value: 20 }, 'variant is: {variant1}')
-// }
+    third := SimpleEnum::from_int(2)
+    assert(third == SimpleEnum::Third, 'from_int(2) should be Third')
+
+    value := 0
+    back_to_first := SimpleEnum::from_int(value)
+    assert(back_to_first == SimpleEnum::First, 'from_int(0) should be First')
+}
 

@@ -8,11 +8,11 @@ struct Point {
 
 impl Point {
     fn add(self, other: Point) -> Point {
-        Point { x: self.x + other.x, y: self.y + other.y }
+        Point { x: .x + other.x, y: .y + other.y }
     }
 
     fn eq(self, other: Point) -> Bool {
-        self.x == other.x && self.y == other.y
+        .x == other.x && .y == other.y
     }
 }
 
@@ -173,14 +173,14 @@ fn automatic_to_string() {
     assert(result == "Mixed { num: 42, flag: false, text: \"hello\" }", 'to_string failed "{result}"')
 }
 
-// #[test]
-// fn automatic_anon_to_string() {
-//     mut mixed = { num: 42, flag: false, text: "hello" }
-//     print('Mixed struct: {mixed}')
-//     result := mixed.string()
-//     // NOTE: Anonymous struct fields are always sorted alphabetically
-//     assert(result == "{ flag: false, num: 42, text: \"hello\" }", 'to_string failed "{result}"')
-// }
+#[test]
+fn automatic_anon_to_string() {
+    mixed := { num: 42, flag: false, count: 7 }
+    print('Mixed struct: {mixed}')
+    result := mixed.string()
+    // NOTE: Anonymous struct fields are always sorted alphabetically
+    assert(result == "{ count: 7, flag: false, num: 42 }", 'to_string failed "{result}"')
+}
 
 // #[test]
 // fn automatic_anon_to_pretty_string() {

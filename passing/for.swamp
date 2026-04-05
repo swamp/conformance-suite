@@ -5,7 +5,6 @@
 fn basic() {
     mut sum = 0
     for x in 0..3 {
-        print('x: {x}')
         sum += x
     }
     assert(sum == 3, 'Sum should be 3, got {sum}')
@@ -15,8 +14,75 @@ fn basic() {
 fn inclusive() {
     mut sum = 0
     for x in 0..=3 {
-        print('x: {x}')
         sum += x
     }
     assert(sum == 6, 'Sum should be 6, got {sum}')
+}
+
+#[test]
+fn iterate_vec() {
+    nums: Vec<Int; 8> = [10, 20, 30]
+    mut sum := 0
+    for n in nums {
+        sum += n
+    }
+    assert(sum == 60, 'sum over vec should be 60, got {sum}')
+}
+
+#[test]
+fn iterate_fixed_array() {
+    arr: [Int; 4] = [1, 2, 3, 4]
+    mut product := 1
+    for n in arr {
+        product *= n
+    }
+    assert(product == 24, 'product over fixed array should be 24, got {product}')
+}
+
+#[test]
+fn iterate_map_values() {
+    m := [
+        1: 10
+        2: 20
+        3: 30
+    ]
+    mut sum := 0
+    for v in m {
+        sum += v
+    }
+    assert(sum == 60, 'sum expected to be 60, got {sum}')
+}
+
+#[test]
+fn iterate_map_key_value() {
+    m: [Int: Int; 4] = [1: 100, 2: 200]
+    mut key_sum := 0
+    mut val_sum := 0
+    for k, v in m {
+        key_sum += k
+        val_sum += v
+    }
+    assert(key_sum == 3, 'key sum should be 3, got {key_sum}')
+    assert(val_sum == 300, 'val sum should be 300, got {val_sum}')
+}
+
+struct Point {
+    x: Int
+    y: Int
+}
+
+#[test]
+fn mut_iterate_vec_aggregate() {
+    mut points: Vec<Point; 4> = [
+        [1, 0] 
+        [2, 0] 
+        [3, 0]
+    ]
+
+    for mut p in points {
+        p.y = p.x * 10
+    }
+    assert(points[0].y == 10, 'points[0].y should be 10, got {points[0].y}')
+    assert(points[1].y == 20, 'points[1].y should be 20, got {points[1].y}')
+    assert(points[2].y == 30, 'points[2].y should be 30, got {points[2].y}')
 }

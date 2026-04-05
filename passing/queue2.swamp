@@ -2,8 +2,6 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 
-// Queue is a traditional ring buffer, that can only be written to if there is capacity for it
-
 #[test]
 fn create() {
     ring: Queue<Int; 8>

@@ -1,0 +1,103 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+// Non capturing Lambda expressions are inlined and can read outer variables (not closures).
+
+#[test]
+fn filter_basic() {
+    nums: Vec<Int; 8> = [1, 2, 3, 4, 5, 6]
+    evens: Vec<Int; 8> = nums.filter(|x| x % 2 == 0)
+    assert(evens.len() == 3, 'expected 3 even numbers, got {evens.len()}')
+    assert(evens[0] == 2, 'first even should be 2, got {evens[0]}')
+    assert(evens[2] == 6, 'third even should be 6, got {evens[2]}')
+}
+
+
+#[test]
+fn filter_mut_basic() {
+    mut nums: Vec<Int; 8> = [1, 2, 3, 4, 5, 6]
+    nums.filter_mut(|x| x % 2 == 0)
+    assert(nums.len() == 3, 'expected 3 even numbers, got {nums.len()}')
+    assert(nums[0] == 2, 'first even should be 2, got {nums[0]}')
+    assert(nums[2] == 6, 'third even should be 6, got {nums[2]}')
+}
+
+#[test]
+fn filter_none_match() {
+    nums: Vec<Int; 8> = [1, 3, 5, 7]
+    evens: Vec<Int; 8> = nums.filter(|x| x % 2 == 0)
+    assert(evens.len() == 0, 'expected no even numbers, got {evens.len()}')
+}
+
+#[test]
+fn filter_all_match() {
+    nums: Vec<Int; 8> = [2, 4, 6]
+    evens: Vec<Int; 8> = nums.filter(|x| x % 2 == 0)
+    assert(evens.len() == 3, 'expected all to match, got {evens.len()}')
+}
+
+#[test]
+fn filter_uses_outer_variable() {
+    // Lambda body references outer `threshold` — inlined, not a closure.
+    threshold := 10
+    nums: Vec<Int; 8> = [5, 10, 15, 20]
+    above: Vec<Int; 8> = nums.filter(|x| x > threshold)
+    assert(above.len() == 2, 'expected 2 above threshold, got {above.len()}')
+    assert(above[0] == 15, 'first above should be 15, got {above[0]}')
+}
+
+#[test]
+fn filter_with_negation() {
+    nums: Vec<Int; 8> = [1, 2, 3, 4, 5]
+    odds: Vec<Int; 8> = nums.filter(|x| x % 2 != 0)
+    assert(odds.len() == 3, 'expected 3 odd numbers, got {odds.len()}')
+}
+
+#[test]
+fn find_some() {
+    // find returns Optional<element_type>
+    nums: Vec<Int; 8> = [10, 20, 30, 40]
+    result := nums.find(|x| x == 30)
+    when found = result {
+        assert(found == 30, 'found value should be 30, got {found}')
+    } else {
+        panic('should have found 30')
+    }
+}
+
+#[test]
+fn find_none() {
+    nums: Vec<Int; 8> = [10, 20, 30]
+    result := nums.find(|x| x == 99)
+    when result {
+        panic('should not have found 99')
+    } else {
+        // BUG: Should not be needed
+    }
+
+}
+
+#[test]
+fn all_true() {
+    nums: Vec<Int; 4> = [2, 4, 6, 8]
+    assert(nums.all(|x| x % 2 == 0), 'all should be even')
+}
+
+#[test]
+fn all_false() {
+    nums: Vec<Int; 4> = [2, 4, 5, 8]
+    assert(!nums.all(|x| x % 2 == 0), 'not all are even')
+}
+
+#[test]
+fn any_true() {
+    nums: Vec<Int; 4> = [1, 3, 5, 4]
+    assert(nums.any(|x| x % 2 == 0), 'there is one even')
+}
+
+#[test]
+fn any_false() {
+    nums: Vec<Int; 4> = [1, 3, 5, 7]
+    assert(!nums.any(|x| x % 2 == 0), 'no even numbers')
+}

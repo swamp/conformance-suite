@@ -4,3 +4,4 @@ passing/out
 test.sh
 benchmarks/out
 sprout.lock
+out

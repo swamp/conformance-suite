@@ -1,0 +1,82 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+#[test]
+fn if_true_branch() {
+    x := 10
+    result := if x > 5 { 1 } else { 0 }
+    assert(result == 1, 'should take true branch')
+}
+
+#[test]
+fn if_false_branch() {
+    x := 3
+    result := if x > 5 { 1 } else { 0 }
+    assert(result == 0, 'should take false branch')
+}
+
+#[test]
+fn if_else_if_chain() {
+    x := 5
+    result := if x < 0 {
+        -1
+    } else if x == 0 {
+        0
+    } else if x < 10 {
+        1
+    } else {
+        2
+    }
+    assert(result == 1, 'should match third branch, got {result}')
+}
+
+#[test]
+fn if_no_else_unit() {
+    mut triggered := false
+    x := 42
+    if x == 42 {
+        triggered = true
+    }
+    assert(triggered, 'if without else should execute body')
+}
+
+#[test]
+fn if_as_expression_in_assignment() {
+    a := 7
+    b := 3
+    larger := if a > b { a } else { b }
+    assert(larger == 7, 'larger should be a, got {larger}')
+}
+
+
+#[test]
+fn nested_if() {
+    x := 10
+    y := 20
+    result := if x > 0 {
+        if y > 0 {
+            1
+        } else {
+            2
+        }
+    } else {
+        3
+    }
+    assert(result == 1, 'nested if should return 1, got {result}')
+}
+
+#[test]
+fn if_with_bool_variable() {
+    flag := true
+    result := if flag { 100 } else { 0 }
+    assert(result == 100, 'should use bool variable as condition')
+}
+
+#[test]
+fn if_equality_check() {
+    s := "hello"
+    result := if s == "hello" { 1 } else { 0 }
+    assert(result == 1, 'string equality in if failed')
+}
+
