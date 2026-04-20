@@ -58,3 +58,72 @@ fn floor_to_tuple() {
     assert(b == 2.0, "second element is unchanged in tuple")
     print('a: {a}, b: {b}')
 }
+
+#[test]
+fn sin() {
+    result := 0.0.sin()
+    assert(result.abs() < 0.001, 'sin(0) should be close to 0, got {result}')
+
+    half_pi := 1.5708
+    result2 := half_pi.sin()
+    assert((result2 - 1.0).abs() < 0.001, 'sin(PI/2) should be close to 1, got {result2}')
+}
+
+#[test]
+fn cos() {
+    result := 0.0.cos()
+    assert((result - 1.0).abs() < 0.001, 'cos(0) should be close to 1, got {result}')
+
+    pi := 3.14159
+    result2 := pi.cos()
+    assert((result2 + 1.0).abs() < 0.001, 'cos(PI) should be close to -1, got {result2}')
+}
+
+#[test]
+fn atan2() {
+    result := 3.14.atan2(4.5)
+
+    assert(result.abs() > 0.60 && result.abs() < 0.61, 'atan2(3.14, 4.5) should be around 0.61, got {result}')
+
+    result2 := 0.0.atan2(1.0)
+    assert(result2.abs() < 0.001, 'atan2(0, 1) should be close to 0, got {result2}')
+}
+
+#[test]
+fn magnitude() {
+    result := 4.5.magnitude(7.8)
+    assert((result - 9.005).abs() < 0.01, 'magnitude(4.5, 7.8) should be around 9.005, got {result}')
+
+    // magnitude of (3.0, 4.0) = 5.0 (the classic 3-4-5 triangle)
+    result2 := 3.0.magnitude(4.0)
+    assert((result2 - 5.0).abs() < 0.0005, 'magnitude(3.0, 4.0) should be 5.0, got {result2}')
+}
+
+#[test]
+fn magnitude_close_to_zero() {
+    result := 4.5.magnitude(0.0)
+    assert((result - 4.5).abs() < 0.01, 'magnitude(4.5, 0.0) should be around 4.5, got {result}')
+
+    result2 := 0.0.magnitude(4.0)
+    assert((result2 - 4.0).abs() < 0.0005, 'magnitude(0.0, 4.0) should be 4.0, got {result2}')
+}
+
+
+#[test]
+fn normalize() {
+    x, y = 9.5.normalize(-1.0)
+
+    magnitude := x.magnitude(y)
+
+    assert((magnitude - 1.0).abs() < 0.001, 'normalized vector should have magnitude 1, got {magnitude}')
+}
+
+
+#[test]
+fn normalize_close_to_zero() {
+    x, y = 119.5.normalize(0.001)
+
+    magnitude := x.magnitude(y)
+
+    assert((magnitude - 1.0).abs() < 0.01, 'normalized vector should have magnitude 1, got {magnitude}')
+}
