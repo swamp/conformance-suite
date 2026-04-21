@@ -1,4 +1,4 @@
-name benchmarks
+name: benchmarks
 type: :lib
-extension swamp
-packages_directory ../packages
+extension: swamp
+packages_dir: ../packages

@@ -1,0 +1,42 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+// Resource ID literals with subscript: @package/path/to/resource[index]
+
+#[extensions("txt")]
+struct TextFileTag {}
+type TextFile = Res<TextFileTag>
+
+#[extensions("dat")]
+struct DataFileTag {}
+type DataFile = Res<DataFileTag>
+
+#[test]
+fn resource_id_array() {
+    resources: [TextFile; 3] = [
+        @test_data.txt[0]
+        @config.txt[0]
+        @test_data.txt[1]
+    ]
+
+    assert(resources.len() == 3, 'resource array length wrong')
+}
+
+#[test]
+fn resource_id_optional() {
+    resource: TextFile = @test_data.txt[0]
+    opt_resource: TextFile? = resource
+
+    assert(opt_resource, 'resource should be some')
+}
+
+#[test]
+fn resource_id_comparison() {
+    resource_a: TextFile = @test_data.txt[0]
+    resource_b: TextFile = @test_data.txt[0]
+    resource_c: TextFile = @config.txt[0]
+
+    assert(resource_a == resource_b, 'same resources should be equal')
+    assert(resource_a != resource_c, 'different resources should not be equal')
+}

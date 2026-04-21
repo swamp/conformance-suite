@@ -19,6 +19,7 @@ mod const_borrow
 mod const_capacities
 mod constant
 mod continue
+mod codepoint
 mod embed
 mod enum_bugs
 mod enum_guards
@@ -42,11 +43,13 @@ mod map
 
 mod match_literal
 mod match
+mod match_or_patterns
 
 mod member_lookahead
 mod member
 
 mod named_arguments
+mod number_formats
 mod only
 
 mod operator
@@ -57,9 +60,11 @@ mod queue
 mod queue2
 
 mod range // slice
+mod resource_id
 mod rest_args
 mod rest_operator
 mod ring
+mod rotate
 
 
 mod scalar_vs_aggregate

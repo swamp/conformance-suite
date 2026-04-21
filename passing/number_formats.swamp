@@ -1,0 +1,105 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+// Number format literals: hexadecimal (0x), binary (0b)
+
+#[test]
+fn hex_formats() {
+    lowercase := 0xff
+    assert(lowercase == 255, 'hex 0xff should be 255')
+
+    uppercase := 0xFF
+    assert(uppercase == 255, 'hex 0xFF should be 255')
+
+    mixed_case := 0xAbCd
+    assert(mixed_case == 43981, 'hex 0xAbCd should be 43981')
+
+    assert(0x0A == 10, 'hex 0x0A should be 10')
+
+    zero := 0x00
+    assert(zero == 0, 'hex 0x00 should be 0')
+
+    assert(0x1234 == 4660, 'hex 0x1234 should be 4660')
+}
+
+#[test]
+fn hex_arithmetic() {
+    a := 0x10
+    b := 0x20
+    result := a + b
+    assert(result == 0x30, 'hex arithmetic should work')
+}
+
+#[test]
+fn binary_formats() {
+    basic := 0b1010
+    assert(basic == 10, 'binary 0b1010 should be 10')
+
+    assert(0b11111111 == 255, 'binary 0b11111111 should be 255')
+
+    single_bit := 0b10000000
+    assert(single_bit == 128, 'binary 0b10000000 should be 128')
+
+    assert(0b0 == 0, 'binary 0b0 should be 0')
+
+    alternating := 0b10101010
+    assert(alternating == 170, 'binary 0b10101010 should be 170')
+}
+
+#[test]
+fn binary_arithmetic() {
+    a := 0b0100
+    b := 0b0010
+    assert(a + b == 0b0110, 'binary add should work')
+}
+
+#[test]
+fn mixed_format_arithmetic() {
+    decimal := 10
+    hex := 0x0A
+    binary := 0b1010
+
+    assert(decimal == hex, 'decimal and hex should be equal')
+    assert(hex == binary, 'hex and binary should be equal')
+    assert(decimal + hex + binary == 30, 'mixed arithmetic failed')
+}
+
+#[test]
+fn hex_in_bitwise() {
+    mask := 0xFF00
+    value := 0x1234
+    assert((value & mask) == 0x1200, 'hex bitwise AND with mask should work')
+}
+
+#[test]
+fn binary_in_bitwise() {
+    mask := 0b11110000
+    value := 0b10101010
+    result := value & mask
+    assert(result == 0b10100000, 'binary bitwise AND failed')
+}
+
+#[test]
+fn hex_color_values() {
+    red := 0xFF
+    green := 0x80
+    blue := 0x40
+
+    assert(red == 255, 'red channel should be 255')
+    assert(green == 128, 'green channel should be 128')
+    assert(blue == 64, 'blue channel should be 64')
+}
+
+#[test]
+fn binary_flags() {
+    flag_a := 0b0001
+    flag_b := 0b0010
+    flag_c := 0b0100
+    flag_d := 0b1000
+
+    flags := flag_a | flag_c
+    assert(flags == 0b0101, 'flag OR should work')
+    assert((flags & flag_a) != 0, 'flag A should be set')
+    assert((flags & flag_b) == 0, 'flag B should not be set')
+}

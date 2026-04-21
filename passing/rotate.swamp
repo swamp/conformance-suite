@@ -1,0 +1,82 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+// Rotate operators: <<< (rotate left) and >>> (rotate right)
+
+
+// Rotate left
+
+#[test]
+fn rotate_left_basic() {
+    value := 0b00000001
+    result := value <<< 1
+    assert(result == 0b00000010, 'rotate left by 1 should work')
+}
+
+#[test]
+fn rotate_left_wrap() {
+    value := 0x80000000
+    result := value <<< 1
+    assert(result == 0x00000001, 'rotate left wrap should work')
+}
+
+#[test]
+fn rotate_left_multiple() {
+    value := 0b00001111
+    result := value <<< 4
+    assert(result == 0b11110000, 'rotate left by 4 should work')
+}
+
+
+
+// Rotate right
+
+#[test]
+fn rotate_right_basic() {
+    value := 0b10000000
+    result := value >>> 1
+    assert(result == 0b01000000, 'rotate right by 1 should work')
+}
+
+#[test]
+fn rotate_right_wrap() {
+    value := 0x00000001
+    assert(value >>> 1 == 0x80000000, 'rotate right wrap should work')
+}
+
+#[test]
+fn rotate_right_multiple() {
+    value := 0b11110000
+    result := value >>> 4
+    assert(result == 0b00001111, 'rotate right by 4 should work')
+}
+
+// Preserving
+
+#[test]
+fn rotate_full_circle() {
+    value := 0xAAAAAAAA
+
+    result_left := value <<< 32
+    assert(result_left == value, 'rotate left by 32 should work')
+
+    assert(value >>> 32 == value, 'rotate right by 32 should work')
+}
+
+#[test]
+fn rotate_left_right_back_again() {
+    value := 0b11001100
+    rotated_left := value <<< 3
+    restored := rotated_left >>> 3
+    assert(restored == value, 'rotate left then right should restore value')
+}
+
+#[test]
+fn rotate_preserves_all_bits() {
+    value := 0xFFFFFFFF
+    rotated_left := value <<< 3
+    rotated_right := value >>> 3
+    assert(rotated_left == 0xFFFFFFFF, 'rotate left should preserve all bits')
+    assert(rotated_right == 0xFFFFFFFF, 'rotate right should preserve all bits')
+}
