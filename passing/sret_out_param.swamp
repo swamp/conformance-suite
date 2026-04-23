@@ -175,7 +175,11 @@ fn large_struct_sret() {
 #[test]
 fn builtin_sret_normalize() {
     // normalize() returns normalized tuple via SRET
-    norm_x, norm_y = 10.0.normalize(20.0)
+    norm_x, norm_y = when normalized = 10.0.normalize(20.0) {
+        normalized
+    } else {
+        panic("should have been safe to normalize")
+    }
     // Verify it's normalized (magnitude should be ~1.0)
     mag_squared := (norm_x * norm_x) + (norm_y * norm_y)
     // Should be close to 1.0 (allowing for FP precision)

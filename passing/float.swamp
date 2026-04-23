@@ -111,19 +111,29 @@ fn magnitude_close_to_zero() {
 
 #[test]
 fn normalize() {
-    x, y = 9.5.normalize(-1.0)
+    when normalized = 9.5.normalize(-1.0) {
+        x, y = normalized
 
-    magnitude := x.magnitude(y)
+        magnitude := x.magnitude(y)
 
-    assert((magnitude - 1.0).abs() < 0.001, 'normalized vector should have magnitude 1, got {magnitude}')
+        assert((magnitude - 1.0).abs() < 0.001, 'normalized vector should have magnitude 1, got {magnitude}')
+    } else {
+        panic('should have been normalized')
+    }
+
 }
 
 
 #[test]
 fn normalize_close_to_zero() {
-    x, y = 119.5.normalize(0.001)
+    x, y = when normalized = 119.5.normalize(0.001) {
+        normalized
+    } else {
+        panic('should have been normalized')
+    }
 
     magnitude := x.magnitude(y)
 
     assert((magnitude - 1.0).abs() < 0.01, 'normalized vector should have magnitude 1, got {magnitude}')
+
 }
