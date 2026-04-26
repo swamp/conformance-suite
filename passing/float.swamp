@@ -1,6 +1,22 @@
 //
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
+
+fn almost_equal(a: Float, b: Float, precision: Float) -> Bool {
+    if a.sign() != b.sign() && a != 0.0 && b != 0.0 {
+        print('wrong sign {a} vs {b}')
+        false
+    } else {
+        worked := (a - b).abs() < precision
+
+        if !worked {
+            print('values is wrong {a} vs {b}')
+        }
+
+        worked
+    }
+}
+
 #[test]
 fn round() {
     assert(100.9.round() == 101, "round is wrong")
@@ -81,31 +97,73 @@ fn cos() {
 
 #[test]
 fn atan2() {
-    result := 3.14.atan2(4.5)
-
-    assert(result.abs() > 0.60 && result.abs() < 0.61, 'atan2(3.14, 4.5) should be around 0.61, got {result}')
+    assert(almost_equal(3.14.atan2(4.5), 0.60, 0.01), 'should be close to 0.6')
 
     result2 := 0.0.atan2(1.0)
-    assert(result2.abs() < 0.001, 'atan2(0, 1) should be close to 0, got {result2}')
+    assert(result2 == 0.0, 'atan2(0, 1) should be close to 0, got {result2}')
+}
+
+
+#[test]
+fn atan2_axis() {
+    assert(almost_equal(0.0.atan2(1.0) , 0.0, 0.001), 'positive x-axis')
+    assert(almost_equal(1.0.atan2(0.0) , 1.5708, 0.001), 'positive y-axis')
+    assert(almost_equal(0.0.atan2(-1.0) , 3.1415, 0.001), 'negative x-axis')
+    assert(almost_equal(-1.0.atan2(0.0) , -1.5708, 0.001), 'negative y-axis')
+}
+
+#[test]
+fn atan2_quadrants() {
+    assert(almost_equal(1.0.atan2(1.0) , 0.7853, 0.001), 'quadrant 1')
+    assert(almost_equal(1.0.atan2(-1.0), 2.3561, 0.001), 'quadrant 2')
+    assert(almost_equal(-1.0.atan2(-1.0), -2.35611, 0.001), 'quadrant 3')
+    assert(almost_equal(-1.0.atan2(1.0), -0.7853, 0.001), 'quadrant 4')
+}
+
+#[test]
+fn atan2_angles() {
+    assert(almost_equal(4.5.atan2(999.4), 0.0045, 0.001), 'shallow angle')
+    assert(almost_equal(999.4.atan2(4.5), 1.5663, 0.001), 'steep angle')
+}
+
+#[test]
+fn atan2_big_numbers() {
+    assert(almost_equal(32000.0.atan2(32000.0), 0.7853, 0.001), 'big number')
+    assert(almost_equal(-32000.0.atan2(32000.0), -0.7853, 0.001), 'big number')
+
+    assert(almost_equal(32000.0.atan2(-32000.0), 2.3561, 0.001), 'big number')
+    assert(almost_equal(-32000.0.atan2(-32000.0), -2.3561, 0.001), 'big number')
+}
+
+
+#[test]
+fn atan2_close_to_zero() {
+    // (0,0) has no mathematically defined direction.
+    // Returning 0.0 is actually wrong, but used as a practical convention used by many runtimes
+    // (e.g. Rust, C (libm), Go, Swift, C#).
+    assert(0.0.atan2(0.0) == 0.0, 'zero')
 }
 
 #[test]
 fn magnitude() {
     result := 4.5.magnitude(7.8)
-    assert((result - 9.005).abs() < 0.01, 'magnitude(4.5, 7.8) should be around 9.005, got {result}')
+    assert(almost_equal(result, 9.005, 0.001), 'magnitude(4.5, 7.8) should be around 9.005, got {result}')
 
     // magnitude of (3.0, 4.0) = 5.0 (the classic 3-4-5 triangle)
     result2 := 3.0.magnitude(4.0)
-    assert((result2 - 5.0).abs() < 0.0005, 'magnitude(3.0, 4.0) should be 5.0, got {result2}')
+    assert(almost_equal(result2, 5.0, 0.0005), 'magnitude(3.0, 4.0) should be 5.0, got {result2}')
+
+    result3 := (-4245.44).magnitude(3844.99)
+    assert(almost_equal(result3, 5727.8, 0.01), 'known magnitude wrong {result3}')
 }
 
 #[test]
 fn magnitude_close_to_zero() {
     result := 4.5.magnitude(0.0)
-    assert((result - 4.5).abs() < 0.01, 'magnitude(4.5, 0.0) should be around 4.5, got {result}')
+    assert(almost_equal(result, 4.5, 0.01), 'magnitude(4.5, 0.0) should be around 4.5, got {result}')
 
     result2 := 0.0.magnitude(4.0)
-    assert((result2 - 4.0).abs() < 0.0005, 'magnitude(0.0, 4.0) should be 4.0, got {result2}')
+    assert(almost_equal(result2, 4.0, 0.0005), 'magnitude(0.0, 4.0) should be 4.0, got {result2}')
 }
 
 
@@ -116,7 +174,7 @@ fn normalize() {
 
         magnitude := x.magnitude(y)
 
-        assert((magnitude - 1.0).abs() < 0.001, 'normalized vector should have magnitude 1, got {magnitude}')
+        assert(almost_equal(magnitude,1.0, 0.001), 'normalized vector should have magnitude 1, got {magnitude}')
     } else {
         panic('should have been normalized')
     }
@@ -134,6 +192,22 @@ fn normalize_close_to_zero() {
 
     magnitude := x.magnitude(y)
 
-    assert((magnitude - 1.0).abs() < 0.01, 'normalized vector should have magnitude 1, got {magnitude}')
+    assert(almost_equal(magnitude, 1.0, 0.01), 'normalized vector should have magnitude 1, got {magnitude}')
 
+}
+
+
+#[test]
+fn normalize_big_number() {
+    x, y = when normalized = 862.0.normalize(283.0) {
+        normalized
+    } else {
+        panic('should have been normalized')
+    }
+
+    print('x: {x}, y: {y}')
+
+    magnitude := x.magnitude(y)
+
+    assert((magnitude - 1.0).abs() < 0.01, 'normalized vector should have magnitude 1, got {magnitude}')
 }
