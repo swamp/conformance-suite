@@ -288,3 +288,17 @@ fn match_expr_string() {
 
     assert(x, "should have been found")
 }
+
+#[test]
+fn first_and_last() {
+    storage: String<42> = "color"
+
+    assert(storage.first() == b'c', 'expected first character')
+    assert(storage.last() == b'r', 'expected first character')
+}
+
+#[test]
+fn first_and_last_static_string() {
+    assert("hello, world!".first() == b'h', 'expected first character')
+    assert("hello, world!".last() == b'!', 'expected first character')
+}
