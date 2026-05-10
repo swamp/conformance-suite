@@ -50,8 +50,9 @@ fn div() {
 }
 
 #[test]
-fn mod() {
-    assert((-3.0).mod(2.0) == -1.0, "mod() is wrong")
+fn rem() {
+    assert((-3.0).rem(2.0) == -1.0, "rem() is wrong")
+    assert((-3.0) % 2.0 == -1.0, "remainder float is wrong")
 }
 
 
