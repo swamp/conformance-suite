@@ -56,7 +56,7 @@ fn create_level() -> Level {
     ],
     }
 
-    for i in 0..10 { // could have used capacity/2, but wanted a fixed count anyway
+    for i in 0..10 { 
         level.some_data[i] = (i + 1) * 2 + 10
     }
 

@@ -160,4 +160,9 @@ fn named_args_member_function() {
     // Reordered
     dist2 := p.distance_from(other_y: 4, other_x: 3)
     assert(dist2 == 25.0, 'reordered distance should be 25.0 {dist2}')
+
+
+    // Rest
+    dist3 := p.distance_from(..)
+    assert(dist3 == 0.0, 'should be zero {dist3}')
 }

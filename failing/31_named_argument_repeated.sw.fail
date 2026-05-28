@@ -1,0 +1,14 @@
+---
+code: 170
+message: "duplicate named argument"
+---
+
+fn some_function(value: Float, position: Int, third_one: Int) {
+}
+
+some_function(
+    position: 42,
+    position: 43,
+    this_is_not_a_correct_parameter: 23,
+    ..
+)
