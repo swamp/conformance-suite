@@ -2,8 +2,8 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct Planet {
-    x: Int,
-    y: Int,
+    x: Int
+    y: Int
 }
 
 #[test]

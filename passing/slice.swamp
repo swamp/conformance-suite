@@ -2,7 +2,7 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct Thing {
-    list: [Int; 4],
+    list: [Int; 4]
 }
 
 #[test]

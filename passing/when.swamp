@@ -2,13 +2,13 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct Player {
-    assigned_ship: Int?,
+    assigned_ship: Int?
 }
 
 #[test]
 fn when_using_scalar() {
     player := Player {
-        assigned_ship: 42,
+        assigned_ship: 42
     }
 
     when ship_id=player.assigned_ship {

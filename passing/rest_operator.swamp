@@ -2,47 +2,47 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct GameEffect {
-    name: String<32>,
-    damage: Int,
-    duration: Float,
-    is_magical: Bool,
+    name: String<32>
+    damage: Int
+    duration: Float
+    is_magical: Bool
 }
 
 impl GameEffect {
     fn default() -> GameEffect {
         GameEffect {
-            name: "Basic Attack",
-            damage: 10,
-            duration: 1.0,
-            is_magical: false,
+            name: "Basic Attack"
+            damage: 10
+            duration: 1.0
+            is_magical: false
         }
     }
 }
 
 struct PlayerStats {
-    name: String<42>,
-    health: Int,
-    mana: Int,
-    is_alive: Bool,
-    speed: Float,
+    name: String<42>
+    health: Int
+    mana: Int
+    is_alive: Bool
+    speed: Float
 }
 
 struct Position {
-    x: Int,
-    y: Int,
+    x: Int
+    y: Int
 }
 
 struct Weapon {
-    name: String<42>,
-    damage: Int,
-    position: Position,
-    is_enchanted: Bool,
+    name: String<42>
+    damage: Int
+    position: Position
+    is_enchanted: Bool
 }
 
 
 #[test]
 fn rest_operator_with_effect_default() {
-    fireball := GameEffect { name: "Fireball", damage: 50.. }
+    fireball : GameEffect = { name: "Fireball", damage: 50.. }
 
     assert(fireball.name == "Fireball", 'spell name should be overwritten <{fireball.name}>')
     assert(fireball.damage == 50, "damage should be overwritten")
@@ -99,9 +99,9 @@ fn rest_operator_mixed_weapon_defaults() {
 #[test]
 fn rest_operator_all_effect_fields_provided() {
     spell := GameEffect {
-        name: "Meteor",
-        damage: 100,
-        duration: 3.5,
+        name: "Meteor"
+        damage: 100
+        duration: 3.5
         is_magical: true..
     }
 
@@ -143,7 +143,7 @@ struct Character {
 #[test]
 fn rest_operator_nested_character() {
     boss := Character {
-        primary_spell: GameEffect { name: "Dark Magic", damage: 75.. },
+        primary_spell: GameEffect { name: "Dark Magic", damage: 75.. }
         is_boss: true..
     }
 

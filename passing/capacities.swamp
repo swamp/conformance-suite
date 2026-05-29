@@ -2,25 +2,25 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 enum Counter {
-	None,
-	Delay,
-    Harmonised,
+	None
+	Delay
+    Harmonised
 }
 
 struct UnitTemplate {
-	strength: Int,
-	counters: [Counter:Int; 10],
+	strength: Int
+	counters: [Counter:Int; 10]
 }
 
 
 struct UnitData {
-	tier: Int,
-	template: UnitTemplate,
+	tier: Int
+	template: UnitTemplate
 }
 
 enum UnitDataID {
-	None,
-	Jade2,
+	None
+	Jade2
 }
 
 
@@ -40,23 +40,23 @@ enum UnitDataID {
 
 
 enum ColorType {
-	Neutral,
-    Red,
+	Neutral
+    Red
 }
 
 struct Aggregate {
     colors: Vec<ColorType; 16>,
 }
 
-    fn fill_in_nothing() -> Aggregate {
-        Aggregate {
-            ..
-        }
+fn fill_in_nothing() -> Aggregate {
+    Aggregate {
+        ..
     }
+}
 
 fn fill_in_one_color() -> Aggregate {
     Aggregate {
-        colors: [ColorType::Red],
+        colors: [ColorType::Red]
     }
 }
 

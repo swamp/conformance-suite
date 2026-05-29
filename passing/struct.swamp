@@ -2,8 +2,8 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct Point {
-    x: Int,
-    y: Int,
+    x: Int
+    y: Int
 }
 
 impl Point {
@@ -17,8 +17,8 @@ impl Point {
 }
 
 struct Something {
-    first_point: Point,
-    second_point: Point,
+    first_point: Point
+    second_point: Point
 }
 
 
@@ -123,8 +123,8 @@ fn borrow_point_inside_struct() {
 
 
 struct DeepNest {
-    a: Something,
-    b: Something,
+    a: Something
+    b: Something
 }
 
 #[test]
@@ -152,9 +152,9 @@ fn deep_nesting() {
 
 
 struct Mixed {
-    num: Int,
-    flag: Bool,
-    text: String<42>,
+    num: Int
+    flag: Bool
+    text: String<42>
 }
 
 

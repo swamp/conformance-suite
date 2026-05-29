@@ -217,11 +217,11 @@ fn match_with_string_guard_fall_through() {
     str := "<blood>"
     age := -1
     result := match str {
-        "<damage>" -> "hej",
-        "<vampire>"  -> "\u(1F9DB)",
-        "<blood>" && age > 18 -> "🩸",
-        "<blood>" && age > 0 -> "green",
-        _ -> "not found",
+        "<damage>" -> "hej"
+        "<vampire>"  -> "\u(1F9DB)"
+        "<blood>" && age > 18 -> "🩸"
+        "<blood>" && age > 0 -> "green"
+        _ -> "not found"
     }
     assert(result == "not found", 'should have no match {result}')
 }
@@ -243,28 +243,28 @@ fn repeat_string() {
 fn match_with_variables() {
     str := "<blood>"
     result := match str {
-        "<damage>" -> "hej",
-        "<vampire>"  -> "\u(1F9DB)",
-        what_is_this -> '{what_is_this}_found',
-        _ -> "",
+        "<damage>" -> "hej"
+        "<vampire>"  -> "\u(1F9DB)"
+        what_is_this -> '{what_is_this}_found'
+        _ -> ""
     }
     assert(result == "<blood>_found", 'should have matches {result}')
 }
 
 
 enum ArtifactLabel {
-    Blue,
-    Black,
+    Blue
+    Black
 }
 
 enum ArtifactID {
-	Obsidian,
+	Obsidian
 	SetCollector
 }
 
 struct ArtifactData {
-    name: String<64>,
-	description: String<64>,
+    name: String<64>
+	description: String<64>
 }
 
 const ARTIFACT_LIB: [ArtifactID:ArtifactData; 100] = [
@@ -288,27 +288,27 @@ fn string_in_constant() {
 
 
 enum Action {
-	Move, // steps
-	VenomAttack(Int), // disease amount
+	Move // steps
+	VenomAttack(Int) // disease amount
 }
 
 enum Keyword {
-	Cloaked,
-	Noble,
+	Cloaked
+	Noble
 }
 
 enum RegionType {
-	Action(Action),
-	Keyword(Keyword),
+	Action(Action)
+	Keyword(Keyword)
 }
 
 struct Region {
-	id: Int,
-	type: RegionType,
+	id: Int
+	type: RegionType
 }
 
 struct RegionString {
-	string: String<2048>,
+	string: String<2048>
 	regions: Vec<Region;20>
 }
 

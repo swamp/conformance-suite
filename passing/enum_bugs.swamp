@@ -8,8 +8,8 @@
 type UnitID = Int
 
 enum EnumCapacityPayload {
-    Message,
-    RefreshUnits Vec<UnitID;30>,
+    Message
+    RefreshUnits Vec<UnitID;30>
     StructPayload { units: Vec<UnitID;40> }
 }
 
@@ -111,29 +111,29 @@ fn struct_payload_with_vec() {
 }
 
 enum Wind {
-	West,
-	East,
+	West
+	East
 }
 
 
 impl Wind {
 	fn opposite(self) -> Wind {
 		match self {
-			West -> East,
-			East -> West,
+			West -> East
+			East -> West
 		}
 	}
 }
 
 fn opposite(wind: Wind) -> Wind {
 	match wind {
-		West -> East,
-		East -> West,
+		West -> East
+		East -> West
 	}
 }
 
 struct SomeUnit {
-	wind: Wind,
+	wind: Wind
 }
 
 fn function_that_uses_enum(wind: Wind) {
@@ -148,7 +148,7 @@ fn function_that_uses_enum(wind: Wind) {
 #[test]
 fn temp_memory_for_enum_function_return() {
 	store := SomeUnit {
-		wind: Wind::West,
+		wind: Wind::West
 	}
 	// no memory is allocated for the return register (r0)
 	// so it overwrites memory depending on the value in the temp register

@@ -2,39 +2,39 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct CardTemplate {
-    mana: Int,
-    healing_per_second: Float,
+    mana: Int
+    healing_per_second: Float
 }
 
 enum CardId {
-    MightyGolem,
-    Earthquake,
-    MysticSpring, // No one knows what mystic spring does, that is why it is mystic.
-    EtherealDragon, // Ethereal Dragon is never there.
-    GoblinScout,
+    MightyGolem
+    Earthquake
+    MysticSpring // No one knows what mystic spring does, that is why it is mystic.
+    EtherealDragon // Ethereal Dragon is never there.
+    GoblinScout
 }
 
 struct Game {
-    card_templates: [CardId: CardTemplate; 3],
+    card_templates: [CardId: CardTemplate; 3]
 }
 
 struct ScalarTemplates {
-    card_templates: [Int: CardTemplate; 3],
+    card_templates: [Int: CardTemplate; 3]
 }
 
 
 const CARD_LIB = [
-    CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
-    CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 },
+    CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
+    CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 }
 ]
 
 #[test]
 fn basic_map() {
     game := Game {
         card_templates: [
-            MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
-            Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 },
-            MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 },
+            MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
+            Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 }
+            MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 }
         ]
     }
 
@@ -57,9 +57,9 @@ fn basic_map() {
 fn add_too_many() {
     mut game = Game {
         card_templates: [
-            CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
-            CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 },
-            CardId::MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 },
+            CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
+            CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 }
+            CardId::MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 }
         ]
     }
 
@@ -71,8 +71,8 @@ fn add_too_many() {
 fn add_to_map() {
     mut game = Game {
         card_templates: [
-            CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
-            CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 },
+            CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
+            CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 }
         ]
     }
 
@@ -88,8 +88,8 @@ fn add_to_map() {
 fn overwrite_existing() {
     mut game = Game {
         card_templates: [
-            CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
-            CardId::Earthquake:   CardTemplate { mana: 42, healing_per_second: 0.3 },
+            CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
+            CardId::Earthquake:   CardTemplate { mana: 42, healing_per_second: 0.3 }
         ]
     }
 
@@ -105,9 +105,9 @@ fn overwrite_existing() {
 fn remove_card() {
     mut game = Game {
         card_templates: [
-            CardId::MightyGolem:  CardTemplate { mana: -2, healing_per_second: 42.13 },
-            CardId::Earthquake:   CardTemplate { mana: 99, healing_per_second: 0.3 },
-            CardId::MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 },
+            CardId::MightyGolem:  CardTemplate { mana: -2, healing_per_second: 42.13 }
+            CardId::Earthquake:   CardTemplate { mana: 99, healing_per_second: 0.3 }
+            CardId::MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 }
         ],
     }
 
@@ -126,9 +126,9 @@ fn remove_card() {
 fn remove_card_scalar_key() {
     mut game = ScalarTemplates {
         card_templates: [
-            1:  CardTemplate { mana: -2, healing_per_second: 42.13 },
-            2:   CardTemplate { mana: 99, healing_per_second: 0.3 },
-            909: CardTemplate { mana: 2, healing_per_second: 1.5 },
+            1:  CardTemplate { mana: -2, healing_per_second: 42.13 }
+            2:   CardTemplate { mana: 99, healing_per_second: 0.3 }
+            909: CardTemplate { mana: 2, healing_per_second: 1.5 }
         ],
     }
 
@@ -151,8 +151,8 @@ fn remove_card_scalar_key() {
 fn remove_non_existing_card() {
     mut game = Game {
         card_templates: [
-            CardId::MightyGolem:  CardTemplate { mana: -2, healing_per_second: 42.13 },
-            CardId::Earthquake:   CardTemplate { mana: 99, healing_per_second: 0.3 },
+            CardId::MightyGolem:  CardTemplate { mana: -2, healing_per_second: 42.13 }
+            CardId::Earthquake:   CardTemplate { mana: 99, healing_per_second: 0.3 }
         ],
     }
 
@@ -165,9 +165,9 @@ fn remove_non_existing_card() {
 fn iterate_cards() {
     game := Game {
         card_templates: [
-            CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
-            CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 },
-            CardId::MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 },
+            CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
+            CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 }
+            CardId::MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 }
         ],
     }
 
@@ -184,9 +184,9 @@ fn iterate_cards() {
 fn iterate_cards_value_only() {
     game := Game {
         card_templates: [
-            CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
-            CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 },
-            CardId::MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 },
+            CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
+            CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 }
+            CardId::MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 }
         ],
     }
 
@@ -212,9 +212,9 @@ fn overwite_card_template(mut card_template: CardTemplate, some_value: Int) {
 fn iterate_cards_and_mutate() {
     mut game = Game {
         card_templates: [
-            CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
-            CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 },
-            CardId::MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 },
+            CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
+            CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 }
+            CardId::MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 }
         ],
     }
 
@@ -285,8 +285,8 @@ fn scalar_key() {
 fn scalar_key_for() {
     mut game = ScalarGame {
         card_templates: [
-            -909: CardTemplate { mana: 3, healing_per_second: 0.3 },
-            1342: CardTemplate { mana: 5, healing_per_second: 0.3 } ],
+            -909: CardTemplate { mana: 3, healing_per_second: 0.3 }
+            1342: CardTemplate { mana: 5, healing_per_second: 0.3 } ]
     }
 
     //NOTE: this test is brittle since it assumes the hash function and order
@@ -395,7 +395,7 @@ fn map_chaining_bug() {
             Alliance::West :
             Team {
                 deck: [
-                    CardId::MightyGolem: CardTemplate { mana: 3, healing_per_second: 0.3 },
+                    CardId::MightyGolem: CardTemplate { mana: 3, healing_per_second: 0.3 }
                     CardId::Earthquake: CardTemplate { mana: 5, healing_per_second: 0.3 }
                 ],
                 tactics: Tactics::Kind,
@@ -417,7 +417,7 @@ fn map_chaining_bug() {
 #[test]
 fn map_chaining_bug_easy() {
     mut game = ScalarGame {
-        card_templates: [ -909: CardTemplate { mana: 3, healing_per_second: 0.3 }, 1342: CardTemplate { mana: 5, healing_per_second: 0.3 } ],
+        card_templates: [ -909: CardTemplate { mana: 3, healing_per_second: 0.3 }, 1342: CardTemplate { mana: 5, healing_per_second: 0.3 } ]
     }
 
     game.card_templates[-909].mana = 3 // This should not reset the whole card template
@@ -548,9 +548,9 @@ impl ComplexEnum {
 fn clear_with_empty_initializer() {
     mut game := Game {
         card_templates: [
-            MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
-            Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 },
-            MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 },
+            MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
+            Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 }
+            MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 }
         ]
     }
     assert(game.card_templates.capacity() == 4, 'expected capacity to be initialized')
@@ -569,9 +569,9 @@ fn clear_with_empty_initializer() {
 fn clear_map() {
     mut game := Game {
         card_templates: [
-            MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
-            Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 },
-            MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 },
+            MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
+            Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 }
+            MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 }
         ]
     }
 
@@ -588,9 +588,9 @@ fn clear_map() {
 fn reassign_new_elements() {
     mut game := Game {
         card_templates: [
-            MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 },
-            Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 },
-            MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 },
+            MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
+            Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 }
+            MysticSpring: CardTemplate { mana: 2, healing_per_second: 1.5 }
         ]
     }
     // it round up to nearest power of two

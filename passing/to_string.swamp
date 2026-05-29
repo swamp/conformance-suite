@@ -14,8 +14,8 @@ fn simple_enum_to_string() {
 
 
 struct SimpleStruct {
-    i: Int,
-    x: Float,
+    i: Int
+    x: Float
 }
 
 #[test]
@@ -110,8 +110,8 @@ fn simple_map_enum() {
 
 
 struct CustomStruct {
-    i: Int,
-    x: Float,
+    i: Int
+    x: Float
 }
 
 impl CustomStruct {

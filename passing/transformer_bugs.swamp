@@ -4,43 +4,43 @@
 type UnitId = Int
 
 enum Alliance {
-	West,
-	East,
+	West
+	East
 }
 
 impl Alliance {
 	fn opposite(self) -> Alliance {
 		match self {
-			West -> East,
-			East -> West,
+			West -> East
+			East -> West
 		}
 	}
 }
 
 enum ActionType {
-	Blank, // ZII-rule (Zero is initialization)
-	Move,
-	Attack,
+	Blank // ZII-rule (Zero is initialization)
+	Move
+	Attack
 }
 
 struct Action {
-	type: ActionType,
+	type: ActionType
 }
 
 enum Keyword {
-	EnterAction(Action),
-	Confused,
+	EnterAction(Action)
+	Confused
 }
 
 struct Unit {
-	id: UnitId,
-	alliance: Alliance,
-	keywords: Vec<Keyword;100>,
+	id: UnitId
+	alliance: Alliance
+	keywords: Vec<Keyword;100>
 }
 
 struct Game {
-	unit_turn_order: Vec<UnitId; 100>,
-	units_spawned: [UnitId: Unit; 100],
+	unit_turn_order: Vec<UnitId; 100>
+	units_spawned: [UnitId: Unit; 100]
 }
 
 
@@ -60,10 +60,10 @@ fn filter_without_call() {
 	mut possible_targets: Vec<UnitId; 15> = []
 
 	game := Game {
-		unit_turn_order: [2, 1],
+		unit_turn_order: [2, 1]
 		units_spawned: [
-			1: Unit { id: 1, alliance: West, .. },
-			2: Unit { id: 2, alliance: East, .. },
+			1: Unit { id: 1, alliance: West, .. }
+			2: Unit { id: 2, alliance: East, .. }
 		]
 	}
 
@@ -86,11 +86,11 @@ fn filter_with_call() {
 
 	// Setup the game with two opponent units, one is Confused
 	game := Game {
-		unit_turn_order: [2, 1, 3],
+		unit_turn_order: [2, 1, 3]
 		units_spawned: [
-			1: Unit { id: 1, alliance: West, .. },
-			2: Unit { id: 2, alliance: East, keywords: [Confused] },
-			3: Unit { id: 3, alliance: East, .. },
+			1: Unit { id: 1, alliance: West, .. }
+			2: Unit { id: 2, alliance: East, keywords: [Confused] }
+			3: Unit { id: 3, alliance: East, .. }
 		]
 	}
 
@@ -113,11 +113,11 @@ fn find_in_bool_condition() {
 
 	// Setup the game with two opponent units, one is Confused
 	game := Game {
-		unit_turn_order: [2, 1, 3],
+		unit_turn_order: [2, 1, 3]
 		units_spawned: [
-			1: Unit { id: 1, alliance: West, .. },
-			2: Unit { id: 2, alliance: East, keywords: [Confused] },
-			3: Unit { id: 3, alliance: East, .. },
+			1: Unit { id: 1, alliance: West, .. }
+			2: Unit { id: 2, alliance: East, keywords: [Confused] }
+			3: Unit { id: 3, alliance: East, .. }
 		]
 	}
 

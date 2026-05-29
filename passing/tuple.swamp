@@ -2,16 +2,16 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct Point {
-    x: Int,
-    y: Int,
+    x: Int
+    y: Int
 }
 
 enum CardId {
-    MightyGolem,
-    Earthquake,
-    MysticSpring, // No one knows what mystic spring does, that is why it is mystic.
-    EtherealDragon, // Ethereal Dragon is never there.
-    GoblinScout,
+    MightyGolem
+    Earthquake
+    MysticSpring // No one knows what mystic spring does, that is why it is mystic.
+    EtherealDragon // Ethereal Dragon is never there.
+    GoblinScout
 }
 
 #[test]

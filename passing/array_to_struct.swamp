@@ -16,7 +16,10 @@ impl Color {
 #[test]
 fn array_to_struct() {
     c1 := Color { r: 1.0 , g: 2.0, b: 3.0 }
-    c2: Color = [ 1.0, 2.0, 3.0 ]
+    c2: Color = [ 
+        1.0
+        2.0
+        3.0 ]
 
     c3 : { r: Float, g: Float, b: Float } = [ 3.0, 2.0, 1.0 ] // remember that anonymous structs are sorted by field name: (b, g r)
 

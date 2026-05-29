@@ -2,25 +2,25 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct Point {
-    x: Int,
-    y: Int,
+    x: Int
+    y: Int
 }
 
 struct Line {
-    start: Point,
-    end: Point,
+    start: Point
+    end: Point
 }
 
 struct Shape {
-    lines: Vec<Line, 4>,
-    center: Point,
-    scale: Float,
+    lines: Vec<Line, 4>
+    center: Point
+    scale: Float
 }
 
 struct Scene {
-    shapes: Vec<Shape, 3>,
-    background_color: Int,
-    metadata: { name: String<32>, version: Int },
+    shapes: Vec<Shape, 3>
+    background_color: Int
+    metadata: { name: String<32>, version: Int }
 }
 
 #[test]
@@ -29,14 +29,14 @@ fn deep_scalar_field_access() {
         shapes: [
             Shape {
                 lines: [
-                    Line { start: Point { x: 0, y: 0 }, end: Point { x: 10, y: 10 } },
+                    Line { start: Point { x: 0, y: 0 }, end: Point { x: 10, y: 10 } }
                     Line { start: Point { x: 10, y: 10 }, end: Point { x: 20, y: 0 } }
                 ],
-                center: Point { x: 10, y: 5 },
+                center: Point { x: 10, y: 5 }
                 scale: 1.0
             }
         ],
-        background_color: 255,
+        background_color: 255
         metadata: { name: "test scene", version: 1 }
     }
 
@@ -54,8 +54,8 @@ fn deep_aggregate_field_access() {
             Shape {
                 lines: [
                     Line { start: Point { x: 5, y: 10 }, end: Point { x: 15, y: 20 } }
-                ],
-                center: Point { x: 10, y: 15 },
+                ]
+                center: Point { x: 10, y: 15 }
                 scale: 2.0
             }
         ],
@@ -81,12 +81,12 @@ fn mutable_deep_scalar_modification() {
             Shape {
                 lines: [
                     Line { start: Point { x: 0, y: 0 }, end: Point { x: 10, y: 10 } }
-                ],
-                center: Point { x: 5, y: 5 },
+                ]
+                center: Point { x: 5, y: 5 }
                 scale: 1.0
             }
-        ],
-        background_color: 100,
+        ]
+        background_color: 100
         metadata: { name: "mutable test", version: 1 }
     }
 
@@ -113,12 +113,12 @@ fn mutable_deep_aggregate_modification() {
             Shape {
                 lines: [
                     Line { start: Point { x: 1, y: 2 }, end: Point { x: 3, y: 4 } }
-                ],
-                center: Point { x: 2, y: 3 },
+                ]
+                center: Point { x: 2, y: 3 }
                 scale: 1.0
             }
         ],
-        background_color: 50,
+        background_color: 50
         metadata: { name: "original", version: 1 }
     }
 
@@ -151,12 +151,12 @@ fn function_calls_with_nested_aggregate_refs() {
             Shape {
                 lines: [
                     Line { start: Point { x: 1, y: 2 }, end: Point { x: 3, y: 4 } }
-                ],
-                center: Point { x: 10, y: 20 },
+                ]
+                center: Point { x: 10, y: 20 }
                 scale: 1.0
             }
         ],
-        background_color: 0,
+        background_color: 0
         metadata: { name: "aggregate func test", version: 1 }
     }
 
@@ -177,17 +177,17 @@ fn function_calls_with_nested_aggregate_refs() {
 #[test]
 fn collection_operations_with_nested_scalars() {
     mut scene = Scene {
-        shapes: [],
-        background_color: 0,
+        shapes: []
+        background_color: 0
         metadata: { name: "collection test", version: 1 }
     }
 
     new_shape := Shape {
         lines: [
-            Line { start: Point { x: 0, y: 0 }, end: Point { x: 100, y: 100 } },
+            Line { start: Point { x: 0, y: 0 }, end: Point { x: 100, y: 100 } }
             Line { start: Point { x: 100, y: 100 }, end: Point { x: 200, y: 0 } }
         ],
-        center: Point { x: 100, y: 50 },
+        center: Point { x: 100, y: 50 }
         scale: 1.5
     }
 
@@ -207,13 +207,13 @@ fn collection_operations_with_nested_scalars() {
 fn collection_iteration_with_complex_elements() {
     shapes_data := [
         Shape {
-            lines: [Line { start: Point { x: 1, y: 2 }, end: Point { x: 3, y: 4 } }],
-            center: Point { x: 2, y: 3 },
+            lines: [Line { start: Point { x: 1, y: 2 }, end: Point { x: 3, y: 4 } }]
+            center: Point { x: 2, y: 3 }
             scale: 1.0
         },
         Shape {
-            lines: [Line { start: Point { x: 10, y: 20 }, end: Point { x: 30, y: 40 } }],
-            center: Point { x: 20, y: 30 },
+            lines: [Line { start: Point { x: 10, y: 20 }, end: Point { x: 30, y: 40 } }]
+            center: Point { x: 20, y: 30 }
             scale: 2.0
         }
     ]

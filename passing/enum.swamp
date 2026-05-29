@@ -102,9 +102,9 @@ fn matching_enum_with_container_struct() {
 fn matching_enum_with_container_fall_through() {
     a := Different::More {id: 42, color: Color::Blue}
     result := match a {
-        Nothing -> 0,
-        FewThings  _, value  -> value,
-        _ -> 200,
+        Nothing -> 0
+        FewThings  _, value  -> value
+        _ -> 200
     }
     print('result: {result}')
     assert(result == 200, "enum value is wrong")
@@ -157,7 +157,7 @@ fn simple_struct_inside_enum() {
 fn matching_mut_enum_struct_one_field() {
     mut a := Different::More {id: 42, color: Blue}
     result := match a {
-        Nothing -> 0,
+        Nothing -> 0
         More { id, mut color } -> {
             print('before: id: {id}, color: {color}')
             assert(color == Color::Blue, "enum value is wrong")

@@ -2,40 +2,40 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct Entity {
-    health: Int,
-    damage: Int,
-    speed: Float,
+    health: Int
+    damage: Int
+    speed: Float
 }
 
 impl Entity {
     fn default() -> Entity {
         {
-            speed: 1.0,
-            health: 100,
-            damage: 10,
+            speed: 1.0
+            health: 100
+            damage: 10
         }
     }
 }
 
 struct Config {
-    timeout: Int,
-    retries: Int,
-    verbose: Bool,
+    timeout: Int
+    retries: Int
+    verbose: Bool
 }
 
 impl Config {
     fn default() -> Config {
         {
-            retries: 3,
-            timeout: 5000,
-            verbose: false,
+            retries: 3
+            timeout: 5000
+            verbose: false
         }
     }
 }
 
 struct Point {
-    x: Int,
-    y: Int,
+    x: Int
+    y: Int
 }
 
 // No default() implementation - will use field type defaults
@@ -75,7 +75,7 @@ fn rest_args_with_named() {
 #[test]
 fn rest_args_config_reordered() {
     // Named arg with rest operator
-    msg := configure_system(name: "prod_system", ..)
+    msg := configure_system(name: "prod_system" ..)
     assert(msg == "Config 'prod_system' loaded", "reordered with rest failed")
 }
 
@@ -88,8 +88,15 @@ fn rest_args_without_struct_default() {
 
 #[test]
 fn rest_args_with_string_first() {
-    result := with_string("Status", ..)
+    result := with_string("Status" ..) // intentionally without comma
     assert(result == "Status: health=100", "string with rest failed")
+
+    result2 := with_string(
+        "Status" 
+        ..
+       )
+    assert(result2 == "Status: health=100", "string with rest failed")
+
 }
 
 // Test with custom defaults

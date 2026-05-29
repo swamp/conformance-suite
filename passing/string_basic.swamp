@@ -9,8 +9,8 @@ fn empty_literal_view() {
 }
 
 struct StringInStruct {
-    something_else: Int,
-    str: String<99>,
+    something_else: Int
+    str: String<99>
 }
 
 #[test]

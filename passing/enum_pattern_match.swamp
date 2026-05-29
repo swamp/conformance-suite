@@ -3,16 +3,16 @@
 //
 
 enum Direction {
-    North,
-    South,
-    East,
-    West,
+    North
+    South
+    East
+    West
 }
 
 enum Message {
-    Quit,
-    Move(Int, Int),
-    Write(Int),
+    Quit
+    Move(Int, Int)
+    Write(Int)
 }
 
 // Basic discriminant check with payload variant

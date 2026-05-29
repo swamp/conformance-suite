@@ -2,15 +2,15 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 enum NumberWrapper {
-    Value Int,
-    Range (Int, Int),
-    None,
+    Value Int
+    Range (Int, Int)
+    None
 }
 
 enum Status {
-    Active Int,    // score
-    Inactive,
-    Pending String<42>,
+    Active Int    // score
+    Inactive
+    Pending String<42>
 }
 
 fn is_even(n: Int) -> Bool {
@@ -159,10 +159,10 @@ fn guard_with_string_matching() {
 
 
 enum DirectSyntaxEnum {
-    Empty,
-    SingleValue Int,
-    TupleValue( Int, Int ),
-    StructValue { id: Int, count: Int },
+    Empty
+    SingleValue Int
+    TupleValue( Int, Int )
+    StructValue { id: Int, count: Int }
 }
 
 

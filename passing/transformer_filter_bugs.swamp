@@ -5,22 +5,22 @@ const ARENA_SIZE_W = 11
 const ARENA_SIZE_H = 32
 
 struct Point {
-    x: Int,
-    y: Int,
+    x: Int
+    y: Int
 }
 
 impl Point {
     fn new(x: Int, y: Int) -> Point {
         Point {
-            x: x,
-            y: y,
+            x: x
+            y: y
         }
     }
 }
 
 
 struct GamePoints {
-    grid: Grid<Int?; (25, 25)>,
+    grid: Grid<Int?; (25, 25)>
 }
 
 impl GamePoints {

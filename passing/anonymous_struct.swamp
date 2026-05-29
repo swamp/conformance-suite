@@ -43,7 +43,10 @@ fn from_function() {
 #[test]
 fn nested() {
     nested := {
-        data: { valid: true, value: 42 },
+        data: { 
+            valid: true
+            value: 42 
+        },
         point: { y: 2, x: 1 }
     }
    // print('x:{nested.point.x}, value:{nested.data.value}')
@@ -97,7 +100,10 @@ fn assignment_between_orders() {
 
 #[test]
 fn mutation_mixed() {
-    mut a = { x: 1, y: 2 }
+    mut a = {
+         x: 1,
+         y: 2, 
+    }
     mut b = { y: 4, x: 3 }
 
     a.x = 5
@@ -109,12 +115,12 @@ fn mutation_mixed() {
 
 
 struct Entity {
-    x: Int,
-    speed: Float,
+    x: Int
+    speed: Float
 }
 
 fn anonymous_struct_with_no_storage(anon: {
-    entities: Vec<Entity; 32>,
+    entities: Vec<Entity; 32>
 }) -> Bool {
     anon.entities.len() > 10
 }
@@ -132,7 +138,8 @@ fn anonymous_struct_with_no_storage(anon: {
 fn call_func_with_anon_struct_no_storage() {
     entities: Vec<Entity; 4> = [
         Entity {
-            x: 10, speed: 18.3,
+            x: 10
+            speed: 18.3
         }
     ]
 

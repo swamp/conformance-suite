@@ -2,14 +2,14 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct Point {
-    x: Int,
-    y: Int,
+    x: Int
+    y: Int
 }
 
 struct Config {
-    timeout: Int,
-    retries: Int,
-    verbose: Bool,
+    timeout: Int
+    retries: Int
+    verbose: Bool
 }
 
 fn create_point(x: Int, y: Int) -> Point {
@@ -22,11 +22,11 @@ fn greet(name: String, age: Int, city: String) -> String {
 
 fn calculate(a: Int, b: Int, operation: String) -> Int {
     match operation {
-        "add" -> a + b,
-        "sub" -> a - b,
-        "mul" -> a * b,
-        "div" -> a.div(b),
-        _ -> 0,
+        "add" -> a + b
+        "sub" -> a - b
+        "mul" -> a * b
+        "div" -> a.div(b)
+        _ -> 0
     }
 }
 
@@ -53,7 +53,10 @@ fn basic_named_args() {
 #[test]
 fn reordered_named_args() {
     // Named arguments in different order than signature
-    p := create_point(y: 30, x: 15)
+    p := create_point(
+        y: 30
+        x: 15
+        )
     assert(p.x == 15, "x should be 15")
     assert(p.y == 30, "y should be 30")
 }
@@ -105,18 +108,18 @@ fn named_args_struct_return() {
 fn named_args_mixed_types() {
     // Named arguments with multiple types
     result := mixed_types(
-        flag: true,
-        count: 42,
-        value: 3.14,
+        flag: true
+        count: 42
+        value: 3.14
         label: "Items"
     )
     assert(result == "Items: 42 items at 3.140", 'mixed types wrong {result}')
 
     // Completely reordered
     result2 := mixed_types(
-        label: "Data",
-        value: 2.5,
-        count: 10,
+        label: "Data"
+        value: 2.5
+        count: 10
         flag: true
     )
     assert(result2 == "Data: 10 items at 2.500", 'reordered mixed types wrong {result}')
@@ -125,9 +128,9 @@ fn named_args_mixed_types() {
 #[test]
 fn named_args_with_false_bool() {
     result := mixed_types(
-        label: "Test",
-        flag: false,
-        value: 1.0,
+        label: "Test"
+        flag: false
+        value: 1.0
         count: 5
     )
     assert(result == "disabled", "false flag should disable")

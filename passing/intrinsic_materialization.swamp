@@ -2,10 +2,10 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct TestData {
-    int_value: Int,
-    float_value: Float,
-    result_int: Int,
-    result_float: Float,
+    int_value: Int
+    float_value: Float
+    result_int: Int
+    result_float: Float
 }
 
 #[test]

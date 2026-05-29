@@ -2,16 +2,16 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct Thing {
-    a: Int,
-    b: Int,
+    a: Int
+    b: Int
 }
 
 struct Another {
-    things: [Thing; 3],
+    things: [Thing; 3]
 }
 
 struct Settings {
-    cooldown_settings: [Int; 3],
+    cooldown_settings: [Int; 3]
 }
 
 fn reading_things(things: [Thing]) {
@@ -67,7 +67,7 @@ fn vec_assign_and_subscript() {
 fn parameter_passing() {
     another := Another {
         things: [
-          Thing { b:  -1024, a: 42 }, // Intentionally swapped
+          Thing { b:  -1024, a: 42 } // Intentionally swapped
         ]
     }
 
@@ -79,8 +79,8 @@ fn mut_parameter_passing_one_field() {
 
     mut another = Another {
         things: [
-          Thing { b:  -1024, a: 42 }, // Intentionally swapped
-          Thing { a:  32, b: 8086 },
+          Thing { b:  -1024, a: 42 } // Intentionally swapped
+          Thing { a:  32, b: 8086 }
         ]
     }
 
@@ -110,8 +110,8 @@ fn mut_parameter_passing_whole_element() {
 
     mut another = Another {
         things: [
-          Thing { b:  -1024, a: 42 }, // Intentionally swapped
-          Thing { a:  32, b: 8086 },
+          Thing { b:  -1024, a: 42 } // Intentionally swapped
+          Thing { a:  32, b: 8086 }
         ]
     }
 
@@ -140,8 +140,8 @@ fn mut_parameter_passing_whole_element_directly() {
 
     mut another = Another {
         things: [
-          Thing { b:  -1024, a: 42 }, // Intentionally swapped
-          Thing { a:  32, b: 8086 },
+          Thing { b:  -1024, a: 42 } // Intentionally swapped
+          Thing { a:  32, b: 8086 }
         ]
     }
 
@@ -184,8 +184,8 @@ fn fill_thing_from_returning() {
 fn push() {
     mut another = Another {
         things: [
-          Thing { b:  -1024, a: 42 }, // Intentionally swapped
-          Thing { a:  32, b: 8086 },
+          Thing { b:  -1024, a: 42 } // Intentionally swapped
+          Thing { a:  32, b: 8086 }
         ]
     }
     assert(another.things[1].a == 32, 'another.things[1].a is wrong')

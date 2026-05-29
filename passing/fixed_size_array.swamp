@@ -40,7 +40,9 @@ fn fill_with_scalar_zii() {
 
 #[test]
 fn fill_with_scalar_default() {
-     arr: [SomeTag; 4] = [Third, Third, ..]
+     arr: [SomeTag; 4] = [
+        Third
+        Third ..]
      assert(arr[0] == Third, 'expected initializer list value - Third')
      assert(arr[3] == Second, 'expected default {arr[3]}')
 }
@@ -63,7 +65,7 @@ fn fill_aggregate_no_default_with_zii() {
 
 #[test]
 fn fill_aggregate_no_default_rest_with_zii() {
-    arr: [Position; 8] = [ [10, 20], [30, 40], .. ] // even if .. is specified it has ZII as fallback
+    arr: [Position; 8] = [ [10, 20], [30, 40] .. ] // even if .. is specified it has ZII as fallback (intentionally without preceding comma)
 
     assert(arr[0].y == 20, 'first should be set')
     assert(arr[2].x == 0, 'should be zero')
@@ -94,7 +96,9 @@ fn fill_aggregate_with_zii() {
 
 #[test]
 fn fill_aggregate_with_default() {
-    arr: [Color; 4] = [ [3, 2, 1], .. ]
+    arr: [Color; 4] = [
+        [3, 2, 1]
+         .. ]
 
     assert(arr[0].g == 2, 'first should be set {arr[0]}')
     assert(arr[1].r == 64, 'default should be filled in')

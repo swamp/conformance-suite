@@ -2,12 +2,12 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 enum ArgValue {
-    Int Int,
-    Float Float,
-    Bool Bool,
-    Hex [U8; 4],
-    Keyword String<42>,
-    Str String<32>,
+    Int Int
+    Float Float
+    Bool Bool
+    Hex [U8; 4]
+    Keyword String<42>
+    Str String<32>
 }
 
 impl ArgValue {
@@ -24,8 +24,8 @@ impl ArgValue {
 }
 
 struct Field {
-    name: String<32>,
-    value: ArgValue,
+    name: String<32>
+    value: ArgValue
 }
 
 impl Field {
@@ -50,8 +50,8 @@ impl Element {
 }
 
 enum Node {
-    Element Element,
-    Text String<32>,
+    Element Element
+    Text String<32>
 }
 
 impl Node {
@@ -64,11 +64,11 @@ impl Node {
 }
 
 struct Parser {
-    is_eof: Bool,
-    str: String<256>,
-    region_stack: Stack<Int; 32>, // TODO: keep track on where region started
-    pos: Int,
-    nodes: Vec<Node; 256>,
+    is_eof: Bool
+    str: String<256>
+    region_stack: Stack<Int; 32> // TODO: keep track on where region started
+    pos: Int
+    nodes: Vec<Node; 256>
 }
 
 impl Parser {

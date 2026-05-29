@@ -111,6 +111,13 @@ fn shift_right_divide() {
 }
 
 
+#[test]
+fn bitwise_not() {
+    b := 0b11110000
+    result := ~b
+    assert(result == 0b11111111_11111111_11111111_00001111, 'bitwise NOT failed {result}')
+}
+
 
 #[test]
 fn combined_mask_and_shift() {

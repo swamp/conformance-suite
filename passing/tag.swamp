@@ -2,9 +2,9 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 enum Color {
-    Red,
-    Green,
-    Blue,
+    Red
+    Green
+    Blue
 }
 
 #[test]

@@ -2,25 +2,25 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct Vec2 {
-    x: Int,
-    y: Int,
+    x: Int
+    y: Int
 }
 
 struct Vec3 {
-    x: Int,
-    y: Int,
-    z: Int,
+    x: Int
+    y: Int
+    z: Int
 }
 
 struct Transform {
-    position: Vec2,
-    rotation: Float,
-    scale: Vec2,
+    position: Vec2
+    rotation: Float
+    scale: Vec2
 }
 
 struct LargeData {
-    values: [Int; 16],
-    checksum: Int,
+    values: [Int; 16]
+    checksum: Int
 }
 
 fn create_vec2(x: Int, y: Int) -> Vec2 {
@@ -152,8 +152,8 @@ fn chained_sret_calls() {
 
 fn create_large_data(value: Int) -> LargeData {
     mut data = LargeData {
-        values: [],
-        checksum: 0,
+        values: []
+        checksum: 0
     }
     mut sum = 0
     for i in 0..16 {

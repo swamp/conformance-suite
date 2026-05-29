@@ -2,27 +2,27 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct SubStruct {
-    map: [Int:String<32>; 2],
+    map: [Int:String<32>; 2]
 }
 
 struct Complex {
-    sub: SubStruct,
+    sub: SubStruct
     maybe: Int?
 }
 
 #[test]
 fn compare_complex_structs_() {
     complex1 := Complex {
-        maybe: 23,
+        maybe: 23
         sub:  {
-            map: [ 10 : "hello" ],
-        },
+            map: [ 10 : "hello" ]
+        }
     }
 
     complex2 := Complex {
         sub: {
-            map: [ 10 : "hello" ],
-        },
+            map: [ 10 : "hello" ]
+        }
         maybe: 23,
     }
 

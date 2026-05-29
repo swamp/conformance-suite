@@ -3,11 +3,11 @@
 //
 /// Thanks to @catnipped who found the bug
 struct Decklist {
-    cards: Vec<Int; 32>,
+    cards: Vec<Int; 32>
 }
 
 struct DraftSimulation {
-    deck_list: Vec<Int; 16>, // Intentionally another capacity than the Decklist
+    deck_list: Vec<Int; 16> // Intentionally another capacity than the Decklist
 }
 
 enum Screen {

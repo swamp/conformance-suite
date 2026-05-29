@@ -2,34 +2,34 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 enum Counter {
-	None,
-	Delay,
-    Harmonised,
+	None
+	Delay
+    Harmonised
 }
 
 struct UnitTemplate {
-	strength: Int,
-	counters: [Counter:Int; 10],
+	strength: Int
+	counters: [Counter:Int; 10]
 }
 
 
 struct UnitData {
-	tier: Int,
-	template: UnitTemplate,
+	tier: Int
+	template: UnitTemplate
 }
 
 enum UnitDataID {
-	None,
-	Jade2,
+	None
+	Jade2
 }
 
 const UNIT_LIB: [UnitDataID:UnitData;200] = [
-	None: {..},
+	None: {..}
 	Jade2: UnitData {
-		tier: 2,
+		tier: 2
 		template:{
-			strength: 4,
-			counters: [Delay:1, Harmonised: 2],
+			strength: 4
+			counters: [Delay:1, Harmonised: 2]
 			..
 		},
 	..},

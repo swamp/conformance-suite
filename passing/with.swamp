@@ -20,18 +20,18 @@ fn mutable_reference_to_data_structure() {
 }
 
 struct Formation {
-    id: Int,
-    name: String<42>,
+    id: Int
+    name: String<42>
 }
 
 struct Enemy {
-    id: Int,
-    health: Int,
+    id: Int
+    health: Int
     formation: Int
 }
 
 struct GameState {
-    formations: Pool<Formation, 10>,
+    formations: Pool<Formation, 10>
     enemies: Pool<Enemy, 10>
 }
 
@@ -94,7 +94,7 @@ fn mutable_reference_to_field_access_chain() {
 #[test]
 fn with_has_access_to_everything() {
     mut game_state = GameState {
-        formations: [],
+        formations: []
         enemies: []
     }
 
@@ -115,11 +115,11 @@ fn with_has_access_to_everything() {
 #[test]
 fn with_has_access_to_everything_immut() {
     mut game_state = GameState {
-        formations: [],
+        formations: []
         enemies: []
     }
 
-    secret_id := game_state.enemies.add( {id: 2, health: 303, ..} )
+    secret_id := game_state.enemies.add( {id: 2, health: 303 ..} )
 
     mut outside_scope := 2
 

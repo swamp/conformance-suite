@@ -5,23 +5,23 @@ const TEST_TRUTH = true
 const TEST_VALUE = 100
 
 struct Point {
-    x: Int,
-    y: Int,
+    x: Int
+    y: Int
 }
 
 enum Player {
-    Red,
-    Blue,
-    Green,
+    Red
+    Blue
+    Green
 }
 
 const SPAWN_POINTS : [Player: Vec<Point;3>; 2] = [
-    Player::Red: [Point{x:12, y:13}, Point{x:42, y:43}],
-    Player::Blue: [Point{x:-42, y:-43}],
+    Player::Red: [Point{x:12, y:13}, Point{x:42, y:43}]
+    Player::Blue: [Point{x:-42, y:-43}]
 ]
 
 struct Game {
-    spawn_points: [Player: Vec<Point; 3>; 4],
+    spawn_points: [Player: Vec<Point; 3>; 4]
 }
 
 
@@ -44,7 +44,7 @@ fn aggregate() {
 }
 
 struct Level {
-    some_data: [Int; 20],
+    some_data: [Int; 20]
 }
 
 fn create_level() -> Level {
@@ -53,7 +53,7 @@ fn create_level() -> Level {
         10,
         20,
         30,
-    ],
+    ]
     }
 
     for i in 0..10 { 
@@ -112,7 +112,7 @@ fn fill_map_from_constant() {
 #[test]
 fn fill_map_from_constant_and_change_it() {
     mut game = Game {
-        spawn_points:SPAWN_POINTS,
+        spawn_points:SPAWN_POINTS
     }
 
     assert(game.spawn_points.capacity() == 4, 'spawn points capacity {game.spawn_points.capacity()}') // capacity is always what the struct defined, doesn't matter if it is copied later. do not change
@@ -138,7 +138,7 @@ fn fill_map_from_constant_and_change_it() {
 #[test]
 fn fill_map_from_constant_and_overwrite_it() {
     mut game = Game {
-        spawn_points:SPAWN_POINTS,
+        spawn_points:SPAWN_POINTS
     }
 
     assert(game.spawn_points.capacity() == 4, 'spawn points capacity {game.spawn_points.capacity()}') // capacity is always what the struct defined, doesn't matter if it is copied later. do not change
@@ -168,7 +168,7 @@ fn fill_map_from_constant_and_overwrite_it() {
 #[test]
 fn fill_map_from_constant_and_add_to_it() {
     mut game = Game {
-        spawn_points:SPAWN_POINTS,
+        spawn_points:SPAWN_POINTS, // intentionally have trailing comma to make sure it works
     }
 
     assert(game.spawn_points.capacity() == 4, 'spawn points capacity {game.spawn_points.capacity()}') // capacity is always what the struct defined, doesn't matter if it is copied later. do not change
@@ -226,7 +226,7 @@ fn assign_immutable_map_view_from_constant() {
 
 
 struct CardLib {
-	description: String<42>?,
+	description: String<42>?
 }
 
 

@@ -2,14 +2,14 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct Point {
-    x: Int,
-    y: Int,
+    x: Int
+    y: Int
 }
 
 
 struct GameData {
-    scalar_map: [Int: Int; 5],
-    aggregate_map: [Int: Point; 5],
+    scalar_map: [Int: Int; 5]
+    aggregate_map: [Int: Point; 5]
 }
 
 #[test]
@@ -19,8 +19,8 @@ fn scalar_key_pointer_generation() {
             1: 100
             2: 200
             3: 300
-        ],
-        aggregate_map: [1: { x: 1, y: 1 }, 2: { x: 2, y: 2 }],
+        ]
+        aggregate_map: [1: { x: 1, y: 1 }, 2: { x: 2, y: 2 }]
     }
 
     key := 2
@@ -37,11 +37,13 @@ fn scalar_key_pointer_generation() {
 #[test]
 fn aggregate_value_pointer_generation() {
     mut game = GameData {
-        scalar_map: [1: 100, 2: 200],
-        aggregate_map: [1: [ 
-            10
-            20
-         ], 2: Point { x: 30, y: 40 }],
+        scalar_map: [1: 100, 2: 200]
+        aggregate_map: [
+            1: [ 
+                10
+                20
+            ]
+            2: Point { x: 30, y: 40 }]
     }
 
     key := 1

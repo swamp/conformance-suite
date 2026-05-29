@@ -117,11 +117,11 @@ struct Thing {
 #[test]
 fn for_mut_aggregate_type() {
     mut stack: Stack<Thing; 23> = [
-        Thing { f: 1.0 },
-        Thing { f: 2.0 },
-        Thing { f: 3.0 },
-        Thing { f: 4.0 },
-        Thing { f: 5.0 },
+        Thing { f: 1.0 }
+        { f: 2.0 }
+        [ 3.0 ]
+        Thing { f: 4.0 }
+        Thing { f: 5.0 }
     ]
 
     assert(stack.capacity() == 23, "capacity failed")

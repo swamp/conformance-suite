@@ -2,12 +2,12 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 struct Thing {
-    a: Int,
-    b: Int,
+    a: Int
+    b: Int
 }
 
 struct Another {
-    things: Vec<Thing; 4>,
+    things: Vec<Thing; 4>
 }
 
 fn reading_things(things: [Thing]) {
@@ -52,9 +52,9 @@ fn vec_assign_and_subscript() {
 
     another := Another {
         things: [
-            Thing { a: 11, b:  1 },
-            Thing { b:  2, a: 12 }, // Intentionally swapped
-            Thing { a: 13, b:  3 },
+            Thing { a: 11, b:  1 }
+            Thing { b:  2, a: 12 } // Intentionally swapped
+            [ 13,  3 ]
         ]
     }
 
@@ -83,9 +83,9 @@ fn thing_to_string() {
 fn to_string() {
       another := Another {
         things: [
-            Thing { a: 11, b:  1 },
-            Thing { b:  2, a: 12 }, // Intentionally swapped
-            Thing { a: 13, b:  3 },
+            Thing { a: 11, b:  1 }
+            Thing { b:  2, a: 12 } // Intentionally swapped
+            Thing { a: 13, b:  3 }
         ]
     }
     print("before")
@@ -112,8 +112,8 @@ fn mut_parameter_passing_one_field() {
 
     mut another = Another {
         things: [
-            Thing { b:  -1024, a: 42 }, // Intentionally swapped
-            Thing { a:  32, b: 8086 },
+            Thing { b:  -1024, a: 42 } // Intentionally swapped
+            Thing { a:  32, b: 8086 }
         ]
     }
 
@@ -143,8 +143,8 @@ fn mut_parameter_passing_whole_element() {
 
     mut another = Another {
         things: [
-            Thing { b:  -1024, a: 42 }, // Intentionally swapped
-            Thing { a:  32, b: 8086 },
+            Thing { b:  -1024, a: 42 } // Intentionally swapped
+            Thing { a:  32, b: 8086 }
         ]
     }
 
@@ -175,8 +175,8 @@ fn mut_parameter_passing_whole_element_directly() {
 
     mut another = Another {
         things: [
-            Thing { b:  -1024, a: 42 }, // Intentionally swapped
-            Thing { a:  32, b: 8086 },
+            Thing { b:  -1024, a: 42 } // Intentionally swapped
+            Thing { a:  32, b: 8086 }
         ]
     }
 
@@ -306,8 +306,8 @@ fn pass_in_param() {
 fn clear() {
     mut another = Another {
         things: [
-            Thing { b:  -1024, a: 42 }, // Intentionally swapped
-            Thing { a:  32, b: 8086 },
+            Thing { b:  -1024, a: 42 } // Intentionally swapped
+            Thing { a:  32, b: 8086 }
         ]
     }
 
@@ -321,9 +321,9 @@ fn clear() {
 
 
 enum InputEvent {
-	None,
-	DebugStartBattle,
-	LeaveScreen,
+	None
+	DebugStartBattle
+	LeaveScreen
 }
 
 fn copy_to_events( mut input_events: Vec<InputEvent> ) {
