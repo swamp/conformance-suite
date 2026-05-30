@@ -46,7 +46,7 @@ fn nested() {
         data: { 
             valid: true
             value: 42 
-        },
+        }
         point: { y: 2, x: 1 }
     }
    // print('x:{nested.point.x}, value:{nested.data.value}')
@@ -68,7 +68,10 @@ fn mutation() {
 fn mixed_field_orders() {
     a := { x: 1, y: 2 }
     b := { y: 4, x: 3 }
-    sum := takes_two_structs(a, b)
+    sum := takes_two_structs(
+            a
+            b
+        )
     assert(sum == 10, 'sum is wrong')
 }
 
@@ -76,8 +79,8 @@ fn mixed_field_orders() {
 #[test]
 fn nested_mixed_orders() {
     data := {
-        first: { x: 1, y: 2 },
-        second: { y: 4, x: 3 },
+        first: { x: 1, y: 2 }
+        second: { y: 4, x: 3 }
         meta: { value: 42, valid: true }
     }
     assert(data.first.x + data.second.y == 5, 'field access is wrong')
@@ -101,8 +104,8 @@ fn assignment_between_orders() {
 #[test]
 fn mutation_mixed() {
     mut a = {
-         x: 1,
-         y: 2, 
+         x: 1
+         y: 2 
     }
     mut b = { y: 4, x: 3 }
 

@@ -138,3 +138,15 @@ fn find_in_bool_condition() {
        print('worked - could not find it')
     }
 }
+
+fn requires_unit_id(id: UnitId) {
+
+}
+
+#[test]
+fn cast() {
+	unit_id := 23::<UnitId>
+	print('unit is: {unit_id}')
+	requires_unit_id(unit_id)
+	assert('unit is: {unit_id}' == "unit is: UnitId(23)", 'expected {unit_id}')
+}
