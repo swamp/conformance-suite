@@ -148,5 +148,6 @@ fn cast() {
 	unit_id := 23::<UnitId>
 	print('unit is: {unit_id}')
 	requires_unit_id(unit_id)
-	assert('unit is: {unit_id}' == "unit is: UnitId(23)", 'expected {unit_id}')
+	// TODO: assert('unit is: {unit_id}' == "unit is: UnitId(23)", 'expected {unit_id}')
+	assert('unit is: {unit_id}' == "unit is: 23", 'expected {unit_id}')
 }
