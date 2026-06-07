@@ -3,7 +3,7 @@
 //
 #[test]
 fn create() {
-    queue: Queue<Int; 32> = []
+    _queue: Queue<Int; 32> = []
 }
 
 fn modify_element_one(mut slice: [Int]) {

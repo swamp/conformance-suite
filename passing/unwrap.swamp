@@ -9,13 +9,6 @@ fn create_none() -> Int? {
     none
 }
 
-fn create_optional_string(is_some: Bool) -> String? {
-    if is_some {
-        "Hello"
-    } else {
-        none
-    }
-}
 
 struct Data {
     id: Int,
@@ -142,6 +135,15 @@ fn none_coalesce_chained_all_none_int() {
 }
 
 
+// fn create_optional_string(is_some: Bool) -> String? {
+//     if is_some {
+//         "Hello"
+//     } else {
+//         none
+//     }
+// }
+
+
 //  FIXME: does not work
 //  #[test]
 // fn none_coalesce_string() {
@@ -163,7 +165,7 @@ fn none_coalesce_chained_all_none_int() {
 //     result := get_wrapper_value(wrapper)
 //     assert(result == 20, '? on method call with Some should be 20 but was {result}')
 //     print('Result: {result}')
-//}
+// }
 
 
 #[test]

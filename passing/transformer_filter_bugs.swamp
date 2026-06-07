@@ -24,11 +24,11 @@ struct GamePoints {
 }
 
 impl GamePoints {
-    fn get(self, point: Point ) -> Int? {
-        self.grid[point.x, point.y]
-    }
+    // fn get(self, point: Point ) -> Int? {
+    //     self.grid[point.x, point.y]
+    // }
 
-    fn get_neighbor_positions(self, point: Point) -> Vec<Point; 4> {
+    fn get_neighbor_positions(point: Point) -> Vec<Point; 4> {
         points := [Point::new(point.x,point.y-1), Point::new(point.x-1,point.y), Point::new(point.x+1,point.y), Point::new(point.x,point.y+1)]
         filtered: Vec<Point; 4> = points.filter(|p| {
                 is_inside := p.y >= 0 && p.y < ARENA_SIZE_H && p.x >= 0 && p.x < ARENA_SIZE_W
@@ -39,11 +39,11 @@ impl GamePoints {
         filtered
     }
 
-    fn get_empty_neighbor_positions(self, point: Point) -> Vec<Point; 4> {
-        neighbors: Vec<Point; 4> = self.get_neighbor_positions(point)
-        result: Vec<Point; 4> = neighbors.filter(|p| !self.get(p))
-        result
-    }
+    // fn get_empty_neighbor_positions(self, point: Point) -> Vec<Point; 4> {
+    //     neighbors: Vec<Point; 4> = self.get_neighbor_positions(point)
+    //     result: Vec<Point; 4> = neighbors.filter(|p| !self.get(p))
+    //     result
+    // }
 }
 
 
@@ -57,8 +57,7 @@ impl GamePoints {
 /// This violated the calling convention where the caller owns and manages return space.
 #[test]
 fn filter_with_function_calls_does_not_work() {
-    game := GamePoints {..}
-    result: Vec<Point; 4> = game.get_neighbor_positions(Point{x: 10, y: 20})
+    result: Vec<Point; 4> = GamePoints::get_neighbor_positions(Point{x: 10, y: 20})
 
     assert(result.len() == 3, 'len mismatch {result.len()}')
 }

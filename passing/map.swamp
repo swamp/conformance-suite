@@ -292,7 +292,7 @@ fn scalar_key_for() {
     //NOTE: this test is brittle since it assumes the hash function and order
     // in the hashmap implementation
     mut index = 0
-    for id, card in game.card_templates {
+    for id, _card in game.card_templates {
         if index == 1 {
             assert(id == -909, 'second key wrong {id}')
         } else {
@@ -515,33 +515,6 @@ fn map_values_scalar_key_and_aggregate_value() {
     // note: the order is implementation specific (but always deterministic)
     assert(found_values[0].mana == 10 && found_values[1].mana == 20, 'it should work {found_values}')
 }
-
-struct CardPosition {
-    x: Int
-    y: Int
-}
-
-impl CardPosition {
-    fn hash(self) -> Int {
-        .x * 8 + .y
-    }
-}
-
-enum ComplexEnum {
-    Empty
-    CardPosition CardPosition
-    Normal
-}
-
-impl ComplexEnum {
-    fn hash(self) -> Int {
-        match self {
-            CardPosition card_pos -> card_pos.hash(),
-            _ -> .discriminant()
-        }
-    }
-}
-
 
 /// Clear with assigning to `[:]`. found by @catnipped
 #[test]

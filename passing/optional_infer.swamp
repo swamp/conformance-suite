@@ -3,7 +3,7 @@ struct Position {
     y: Int
 }
 
-fn takes_optional(o: Position?) {
+fn takes_optional(_o: Position?) {
 
 }
 

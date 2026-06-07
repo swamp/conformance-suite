@@ -114,32 +114,32 @@ fn destructure_tuple_ignoring_elements() {
 type UnitID = Int
 
 
-// enum Something {
-//     Nothing,
-//     PerformAction Vec<(Int,CardId);15>,
-// }
+enum Something {
+    Nothing,
+    PerformAction Vec<(Int,CardId);15>,
+}
 
-// fn helper(e: Something) {
-//     match e {
-//         PerformAction targets -> {
-//             for i, target_tuple in targets {
-//                 index, card_id = target_tuple
-//                 assert(index == 23, "wrong index")
-//                 assert(card_id == GoblinScout, "wrong card id")
-//             }
-//         }
-//         _ -> panic('wrong choice'),
-//     }
-// }
+fn helper(e: Something) {
+    match e {
+        PerformAction targets -> {
+            for target_tuple in targets {
+                index, card_id = target_tuple
+                assert(index == 23, "wrong index")
+                assert(card_id == GoblinScout, "wrong card id")
+            }
+        }
+        _ -> panic('wrong choice'),
+    }
+}
 
 
-// #[test]
-// fn destructure_enum() {
-//     mut prepare_targets: Vec<(UnitID,CardId);15> = []
+#[test]
+fn destructure_enum() {
+    mut prepare_targets: Vec<(UnitID,CardId);15> = []
 
-//     prepare_targets.push((23, CardId::GoblinScout))
+    prepare_targets.push((23, CardId::GoblinScout))
 
-//     e = Something::PerformAction(prepare_targets)
-//     helper(e)
-// }
+    e := Something::PerformAction(prepare_targets)
+    helper(e)
+}
 

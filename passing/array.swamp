@@ -10,9 +10,6 @@ struct Another {
     things: [Thing; 3]
 }
 
-struct Settings {
-    cooldown_settings: [Int; 3]
-}
 
 fn reading_things(things: [Thing]) {
     thing := things[0]

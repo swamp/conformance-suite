@@ -1,44 +1,6 @@
 //
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
-enum Counter {
-	None
-	Delay
-    Harmonised
-}
-
-struct UnitTemplate {
-	strength: Int
-	counters: [Counter:Int; 10]
-}
-
-
-struct UnitData {
-	tier: Int
-	template: UnitTemplate
-}
-
-enum UnitDataID {
-	None
-	Jade2
-}
-
-
-
-// FIXME:
-// impl UnitTemplate {
-// 	fn default() -> UnitTemplate {
-// 		    {
-//                 counters: [:],
-//                 ..
-//             }
-//     }
-// }
-
-
-
-
-
 enum ColorType {
 	Neutral
     Red

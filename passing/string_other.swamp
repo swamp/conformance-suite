@@ -12,10 +12,6 @@ fn string_equality() {
 }
 
 
-struct Something {
-    a: String<42>,
-}
-
 #[test]
 fn string_storage() {
     save: String<42> = "hello"

@@ -14,7 +14,7 @@ fn static_capacity() {
 fn static_capacity_ok() {
     a: [Int; 10]
 
-    b := a[9]
+    _b := a[9]
 }
 
 #[test]

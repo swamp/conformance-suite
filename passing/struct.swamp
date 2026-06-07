@@ -1,6 +1,8 @@
 //
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
+#![api]
+
 struct Point {
     x: Int
     y: Int
@@ -89,7 +91,6 @@ fn borrow_point_partial_overwrite() {
     assert(point.x == 10, 'after: x value should not have been changed')
     assert(point.y == 200, 'after: y value is wrong')
 }
-
 
 
 #[test]
@@ -191,15 +192,14 @@ fn automatic_anon_to_string() {
 //     assert(result == "{ flag: false, num: 42, text: \"hello\" }", 'to_pretty_string failed "{result}"')
 // }
 
-// /// This test is to ensure that the automatic conversion to short string works correctly.
-// /// to_short_string shows named structs as anonymous structs (without the type name)
-//  FIXME: short_string() is not implemented yet
-// #[test]
-// fn automatic_to_short_string() {
-//     mut mixed = Mixed { num: 42, flag: false, text: "hello" }
-//     print('Mixed struct short: {mixed.short_string()}')
-//     assert(mixed.short_string() == "{ num: 42, flag: false, text: \"hello\" }", "to_short_string failed")
-// }
+/// This test is to ensure that the automatic conversion to short string works correctly.
+/// to_short_string shows named structs as anonymous structs (without the type name)
+#[test]
+fn automatic_to_short_string() {
+    mut mixed = Mixed { num: 42, flag: false, text: "hello" }
+    print('Mixed struct short: {mixed.short_string()}')
+    assert(mixed.short_string() == "{ num: 42, flag: false, text: \"hello\" }", "to_short_string failed")
+}
 
 
 

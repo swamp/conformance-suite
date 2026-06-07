@@ -8,10 +8,6 @@
 struct TextFileTag {}
 type TextFile = Res<TextFileTag>
 
-#[extensions("dat")]
-struct DataFileTag {}
-type DataFile = Res<DataFileTag>
-
 #[test]
 fn resource_id_array() {
     resources: [TextFile; 3] = [

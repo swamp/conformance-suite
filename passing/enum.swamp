@@ -73,7 +73,7 @@ fn matching_enum_with_container() {
     a := Different::FewThings(Green, 42)
     result := match a {
         Nothing -> 0,
-        FewThings  x, value  -> value,
+        FewThings  _, value -> value,
         More { id, color } -> {
             print('id: {id}, color: {color}')
             100
@@ -184,7 +184,7 @@ fn matching_mut_enum_tuple_one_field() {
             assert(value == 99, "enum value is wrong")
             255
         }
-        More { id, mut color } -> {
+        More { mut color } -> {
             color = Color::Green
             100
         }
@@ -215,13 +215,13 @@ fn tuple_vs_struct_variant_patterns() {
     container := Container::Named { id: 123, count: 456 }
     result := match container {
         Single value -> value,
-        Pair a, b -> a,
-        Triple x, y, z -> x,
+        Pair a, _ -> a,
+        Triple x, _y, _z -> x,
         Named { id, count } -> {
             print('Got named data: id={id}, count={count}')
             999
         }
-        Complex { value, flag } -> 888,
+        Complex { } -> 888,
     }
     assert(result == 999, "struct variant destructuring failed")
 }
@@ -418,8 +418,8 @@ fn direct_syntax_creation_and_matching() {
             print('Direct syntax value: {value}')
             value * 2
         }
-        TupleValue a, b -> 999,
-        StructValue { id, count } -> 888,
+        TupleValue -> 999,
+        StructValue { } -> 888,
     }
 
     tuple_result := match tuple_variant {
@@ -429,13 +429,13 @@ fn direct_syntax_creation_and_matching() {
             print('Tuple values: {num1}, {num2}')
             num1 * 3
         }
-        StructValue { id, count } -> 777,
+        StructValue { } -> 777,
     }
 
     struct_result := match struct_variant {
         Empty -> 0,
         SingleValue value -> value,
-        TupleValue a, b -> 666,
+        TupleValue -> 666,
         StructValue { id, count } -> {
             print('Struct values: id={id}, count={count}')
             id + 100

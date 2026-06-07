@@ -36,11 +36,6 @@ fn create_vec2_out(out result: Vec2, x: Int, y: Int) {
     result.y = y
 }
 
-fn create_vec3_out(out result: Vec3, x: Int, y: Int, z: Int) {
-    result.x = x
-    result.y = y
-    result.z = z
-}
 
 fn add_vec2_out(out result: Vec2, a: Vec2, b: Vec2) {
     result.x = a.x + b.x

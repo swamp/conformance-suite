@@ -232,7 +232,7 @@ struct CardLib {
 
 #[test]
 fn optional_in_struct() {
-	cards := CardLib {
+	_cards := CardLib {
 		description: "hello"
 	}
 }

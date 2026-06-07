@@ -14,11 +14,6 @@ struct FoundNumbers {
     numbers: Vec<Int; 4>
 }
 
-fn returns_vec() -> Vec<Int> {
-    [10, 20, 30]
-}
-
-
 #[test]
 fn filter() {
     found := FoundNumbers {

@@ -1,6 +1,8 @@
 //
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
+#![api]
+
 struct MockDeck {
     player_id: Int,
     cards: [Int; 32],

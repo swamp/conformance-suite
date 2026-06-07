@@ -144,10 +144,6 @@ fn return_specific_string_view() -> String {
 	"hello"
 }
 
-fn return_string_view_from_storage() -> String {
-	s: String<42> = "hello"
-	s
-}
 
 #[test]
 fn return_string_view_from_string_view() {
@@ -156,10 +152,10 @@ fn return_string_view_from_string_view() {
 }
 
 
-fn return_string_storage_to_string_view() {
-	a := return_string_view_from_storage()
-	assert(a == "hello", 'should have worked')
-}
+// fn return_string_storage_to_string_view() {
+// 	a := return_string_view_from_storage()
+// 	assert(a == "hello", 'should have worked')
+// }
 
 
 #[test]
@@ -235,7 +231,7 @@ fn match_node(tag: Node) -> Command {
 
 	result := match tag {
 
-		Element element -> {
+		Element -> {
 				Command::Newline
 		}
 
@@ -276,7 +272,6 @@ fn match_string() {
 #[test]
 fn match_expr_string() {
     storage: String<42> = "color"
-    mut found := false
 
     x := match storage {
         "color" -> {

@@ -109,7 +109,7 @@ fn filter_with_call() {
 
 #[test]
 fn find_in_bool_condition() {
-	mut possible_targets: Vec<UnitId; 15> = []
+///	mut possible_targets: Vec<UnitId; 15> = []
 
 	// Setup the game with two opponent units, one is Confused
 	game := Game {
@@ -139,7 +139,7 @@ fn find_in_bool_condition() {
     }
 }
 
-fn requires_unit_id(id: UnitId) {
+fn requires_unit_id(_id: UnitId) {
 
 }
 

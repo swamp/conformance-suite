@@ -3,16 +3,13 @@
 //
 #[test]
 fn create() {
-    stack: Stack<Int; 42> = []
+    _stack: Stack<Int; 42> = []
 }
 
 fn modify_element_one(mut slice: [Int]) {
     slice[1] = 3
 }
 
-fn modify_element(mut v: Int) {
-    v = 3
-}
 
 #[test]
 fn push() {
@@ -140,7 +137,7 @@ fn for_mut_aggregate_type() {
     assert(sum == 15.0, "sum should be 15")
 
     mut sum_after = 0.0
-    for i, val in stack {
+    for val in stack {
         sum_after += val.f
     }
     assert(sum_after == 16.0, "sum should be 16 after modification")

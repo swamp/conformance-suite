@@ -70,7 +70,7 @@ fn find_some() {
 fn find_none() {
     nums: Vec<Int; 8> = [10, 20, 30]
     result := nums.find(|x| x == 99)
-    when result {
+    if result {
         panic('should not have found 99')
     } else {
         // BUG: Should not be needed

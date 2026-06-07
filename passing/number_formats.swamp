@@ -96,7 +96,6 @@ fn binary_flags() {
     flag_a := 0b0001
     flag_b := 0b0010
     flag_c := 0b0100
-    flag_d := 0b1000
 
     flags := flag_a | flag_c
     assert(flags == 0b0101, 'flag OR should work')

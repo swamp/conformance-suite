@@ -56,9 +56,6 @@ fn calculate_distance(p: Point) -> Int {
     (p.x * p.x) + (p.y * p.y)
 }
 
-fn multi_param(a: Int, entity: Entity, b: Int) -> Int {
-    a + entity.health + b
-}
 
 fn with_string(s: String, entity: Entity) -> String {
     '{s}: health={entity.health}'

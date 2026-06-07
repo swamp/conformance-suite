@@ -27,7 +27,7 @@ fn member_should_not_copy() {
     }
 
     for tier, list in tiered_warband {
-		for u in list {
+		for _ in list {
             unit := BattleUnitInstance{
 				tier: tier,
             }
