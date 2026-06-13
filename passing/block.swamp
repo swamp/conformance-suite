@@ -1,0 +1,57 @@
+#[test]
+fn block_to_same_block() {
+    source: Block<Int; 8> = [1, 2, 3, 4, 5, 6, 7, 8]
+    dest: Block<Int; 8> = source
+
+    assert(dest[2] == 3, 'explicit test {dest[2]}')
+    assert(dest[2] == source[2], 'should have been same')
+}
+
+#[test]
+fn block_to_bigger_block() {
+    source: Block<Int; 8> = [1, 2, 3, 4, 5, 6, 7, 8]
+    dest: Block<Int; 16> = source
+
+    assert(dest[2] == 3, 'explicit test {dest[2]}')
+    assert(dest[2] == source[2], 'should have been same')
+}
+
+
+/// Thanks to @catnipped that found this vec to block bug
+#[test]
+fn vec_to_block() {
+    mut source: Vec<Int; 8> = [1, 2, 3, 4, 5, 6, 7, 8]
+    dest: Block<Int; 16> = source
+
+    assert(dest[2] == 3, 'explicit test {dest[2]}')
+    assert(dest[2] == source[2], 'should have been same')
+}
+
+#[test]
+#[should_trap(expected="vec_copy_out_of_bounds")]
+fn block_to_smaller_block() {
+    source: Block<Int; 16> = [1, 2, 3, 4, 5, 6, 7, 8]
+    _dest: Block<Int; 8> = source
+
+    panic("should have panic previously")
+}
+
+
+#[test]
+#[should_trap(expected="vec_subscript_out_of_bounds")]
+fn vec_to_smaller_block() {
+    mut source: Vec<Int; 8> = [1, 2, 3, 4]
+    dest: Block<Int; 3> = source
+
+    assert(dest[2] == 3, 'explicit test {dest[2]}')
+    assert(dest[2] == source[2], 'should have been same')
+}
+
+#[test]
+fn vec_to_precise_block() {
+    mut source: Vec<Int; 8> = [1, 2, 3]
+    dest: Block<Int; 3> = source
+
+    assert(dest[2] == 3, 'explicit test {dest[2]}')
+    assert(dest[2] == source[2], 'should have been same')
+}

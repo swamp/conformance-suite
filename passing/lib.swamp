@@ -9,6 +9,7 @@ mod array_to_struct
 mod array
 mod bits
 mod bitwise
+mod block
 mod bool
 mod bounds_check
 mod break
@@ -20,6 +21,7 @@ mod const_capacities
 mod constant
 mod continue
 mod codepoint
+mod distinct_aggregate_ops
 mod embed
 mod enum_bugs
 mod enum_guards
@@ -88,6 +90,7 @@ mod transformer_filter_bugs
 mod transformer
 
 mod tuple
+mod type
 mod unwrap
 mod vec
 
