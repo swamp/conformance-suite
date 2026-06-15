@@ -104,6 +104,20 @@ fn explicit_u16_storage() {
     assert(a.is_boss == 0, "is_boss should be 0")
 }
 
+
+fn use_bits(b: FlagsU16) -> FlagsU16 {
+    mut a := b
+    a.level = 0
+    a
+}
+
+#[test]
+fn bit_test() {
+    a := FlagsU16 {..}
+    _b := use_bits(a)
+}
+
+
 #[test]
 fn explicit_u16_write() {
     mut a := FlagsU16 {..}
