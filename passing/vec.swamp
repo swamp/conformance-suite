@@ -327,7 +327,7 @@ enum InputEvent {
 }
 
 fn copy_to_events( mut input_events: Vec<InputEvent> ) {
-	mut processed_input_events: Vec<InputEvent; 100> = []
+	processed_input_events: Vec<InputEvent; 100> = []
     assert(processed_input_events.capacity() == 100, "must be 100")
 	input_events = processed_input_events
 }

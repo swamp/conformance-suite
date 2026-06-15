@@ -28,7 +28,7 @@ fn complex_payload_empty() {
 
 #[test]
 fn complex_payload_from_other_empty_vec() {
-    mut unit_id_list: Vec<UnitID; 100> = []
+    unit_id_list: Vec<UnitID; 100> = []
 
     assert(unit_id_list.capacity() == 100, 'capacity wrong {unit_id_list.capacity()}')
     assert(unit_id_list.len() == 0, 'len wrong {unit_id_list.len()}')

@@ -75,7 +75,7 @@ fn push_overwrite_when_full() {
 
 #[test]
 fn for_loop() {
-    mut ring: Ring<Int; 8> = [1, 2, 3, 4, 5]
+    ring: Ring<Int; 8> = [1, 2, 3, 4, 5]
 
     assert(ring.len() == 5, "len should be 5")
     mut sum = 0
@@ -87,7 +87,7 @@ fn for_loop() {
 
 #[test]
 fn for_loop_index() {
-    mut ring: Ring<Int; 8> = [10, 20, 30]
+    ring: Ring<Int; 8> = [10, 20, 30]
 
     assert(ring.capacity() == 8, "capacity should be 8")
     assert(ring.len() == 3, "len should be 3")

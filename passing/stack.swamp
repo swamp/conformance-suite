@@ -75,7 +75,7 @@ fn init_and_push_aggregate() {
 
 #[test]
 fn for_loop() {
-    mut stack: Stack<Int; 42> = [1, 2, 3, 4, 5]
+    stack: Stack<Int; 42> = [1, 2, 3, 4, 5]
 
     assert(stack.len() == 5, "len")
     mut sum = 0
@@ -87,7 +87,7 @@ fn for_loop() {
 
 #[test]
 fn for_loop_index() {
-    mut stack: Stack<Int; 42> = [
+    stack: Stack<Int; 42> = [
         1
         2
         3

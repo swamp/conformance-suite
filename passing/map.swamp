@@ -283,7 +283,7 @@ fn scalar_key() {
 
 #[test]
 fn scalar_key_for() {
-    mut game = ScalarGame {
+    game := ScalarGame {
         card_templates: [
             -909: CardTemplate { mana: 3, healing_per_second: 0.3 }
             1342: CardTemplate { mana: 5, healing_per_second: 0.3 } ]

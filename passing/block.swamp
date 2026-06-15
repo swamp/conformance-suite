@@ -20,7 +20,7 @@ fn block_to_bigger_block() {
 /// Thanks to @catnipped that found this vec to block bug
 #[test]
 fn vec_to_block() {
-    mut source: Vec<Int; 8> = [1, 2, 3, 4, 5, 6, 7, 8]
+    source: Vec<Int; 8> = [1, 2, 3, 4, 5, 6, 7, 8]
     dest: Block<Int; 16> = source
 
     assert(dest[2] == 3, 'explicit test {dest[2]}')
@@ -38,9 +38,9 @@ fn block_to_smaller_block() {
 
 
 #[test]
-#[should_trap(expected="vec_subscript_out_of_bounds")]
+#[should_trap(expected="vec_copy_out_of_bounds")]
 fn vec_to_smaller_block() {
-    mut source: Vec<Int; 8> = [1, 2, 3, 4]
+    source: Vec<Int; 8> = [1, 2, 3, 4]
     dest: Block<Int; 3> = source
 
     assert(dest[2] == 3, 'explicit test {dest[2]}')
@@ -49,7 +49,7 @@ fn vec_to_smaller_block() {
 
 #[test]
 fn vec_to_precise_block() {
-    mut source: Vec<Int; 8> = [1, 2, 3]
+    source: Vec<Int; 8> = [1, 2, 3]
     dest: Block<Int; 3> = source
 
     assert(dest[2] == 3, 'explicit test {dest[2]}')

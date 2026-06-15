@@ -49,7 +49,7 @@ fn init_and_enqueue() {
 
 #[test]
 fn for_loop() {
-    mut queue: Queue<Int; 32> = [1, 2, 3, 4, 5]
+    queue: Queue<Int; 32> = [1, 2, 3, 4, 5]
 
     assert(queue.len() == 5, "len")
     mut sum = 0
@@ -61,7 +61,7 @@ fn for_loop() {
 
 #[test]
 fn for_loop_index() {
-    mut queue: Queue<Int; 32> = [1, 2, 3, 4, 5]
+    queue: Queue<Int; 32> = [1, 2, 3, 4, 5]
 
     assert(queue.capacity() == 32, "capacity failed")
     assert(queue.len() == 5, "len")

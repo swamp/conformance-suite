@@ -113,7 +113,7 @@ fn matching_enum_with_container_fall_through() {
 
 #[test]
 fn matching_mut_enum_struct() {
-    mut a := Different::More {id: 42, color: Blue}
+    a := Different::More {id: 42, color: Blue}
     result := match a {
         Nothing -> 0,
         More { id, mut color } -> {
@@ -155,7 +155,7 @@ fn simple_struct_inside_enum() {
 
 #[test]
 fn matching_mut_enum_struct_one_field() {
-    mut a := Different::More {id: 42, color: Blue}
+    a := Different::More {id: 42, color: Blue}
     result := match a {
         Nothing -> 0
         More { id, mut color } -> {
@@ -176,7 +176,7 @@ fn matching_mut_enum_struct_one_field() {
 
 #[test]
 fn matching_mut_enum_tuple_one_field() {
-    mut a := Different::FewThings(Color::Blue, 99)
+    a := Different::FewThings(Color::Blue, 99)
     result := match a {
         Nothing -> 0,
         FewThings _, value  -> {

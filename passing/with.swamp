@@ -45,8 +45,8 @@ fn mutable_reference_to_field_access_chain() {
         enemies: []
     }
 
-    mut formation1_id = game_state.formations.add(Formation { id: 1, name: "Alpha Squad" })
-    mut formation2_id = game_state.formations.add(Formation { id: 2, name: "Beta Team" })
+    formation1_id := game_state.formations.add(Formation { id: 1, name: "Alpha Squad" })
+    formation2_id := game_state.formations.add(Formation { id: 2, name: "Beta Team" })
 
     _ := game_state.enemies.add(Enemy { id: 10, health: 100, formation: formation1_id })
     _ := game_state.enemies.add(Enemy { id: 20, health: 80, formation: formation1_id })
@@ -56,7 +56,7 @@ fn mutable_reference_to_field_access_chain() {
     assert(game_state.formations.len() == 2, "Should have 2 formations initially")
     assert(game_state.enemies.len() == 3, "Should have 3 enemies initially")
 
-    with mut formations = &game_state.formations, mut enemies = &game_state.enemies {
+    with formations = &game_state.formations, mut enemies = &game_state.enemies {
         print('Inside `with` block - formations: {formations.len()}, enemies: {enemies.len()}')
 
         mut enemy_ids_to_remove: Vec<Int; 10> = []
