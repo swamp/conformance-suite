@@ -24,6 +24,7 @@ mod codepoint
 mod distinct_aggregate_ops
 mod distinct_impl
 mod embed
+mod embed_receiver
 mod enum_bugs
 mod enum_guards
 mod enum_pattern_match
