@@ -22,6 +22,7 @@ mod constant
 mod continue
 mod codepoint
 mod distinct_aggregate_ops
+mod distinct_impl
 mod embed
 mod enum_bugs
 mod enum_guards
@@ -51,6 +52,7 @@ mod member_lookahead
 mod member
 
 mod named_arguments
+mod none_coalesce
 mod number_formats
 mod only
 
