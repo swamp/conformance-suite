@@ -30,9 +30,8 @@ const UNIT_LIB: [UnitDataID:UnitData;200] = [
 		template:{
 			strength: 4
 			counters: [Delay:1, Harmonised: 2]
-			..
 		},
-	..},
+	},
 ]
 
 #[test]

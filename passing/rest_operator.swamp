@@ -102,7 +102,7 @@ fn rest_operator_all_effect_fields_provided() {
         name: "Meteor"
         damage: 100
         duration: 3.5
-        is_magical: true..
+        is_magical: true
     }
 
     assert(spell.name == "Meteor", "name should be provided")
