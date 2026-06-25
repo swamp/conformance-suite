@@ -74,6 +74,7 @@ mod rotate
 
 mod scalar_vs_aggregate
 mod slice
+mod sort
 
 mod sret_out_param
 mod stack
