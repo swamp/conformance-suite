@@ -11,5 +11,9 @@ src_dir: passing
 assets_dir: passing/assets/
 
 codegen: {
-    use_new_lower_mir: false
+    use_super_instructions: true
+}
+
+lowering: {
+    use_branch_fusing: true
 }

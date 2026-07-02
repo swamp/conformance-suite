@@ -44,7 +44,7 @@ fn slice_one() {
 }
 
 #[test]
-#[should_trap(expected="vec_bounds_fail")]
+#[should_trap(expected="vec_subscript_out_of_bounds")]
 fn slice_is_out_of_bounds() {
     a := [10, 20, 30, 40]
 
@@ -52,7 +52,7 @@ fn slice_is_out_of_bounds() {
 }
 
 #[test]
-#[should_trap(expected="vec_bounds_fail")]
+#[should_trap(expected="vec_copy_out_of_bounds")]
 fn slice_target_is_too_small() {
     a := [10, 20, 30, 40]
 
@@ -60,7 +60,7 @@ fn slice_target_is_too_small() {
 }
 
 #[test]
-#[should_trap(expected="vec_bounds_fail")]
+#[should_trap(expected="vec_subscript_out_of_bounds")]
 fn slice_is_wrong_order() {
     a := [10, 20, 30, 40]
 

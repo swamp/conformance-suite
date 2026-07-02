@@ -1,4 +1,3 @@
 name: benchmarks
 type: :lib
 extension: swamp
-packages_dir: ../packages
