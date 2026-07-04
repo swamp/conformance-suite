@@ -25,3 +25,71 @@ fn function_condition() {
     }
     assert(i == 4, "while loop with function condition failed")
 }
+
+struct Battle {
+    turn_counter: Int
+}
+
+
+// Bug found by @catnipped as usual :)
+// while condition is not re-evaluated in certain cases (missing `step` block)
+// probably due to compare operator (!=, ==, <=, >, etc) being lowered to HIR incorrectly
+#[test]
+fn should_have_step_aggregate_field() {
+    mut battle := Battle { turn_counter: 42 }
+    turn_counter := battle.turn_counter
+
+    mut count := 0
+
+    while turn_counter == battle.turn_counter {
+        assert(count == 0, 'should not loop around')
+        battle.turn_counter += 1
+        count += 1
+    }
+}
+
+
+#[test]
+fn should_have_step() {
+    mut a := 4
+    b := 4
+
+    mut count := 0
+
+    while a == b {
+        assert(count == 0, 'should not loop around')
+        a += 1
+        count += 1
+    }
+}
+
+
+
+#[test]
+fn bool_should_have_step() {
+    mut game_end := false
+    mut count := 0
+    
+    while !game_end {
+        assert(count == 0, 'should not loop around')
+        game_end = true
+        count += 1
+    }
+}
+
+struct AnotherBattle {
+    game_end: Bool
+}
+
+#[test]
+fn bool_in_aggregate_should_have_step() {
+    mut battle := AnotherBattle { .. }
+
+    mut count := 0
+    
+    while !battle.game_end {
+        assert(count == 0, 'should not loop around')
+        battle.game_end = true
+        count += 1
+    }
+}
