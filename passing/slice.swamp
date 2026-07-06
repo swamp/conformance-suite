@@ -1,13 +1,84 @@
-//
-// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
-//
-struct Thing {
-    list: [Int; 4]
+fn len_and_get(xs: Slice<Int>) -> Int {
+    assert(xs.len() == 2, 'must be two {xs.len()}')
+    xs[1]
 }
 
 #[test]
-fn push_and_subscript() {
-    mut thing = Thing { list: [] }
-    thing.list[0] = 1
-    print('list[0]:{thing.list[0]}')
+fn check_len_and_index_subscript() {
+    values: [Int; 4] = [10, 20, 30, 40]
+    a := len_and_get(values[1..3])
+    assert(a == 30, 'should have been 30 {a}')
+}
+
+
+
+
+
+
+
+#[test]
+fn slice_undefined() {
+    a := [10, 20, 30, 40]
+
+    b: Vec<Int; 2> = a[0..0]
+    assert(b.len() == 0, 'len was wrong {b.len()}')
+}
+
+#[test]
+fn slice_one() {
+    a := [10, 20, 30, 40]
+
+    b: Vec<Int; 2> = a[0..1]
+    assert(b.len() == 1, 'len was wrong {b.len()}')
+}
+
+#[test]
+#[should_trap(expected="vec_bounds_fail")]
+fn slice_is_out_of_bounds() {
+    a := [10, 20, 30, 40]
+
+    _b: Vec<Int; 32> = a[4..7]
+}
+
+#[test]
+#[should_trap(expected="vec_bounds_fail")]
+fn slice_target_is_too_small() {
+    a := [10, 20, 30, 40]
+
+    _b: Vec<Int; 2> = a[0..3] // slice is 3 in length, but target capacity is just 2
+}
+
+#[test]
+#[should_trap(expected="vec_bounds_fail")]
+fn slice_is_wrong_order() {
+    a := [10, 20, 30, 40]
+
+    _b: Vec<Int; 2> = a[3 .. 1]
+}
+
+
+#[test]
+fn vector_slice() {
+    a := [10, 20, 30, 40]
+
+    b: Vec<Int; 32> = a[1..3]
+
+    print('b:{b}')
+
+    assert(b.capacity() == 32, "should still have 32 in capacity")
+
+    assert(b.len() == 2, 'len failed {b.len()}')
+
+    c: Vec<Int; 4> = a[1..4]
+
+    print('c:{c}')
+
+    assert(c.capacity() == 4, "should still have 4 in capacity")
+    // TODO: Compare with vec likes should work
+    // assert(c == [20, 30, 40], 'equals should work')
+    assert(c.len() == 3, 'len failed {c.len()}')
+
+    assert(c[0] == 20, 'not equal {c[0]}')
+    assert(c[1] == 30, 'not equal {c[1]}')
+    assert(c[2] == 40, 'not equal {c[2]}')
 }
