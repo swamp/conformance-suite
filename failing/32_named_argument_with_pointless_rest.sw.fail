@@ -1,6 +1,6 @@
 ---
 code: 113
-message: "rest operator (..) is unnecessary when all arguments are provided"
+message: unnecessary `..` when all arguments are provided
 ---
 
 fn some_function(value: Float, position: Int, third_one: Int) {

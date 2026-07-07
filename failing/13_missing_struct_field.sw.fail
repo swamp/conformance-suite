@@ -1,6 +1,6 @@
 ---
 code: 13
-message: missing field in struct instantiation
+message: missing fields: age
 ---
 struct Person {
     name: Int,

@@ -1,6 +1,6 @@
 ---
 code: 170
-message: "duplicate named argument"
+message: duplicate named argument 'position'
 ---
 
 fn some_function(value: Float, position: Int, third_one: Int) {

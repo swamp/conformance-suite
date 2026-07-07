@@ -1,6 +1,6 @@
 ---
 code: 158
-message: unreachable code after continue statement
+message: unreachable code after continue
 ---
 
 for _ in 0..2 {
