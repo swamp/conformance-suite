@@ -65,7 +65,7 @@ mod pool
 mod queue
 mod queue2
 
-mod range // slice
+mod range
 mod resource_id
 mod rest_args
 mod rest_operator
@@ -87,7 +87,7 @@ mod struct_map
 mod struct
 
 mod tag
-mod text_tags
+// TODO: not working yet: mod text_tags
 mod to_string
 
 mod transformer_bugs
