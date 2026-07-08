@@ -28,6 +28,36 @@ fn slice_one() {
 
     b: Vec<Int; 2> = a[0..1]
     assert(b.len() == 1, 'len was wrong {b.len()}')
+    assert(b[0] == 10, 'value was wrong {b[0]}')
+}
+
+#[test]
+fn slice_whole_range() {
+    a := [10, 20, 30, 40]
+
+    b: Vec<Int; 4> = a[0..4]
+    assert(b.len() == 4, 'len was wrong {b.len()}')
+    assert(b[0] == 10, 'first value was wrong {b[0]}')
+    assert(b[1] == 20, 'second value was wrong {b[1]}')
+    assert(b[2] == 30, 'third value was wrong {b[2]}')
+    assert(b[3] == 40, 'fourth value was wrong {b[3]}')
+}
+
+#[test]
+fn slice_empty_at_end() {
+    a := [10, 20, 30, 40]
+
+    b: Vec<Int; 2> = a[4..4]
+    assert(b.len() == 0, 'len was wrong {b.len()}')
+}
+
+#[test]
+fn slice_inclusive_single_element() {
+    a := [10, 20, 30, 40]
+
+    b: Vec<Int; 2> = a[2..=2]
+    assert(b.len() == 1, 'len was wrong {b.len()}')
+    assert(b[0] == 30, 'value was wrong {b[0]}')
 }
 
 #[test]
@@ -125,13 +155,101 @@ fn vector_slice() {
     assert(c.capacity() == 4, "should still have 4 in capacity")
     assert(c.len() == 3, 'len failed {c.len()}')
 
-    // TODO: Compare with vec likes should work
-    //assert(c == [20, 30, 40], 'equals should work')
     assert(c[0] == 20, 'not equal {c[0]}')
     assert(c[1] == 30, 'not equal {c[1]}')
     assert(c[2] == 40, 'not equal {c[2]}')
 }
 
+struct Position {
+    x: Int
+    y: Int
+}
 
-// TODO: tests for coerce from Vec to Slice automatically (for arguments)
+fn wants_slice(mut slice: Slice<Position>) -> Position {
+    assert(slice.len() >= 2, 'must be at least two')
+    slice[0] = [90, 100]
+    slice[1]
+}
 
+#[test]
+fn coerce_vec_to_slice() {
+    mut a : Vec<Position; 8> = [[10, 20], [30, 40]]
+
+    assert(a[0].x == 10, 'should have original value')
+    returned_position := wants_slice(&a)
+    assert(a[0].x == 90, 'should have been mutated by wants_slice')
+    assert(a[0].y == 100, 'should have been mutated by wants_slice')
+    assert(returned_position.x == 30, 'returned value')
+    assert(returned_position.y == 40, 'returned value')
+}
+
+
+#[test]
+fn borrow_mut_slice() {
+    mut a : Vec<Position; 8> = [[10, 20], [30, 40], [50, 60]]
+
+    with mut slice = &a[1..=2] {
+        assert(a[0].x == 10, 'should have original value')
+        returned_position := wants_slice(&slice)
+        assert(a[1].x == 90, 'should have been mutated by wants_slice')
+        assert(a[1].y == 100, 'should have been mutated by wants_slice')
+        assert(returned_position.x == 50, 'returned value')
+        assert(returned_position.y == 60, 'returned value')
+    }
+}
+
+#[test]
+fn borrow_immutable_slice() {
+    a : Vec<Position; 8> = [[10, 20], [30, 40], [50, 60]]
+
+    with slice = &a[1..=2] {
+        assert(a[0].x == 10, 'should have original value')
+        assert(slice[0].x == 30, 'slice was wrong {slice[0]}')
+    }
+}
+
+#[test]
+fn borrow_mut_scalar_slice() {
+    mut a: Vec<Int; 8> = [10, 20, 30, 40]
+
+    with mut slice = &a[1..3] {
+        slice[0] = 200
+        slice[1] = 300
+    }
+
+    assert(a[0] == 10, 'first value should be unchanged {a[0]}')
+    assert(a[1] == 200, 'second value should have been updated {a[1]}')
+    assert(a[2] == 300, 'third value should have been updated {a[2]}')
+    assert(a[3] == 40, 'fourth value should be unchanged {a[3]}')
+}
+
+#[test]
+fn slice_to_slice_copy() {
+    mut dest: Vec<Int; 4> = [10, 20, 30, 40]
+    source: Vec<Int; 8> = [1, 2, 3, 100, 200, 300, 400]
+
+    with mut dest_slice = &dest[1..4], source_slice = &source[3..5] {
+        assert(dest_slice.len() == 3, 'dest slice wrong len')
+        assert(source_slice.len() == 2, 'source slice wrong len')
+        dest_slice = source_slice
+    }
+
+    assert(dest[0] == 10, 'first value should be unchanged {dest[0]}')
+    assert(dest[1] == 100, 'second value should have been copied {dest[1]}')
+    assert(dest[2] == 200, 'third value should have been copied {dest[2]}')
+    assert(dest[3] == 40, 'fourth value should be unchanged {dest[3]}')
+}
+
+#[test]
+fn slice_to_vec_copy_from_slice() {
+    source: Vec<Int; 8> = [10, 20, 30, 40, 50]
+    assert(source.len() == 5, 'source len was wrong from init')
+
+    with source_slice = &source[1..4] {
+        copied: Vec<Int; 16> = source_slice
+        assert(copied.len() == 3, 'len was wrong {copied.len()}')
+        assert(copied[0] == 20, 'first value was wrong {copied[0]}')
+        assert(copied[1] == 30, 'second value was wrong {copied[1]}')
+        assert(copied[2] == 40, 'third value was wrong {copied[2]}')
+    }
+}

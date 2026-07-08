@@ -33,6 +33,7 @@ mod fixed_size_array
 mod fixed_length_array
 mod float
 mod for
+mod format
 mod guard
 
 mod indirect_memory
