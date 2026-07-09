@@ -1,0 +1,7 @@
+---
+code: 84
+message: storage needed
+---
+struct SliceHolder {
+    xs: Slice<Int>,
+}

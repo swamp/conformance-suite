@@ -1,6 +1,6 @@
 ---
 code: 18
-message: expected a mutable location
+message: expected mutable location
 ---
 
 struct Enemy {

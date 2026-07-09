@@ -1,0 +1,6 @@
+---
+code: 4
+message: variable type must be at least transient
+---
+values: [Int; 4] = [10, 20, 30, 40]
+xs: Slice<Int> = values[1..3]

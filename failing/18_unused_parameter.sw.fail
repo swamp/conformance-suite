@@ -1,6 +1,6 @@
 ---
 code: 101
-message: Unused parameter 'unused_param'
+message: unused parameter 'unused_param'
 ---
 fn calculate(x: Int, unused_param: Int) -> Int {
     x * 2

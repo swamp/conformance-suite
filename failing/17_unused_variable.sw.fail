@@ -1,6 +1,6 @@
 ---
 code: 100
-message: Unused variable 'unused_var'
+message: unused variable 'unused_var'
 ---
 fn main() -> Int {
     unused_var := 42

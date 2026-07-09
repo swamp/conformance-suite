@@ -1,6 +1,6 @@
 ---
 code: 169
-message: "unknown named argument"
+message: unknown named argument 'this_is_not_a_correct_parameter'
 ---
 
 fn some_function(value: Float, position: Int, third_one: Int) {

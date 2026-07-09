@@ -1,6 +1,6 @@
 ---
 code: 165
-message: 'add' is an associated function and must be called with '::' syntax, not '.' syntax
+message: 'add' requires '::' syntax
 ---
 struct Vector {
     x: Int,
