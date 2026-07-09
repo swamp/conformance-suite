@@ -13,7 +13,3 @@ assets_dir: passing/assets/
 codegen: {
     use_super_instructions: true
 }
-
-lowering: {
-    use_branch_fusing: true
-}

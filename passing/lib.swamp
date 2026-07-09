@@ -30,8 +30,10 @@ mod enum_guards
 mod enum_pattern_match
 mod enum
 mod fixed_size_array
+mod fixed_length_array
 mod float
 mod for
+mod format
 mod guard
 
 mod indirect_memory
@@ -64,7 +66,7 @@ mod pool
 mod queue
 mod queue2
 
-mod range // slice
+mod range
 mod resource_id
 mod rest_args
 mod rest_operator
@@ -86,7 +88,7 @@ mod struct_map
 mod struct
 
 mod tag
-mod text_tags
+// TODO: not working yet: mod text_tags
 mod to_string
 
 mod transformer_bugs

@@ -1,13 +1,255 @@
 //
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
-struct Thing {
-    list: [Int; 4]
+
+fn len_and_get(xs: Slice<Int>) -> Int {
+    assert(xs.len() == 2, 'must be two {xs.len()}')
+    xs[1]
 }
 
 #[test]
-fn push_and_subscript() {
-    mut thing = Thing { list: [] }
-    thing.list[0] = 1
-    print('list[0]:{thing.list[0]}')
+fn check_len_and_index_subscript() {
+    values: [Int; 4] = [10, 20, 30, 40]
+    a := len_and_get(values[1..3])
+    assert(a == 30, 'should have been 30 {a}')
+}
+
+#[test]
+fn slice_undefined() {
+    a := [10, 20, 30, 40]
+
+    b: Vec<Int; 2> = a[0..0]
+    assert(b.len() == 0, 'len was wrong {b.len()}')
+}
+
+#[test]
+fn slice_one() {
+    a := [10, 20, 30, 40]
+
+    b: Vec<Int; 2> = a[0..1]
+    assert(b.len() == 1, 'len was wrong {b.len()}')
+    assert(b[0] == 10, 'value was wrong {b[0]}')
+}
+
+#[test]
+fn slice_whole_range() {
+    a := [10, 20, 30, 40]
+
+    b: Vec<Int; 4> = a[0..4]
+    assert(b.len() == 4, 'len was wrong {b.len()}')
+    assert(b[0] == 10, 'first value was wrong {b[0]}')
+    assert(b[1] == 20, 'second value was wrong {b[1]}')
+    assert(b[2] == 30, 'third value was wrong {b[2]}')
+    assert(b[3] == 40, 'fourth value was wrong {b[3]}')
+}
+
+#[test]
+fn slice_empty_at_end() {
+    a := [10, 20, 30, 40]
+
+    b: Vec<Int; 2> = a[4..4]
+    assert(b.len() == 0, 'len was wrong {b.len()}')
+}
+
+#[test]
+fn slice_inclusive_single_element() {
+    a := [10, 20, 30, 40]
+
+    b: Vec<Int; 2> = a[2..=2]
+    assert(b.len() == 1, 'len was wrong {b.len()}')
+    assert(b[0] == 30, 'value was wrong {b[0]}')
+}
+
+#[test]
+fn slice_inclusive_range() {
+    a := [10, 20, 30, 40]
+
+    b: Vec<Int; 4> = a[1..=3]
+    assert(b.len() == 3, 'len was wrong {b.len()}')
+    assert(b[0] == 20, 'first value was wrong {b[0]}')
+    assert(b[1] == 30, 'second value was wrong {b[1]}')
+    assert(b[2] == 40, 'third value was wrong {b[2]}')
+}
+
+#[test]
+fn slice_computed_range() {
+    a := [10, 20, 30, 40]
+
+    start := 1
+    end := start + 3
+    b: Vec<Int; 4> = a[start..end]
+
+    assert(b.len() == 3, 'len was wrong {b.len()}')
+    assert(b[0] == 20, 'first value was wrong {b[0]}')
+    assert(b[1] == 30, 'second value was wrong {b[1]}')
+    assert(b[2] == 40, 'third value was wrong {b[2]}')
+}
+
+#[test]
+fn slice_looped_ranges() {
+    a := [10, 20, 30, 40]
+
+    for start in 0..=1 {
+        end := start + 2
+        b: Vec<Int; 2> = a[start..end]
+
+        assert(b.len() == 2, 'len was wrong {b.len()}')
+        assert(b[0] == a[start], 'first value was wrong {b[0]}')
+        assert(b[1] == a[start + 1], 'second value was wrong {b[1]}')
+    }
+}
+
+#[test]
+fn slice_to_vec_copy() {
+    source: Vec<Int; 4> = [10, 20, 30, 40]
+    copied : Vec<Int; 2> = source[1..3]
+
+    assert(copied[0] == 20, 'first value {copied[0]}')
+    assert(copied[1] == 30, 'second value {copied[1]}')
+}
+
+
+#[test]
+#[should_trap(expected="vec_subscript_out_of_bounds")]
+fn slice_is_out_of_bounds() {
+    a := [10, 20, 30, 40]
+
+    // Slice is out of range
+    _b: Vec<Int; 32> = a[4..7]
+}
+
+#[test]
+#[should_trap(expected="vec_copy_out_of_bounds")]
+fn slice_target_is_too_small() {
+    a := [10, 20, 30, 40]
+
+    // slice is 3 in length, but target capacity is just 2
+    _b: Vec<Int; 2> = a[0..3]
+}
+
+#[test]
+#[should_trap(expected="vec_subscript_out_of_bounds")]
+fn slice_is_wrong_order() {
+    a := [10, 20, 30, 40]
+
+    // if index is in wrong order in range, it should trap
+    _b: Vec<Int; 2> = a[3 .. 1]
+}
+
+#[test]
+fn vector_slice() {
+    a := [10, 20, 30, 40]
+
+    b: Vec<Int; 32> = a[1..3]
+
+    print('b:{b}')
+
+    assert(b.capacity() == 32, "should still have 32 in capacity")
+
+    assert(b.len() == 2, 'len failed {b.len()}')
+
+    c: Vec<Int; 4> = a[1..4]
+
+    print('c:{c}')
+
+    assert(c.capacity() == 4, "should still have 4 in capacity")
+    assert(c.len() == 3, 'len failed {c.len()}')
+
+    assert(c[0] == 20, 'not equal {c[0]}')
+    assert(c[1] == 30, 'not equal {c[1]}')
+    assert(c[2] == 40, 'not equal {c[2]}')
+}
+
+struct Position {
+    x: Int
+    y: Int
+}
+
+fn wants_slice(mut slice: Slice<Position>) -> Position {
+    assert(slice.len() >= 2, 'must be at least two')
+    slice[0] = [90, 100]
+    slice[1]
+}
+
+#[test]
+fn coerce_vec_to_slice() {
+    mut a : Vec<Position; 8> = [[10, 20], [30, 40]]
+
+    assert(a[0].x == 10, 'should have original value')
+    returned_position := wants_slice(&a)
+    assert(a[0].x == 90, 'should have been mutated by wants_slice')
+    assert(a[0].y == 100, 'should have been mutated by wants_slice')
+    assert(returned_position.x == 30, 'returned value')
+    assert(returned_position.y == 40, 'returned value')
+}
+
+
+#[test]
+fn borrow_mut_slice() {
+    mut a : Vec<Position; 8> = [[10, 20], [30, 40], [50, 60]]
+
+    with mut slice = &a[1..=2] {
+        assert(a[0].x == 10, 'should have original value')
+        returned_position := wants_slice(&slice)
+        assert(a[1].x == 90, 'should have been mutated by wants_slice')
+        assert(a[1].y == 100, 'should have been mutated by wants_slice')
+        assert(returned_position.x == 50, 'returned value')
+        assert(returned_position.y == 60, 'returned value')
+    }
+}
+
+#[test]
+fn borrow_immutable_slice() {
+    a : Vec<Position; 8> = [[10, 20], [30, 40], [50, 60]]
+
+    with slice = &a[1..=2] {
+        assert(a[0].x == 10, 'should have original value')
+        assert(slice[0].x == 30, 'slice was wrong {slice[0]}')
+    }
+}
+
+#[test]
+fn borrow_mut_scalar_slice() {
+    mut a: Vec<Int; 8> = [10, 20, 30, 40]
+
+    with mut slice = &a[1..3] {
+        slice[0] = 200
+        slice[1] = 300
+    }
+
+    assert(a[0] == 10, 'first value should be unchanged {a[0]}')
+    assert(a[1] == 200, 'second value should have been updated {a[1]}')
+    assert(a[2] == 300, 'third value should have been updated {a[2]}')
+    assert(a[3] == 40, 'fourth value should be unchanged {a[3]}')
+}
+
+#[test]
+fn slice_to_slice_copy() {
+    mut dest: Vec<Int; 4> = [10, 20, 30, 40]
+    source: Vec<Int; 8> = [1, 2, 3, 100, 200, 300, 400]
+
+    with mut dest_slice = &dest[1..4], source_slice = &source[3..5] {
+        assert(dest_slice.len() == 3, 'dest slice wrong len')
+        assert(source_slice.len() == 2, 'source slice wrong len')
+        dest_slice = source_slice
+    }
+
+    assert(dest[0] == 10, 'first value should be unchanged {dest[0]}')
+    assert(dest[1] == 100, 'second value should have been copied {dest[1]}')
+    assert(dest[2] == 200, 'third value should have been copied {dest[2]}')
+    assert(dest[3] == 40, 'fourth value should be unchanged {dest[3]}')
+}
+
+#[test]
+fn slice_to_vec_copy_from_slice() {
+    source: Vec<Int; 8> = [10, 20, 30, 40, 50]
+    assert(source.len() == 5, 'source len was wrong from init')
+
+    with source_slice = &source[1..4] {
+        copied: Vec<Int; 16> = source_slice
+        assert(copied.len() == 3, 'len was wrong {copied.len()}')
+        assert(copied[0] == 20, 'first value was wrong {copied[0]}')
+        assert(copied[1] == 30, 'second value was wrong {copied[1]}')
+        assert(copied[2] == 40, 'third value was wrong {copied[2]}')
+    }
 }
