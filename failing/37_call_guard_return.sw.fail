@@ -1,0 +1,13 @@
+---
+code: 174
+message: call guard requires a Unit function without out parameters
+---
+struct Point {
+    x: Int
+    y: Int
+}
+
+fn mutate_maybe(mut point: Point) -> Int | point.x > 0 {
+    point.x = point.y
+    point.y
+}

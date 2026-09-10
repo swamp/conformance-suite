@@ -1,0 +1,68 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+struct Counter {
+    value: Int
+}
+
+#[test]
+fn add_assign() {
+    mut x := 10
+    x += 5
+    assert(x == 15, 'add assign failed, got {x}')
+}
+
+#[test]
+fn sub_assign() {
+    mut x := 10
+    x -= 3
+    assert(x == 7, 'sub assign failed, got {x}')
+}
+
+#[test]
+fn mul_assign() {
+    mut x := 4
+    x *= 3
+    assert(x == 12, 'mul assign failed, got {x}')
+}
+
+#[test]
+fn div_assign() {
+    mut x := 20
+    x /= 4
+    assert(x == 5, 'div assign failed, got {x}')
+}
+
+#[test]
+fn add_assign_in_loop() {
+    mut sum := 0
+    for i in 1..=5 {
+        sum += i
+    }
+    assert(sum == 15, 'loop add assign failed, got {sum}')
+}
+
+#[test]
+fn sub_assign_in_loop() {
+    mut val := 100
+    for _ in 0..4 {
+        val -= 10
+    }
+    assert(val == 60, 'loop sub assign failed, got {val}')
+}
+
+#[test]
+fn compound_on_struct_field() {
+    mut c = Counter { .. }
+    c.value += 7
+    c.value += 3
+    assert(c.value == 10, 'struct field compound assign failed, got {c.value}')
+}
+
+#[test]
+fn float_add_assign() {
+    mut f := 1.0
+    f += 2.5
+    assert(f == 3.5, 'float add assign failed, got {f}')
+}

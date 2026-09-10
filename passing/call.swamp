@@ -1,0 +1,136 @@
+struct SomeStruct {
+    x: Int
+    y: Int
+}
+
+fn many_parameters(
+    a: Float
+    b: Int
+    c: Float
+    d: Int
+    e: Float
+    f: Int
+    g: Float
+    h: Int
+    i: Float
+    j: SomeStruct
+) -> Bool {
+    assert(a == 1.0, 'a: {a}')
+    assert(b == 2, 'b: {b}')
+    assert(c == 3.0, 'c: {c}')
+    assert(d == 4, 'd: {d}')
+    assert(e == 5.0, 'e: {e}')
+    assert(f == 6, 'f: {f}')
+    assert(g == 7.0, 'g: {g}')
+    assert(h == 8, 'h: {h}')
+    assert(i == 9.0, 'i: {i}')
+
+    assert(j.x == 10, 'j is wrong {j}')
+    true
+}
+
+impl SomeStruct {
+
+    fn associated_many_parameters(
+        a: Float
+        b: Int
+        c: Float
+        d: Int
+        e: Float
+        f: Int
+        g: Float
+        h: Int
+        i: Float
+        j: SomeStruct
+        ) -> Int
+    {
+        assert(a == 1.0, 'a: {a}')
+        assert(b == 2, 'b: {b}')
+        assert(c == 3.0, 'c: {c}')
+        assert(d == 4, 'd: {d}')
+        assert(e == 5.0, 'e: {e}')
+        assert(f == 6, 'f: {f}')
+        assert(g == 7.0, 'g: {g}')
+        assert(h == 8, 'h: {h}')
+        assert(i == 9.0, 'i: {i}')
+        assert(j.x == 10, 'j: {j}')
+
+        h
+    }
+
+    fn member_many_parameters(
+        self
+        a: Float
+        b: Int
+        c: Float
+        d: Int
+        e: Float
+        f: Int
+        g: Float
+        h: Int
+        ) -> Int
+    {
+        assert(a == 1.0, 'a: {a}')
+        assert(b == 2, 'b: {b}')
+        assert(c == 3.0, 'c: {c}')
+        assert(d == 4, 'd: {d}')
+        assert(e == 5.0, 'e: {e}')
+        assert(f == 6, 'f: {f}')
+        assert(g == 7.0, 'g: {g}')
+        assert(h == 8, 'h: {h}')
+
+        assert(.x == 10, 'j is wrong {self}')
+
+        h
+    }
+}
+
+#[test]
+fn call_with_many_arguments() {
+    result := many_parameters(
+        1.0
+        2
+        3.0
+        4
+        5.0
+        6
+        7.0
+        8
+        9.0
+        [ 10, 20 ]
+    )
+    assert(result, 'should be true {result}')
+}
+
+#[test]
+fn call_member_function_with_many_arguments() {
+    s := SomeStruct { x: 10, y: 20 }
+    result := s.member_many_parameters(
+        1.0
+        2
+        3.0
+        4
+        5.0
+        6
+        7.0
+        8
+    )
+    assert(result == 8, 'should be equal to 8 {result}')
+}
+
+#[test]
+fn call_associated_function_with_many_arguments() {
+    result := SomeStruct::associated_many_parameters(
+        1.0
+        2
+        3.0
+        4
+        5.0
+        6
+        7.0
+        8
+        9.0
+        [ 10, 20 ]
+    )
+    assert(result == 8, 'should be true {result}')
+}

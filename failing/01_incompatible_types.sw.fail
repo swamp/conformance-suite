@@ -1,0 +1,6 @@
+---
+code: 34
+message: incompatible types
+---
+a := "hello"
+b := a + 23

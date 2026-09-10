@@ -1,0 +1,113 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+mod and_block
+mod anonymous_struct
+mod arithmetic
+mod array_subscript
+mod array_to_struct
+mod array
+mod bits
+mod bitwise
+mod block
+mod bool
+mod bounds_check
+mod break
+mod byte
+mod call_guard
+mod call
+mod callee_save
+mod capacities
+mod const_borrow
+mod const_capacities
+mod constant
+mod continue
+mod codepoint
+mod distinct_aggregate_ops
+mod distinct_impl
+mod embed
+mod embed_receiver
+mod enum_bugs
+mod enum_guards
+mod enum_pattern_match
+mod enum
+mod fixed_size_array
+mod fixed_length_array
+mod float
+mod for
+mod format
+mod grid
+mod guard
+
+mod indirect_memory
+mod initializer
+mod int
+mod intrinsic_materialization
+mod keyword_field
+mod lambda
+mod layout
+mod liveness
+mod logical
+mod loop
+mod map_in_map
+mod map
+
+mod match_literal
+mod match
+mod match_or_patterns
+
+mod member_lookahead
+mod member
+
+mod named_arguments
+mod none_coalesce
+mod number_formats
+mod only
+
+mod operator
+mod optional_infer
+mod optional_reference
+mod pool
+mod queue
+mod queue2
+
+mod range
+mod resource_id
+mod rest_args
+mod rest_operator
+mod ring
+mod rotate
+
+
+mod scalar_vs_aggregate
+mod slice
+mod sort
+
+mod sret_out_param
+mod stack
+
+mod string_basic
+mod string_other
+mod string_const
+
+mod struct_map
+mod struct
+
+mod tag
+// TODO: not working yet: mod text_tags
+mod to_string
+
+mod transformer_bugs
+mod transformer_filter_bugs
+mod transformer
+
+mod tuple
+mod type
+mod unwrap
+mod vec
+
+mod when
+
+mod while
+
+mod with

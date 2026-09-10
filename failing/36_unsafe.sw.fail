@@ -1,0 +1,6 @@
+---
+code: 108
+message: unsafe ptr type is not allowed
+---
+
+p: *U8 = 0xffff

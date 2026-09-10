@@ -1,0 +1,52 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+#[test]
+fn only_bare_names() {
+    x := 10
+    y := 20
+    result := only x, y {
+        x + y
+    }
+    assert(result == 30, "only with bare names should yield 30")
+}
+
+#[test]
+fn only_explicit_binding() {
+    source_a := 5
+    source_b := 7
+    result := only a = source_a, b = source_b {
+        a + b
+    }
+    assert(result == 12, "only with explicit bindings should yield 12")
+}
+
+#[test]
+fn only_mut_binding() {
+    base := 100
+    result := only mut v = base {
+        v = v + 1
+        v
+    }
+    assert(result == 101, "only with mut binding should yield 101")
+}
+
+#[test]
+fn only_single_variable() {
+    value := 42
+    result := only value {
+        value * 2
+    }
+    assert(result == 84, "only single variable should yield 84")
+}
+
+#[test]
+fn only_mixed_bindings() {
+    a := 3
+    source := 4
+    result := only a, b = source {
+        a * b
+    }
+    assert(result == 12, "only mixed bindings should yield 12")
+}

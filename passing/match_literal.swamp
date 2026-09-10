@@ -1,0 +1,161 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+#[test]
+fn match_int() {
+    x := 20
+
+    result := match x {
+        10 -> "cool"
+        20 -> "warm"
+        40 -> "burning"
+        _ -> "not found"
+    }
+
+    assert(result == "warm", 'should have match {result}')
+}
+
+
+
+#[test]
+fn match_int_with_guard() {
+    x := 40
+    number_of_notifications := 4
+
+    result := match x {
+        10 -> "cool"
+        20 -> "warm"
+        40 && number_of_notifications < 3 -> "burning"
+        40 -> "you know, same as before"
+        _ -> "not found"
+    }
+
+    assert(result == "you know, same as before", 'should have match {result}')
+}
+
+
+#[test]
+fn match_int_with_exclusive_range() {
+    result := match -32 {
+        -32..4 -> "in range"
+        _ -> "not found"
+    }
+
+    assert(result == "in range", 'should be found {result}')
+}
+
+
+#[test]
+fn match_int_with_inclusive_range() {
+    a := 32
+    result := match a {
+        2 ..= 32 -> "in range"
+        _ -> "not found"
+    }
+
+    assert(result == "in range", 'should be found {result}')
+}
+
+
+#[test]
+fn match_int_with_negative_range() {
+    result := match 41 {
+        -2..42 -> "in range"
+        _ -> "not found"
+    }
+
+    assert(result == "in range", 'should be found {result}')
+}
+
+#[test]
+fn match_int_with_negative_range_and_scalar() {
+    result := match 0 {
+        0 -> "was zero"
+        2..42 -> "in range"
+        _ -> "not found"
+    }
+
+    assert(result == "was zero", 'should be found {result}')
+}
+
+
+#[test]
+fn match_codepoint_literal() {
+    result := match c'a' {
+        c'a' -> "matched"
+        _ -> "not found"
+    }
+
+    assert(result == "matched", 'should be found {result}')
+}
+
+
+const SOME_CONSTANT = 7
+
+#[test]
+fn match_constant_pattern() {
+    result := match 7 {
+        SOME_CONSTANT -> "matched"
+        _ -> "not found"
+    }
+
+    assert(result == "matched", 'should match constant {result}')
+}
+
+
+#[test]
+fn match_to_variable() {
+    result := match 42 {
+        SOME_CONSTANT -> "matched"
+        a -> 'found {a}'
+    }
+
+    assert(result == "found 42", 'should match constant {result}')
+}
+
+
+#[test]
+fn match_scalar_to_mut_variable() {
+    result := match 42 {
+        SOME_CONSTANT -> "matched"
+        mut a -> {
+            a = 99
+            'found {a}'
+        }
+    }
+
+    assert(result == "found 99", 'should match mutated {result}')
+}
+
+enum SomeEnum {
+    NotUsed
+    Payload Int
+}
+
+#[test]
+fn match_aggregate_to_mut_variable() {
+    mut secret := SomeEnum::Payload(-1)
+
+    result := match &secret {
+        NotUsed -> "wrong"
+        mut change_secret -> {
+            change_secret = NotUsed
+            'found {change_secret}'
+        }
+    }
+
+    assert(result == "found SomeEnum::NotUsed", 'should match {result}')
+}
+
+#[test]
+fn match_float() {
+    x := 42.0
+
+    result := match x {
+        -1.0 -> 'freezing'
+        42.0 -> "burning"
+        _ -> panic('should have been matched earlier {x}')
+    }
+
+    assert(result == "burning", 'should have match {result}')
+}

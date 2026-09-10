@@ -1,0 +1,5 @@
+name: unsafe_suite
+type: :lib
+extension: sw
+src_dir: src
+allow_unsafe: true

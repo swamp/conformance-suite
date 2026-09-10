@@ -1,0 +1,34 @@
+// Again I owe @catnipped for reporting these bugs
+//
+// `__init_constants` previously confused String (a scalar string-view pointer)
+// with String<N> (aggregate Vec<U8> collection). The generated initializer
+// incorrectly used the String return type instead of the declared
+// String<N> destination type and produced incorrect code.
+//
+// another problem was that the Marsh VM runtime didn't freeze (preserve) the scratch 
+// allocations after the `init_once` was completed. So future scratch allocations
+//  would very likely clobber the constant/static allocated scratch.
+
+fn generate_string() -> String {
+    copy : String<32> = "hello again"
+    copy
+}
+
+const NAME_NO_STORAGE: String = "hello, world"
+const NAME_WITH_STORAGE: String<42> = "hello, world!"
+const NAME_FROM_GENERATED = generate_string()
+
+#[test]
+fn check_const_string_without_storage() {
+    assert(NAME_NO_STORAGE == "hello, world", 'expected equal {NAME_NO_STORAGE}')
+}
+
+#[test]
+fn check_const_string_with_storage() {
+    assert(NAME_WITH_STORAGE == "hello, world!", 'expected equal {NAME_WITH_STORAGE}')
+}
+
+#[test]
+fn check_const_string_from_generated() {
+    assert(NAME_FROM_GENERATED == "hello again", 'expected equal {NAME_FROM_GENERATED}')
+}

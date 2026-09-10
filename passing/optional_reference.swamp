@@ -1,0 +1,90 @@
+#[test]
+fn check_map_lookup() {
+    map := [ 1 : 2 ]
+
+    maybe_value := map[1]?
+
+    result := when maybe_value {
+        maybe_value
+    } else {
+        0
+    }
+
+    assert(result == 2, 'result: {result}')
+}
+
+
+#[test]
+fn check_map_value() {
+    map := [ 1 : 42 ]
+
+    result := when v = map[1]? {
+        v
+    } else {
+        0
+    }
+
+    assert(result == 42, 'result: {result}')
+}
+
+
+#[test]
+fn check_missing_map_value() {
+    map := [1: 0]
+
+    result := when _v = map[2]? {
+        1
+    } else {
+        0
+    }
+
+    assert(result == 0, 'result: {result}')
+}
+
+struct Point {
+    x: Int
+    y: Int
+}
+
+#[test]
+fn check_map_aggregate_loopkup() {
+    map := [ 1 : Point { x: 10, y: 20 } ]
+
+    maybe_value := map[1]?
+
+    result := when maybe_value {
+        maybe_value.y
+    } else {
+        0
+    }
+
+    assert(result == 20, 'result: {result}')
+}
+
+
+#[test]
+fn check_map_value_aggregate() {
+    map := [ 1 : Point { x: 10, y: 42 } ]
+
+    result := when point = map[1]? {
+        print('found it: {point}')
+        point.y
+    } else {
+        0
+    }
+
+    assert(result == 42, 'result: {result}')
+}
+
+#[test]
+fn check_missing_map_aggregate_value() {
+    map := [ 1 : Point { x: 10, y: 42 } ]
+
+    result := when _v = map[2]? {
+        1
+    } else {
+        0
+    }
+
+    assert(result == 0, 'result: {result}')
+}

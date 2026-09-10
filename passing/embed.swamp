@@ -1,0 +1,87 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+struct Base {
+    x: Int
+    y: Int
+}
+
+struct Something {
+    embed base: Base
+}
+
+struct Extended {
+    embed base: Base
+    z: Int
+}
+
+impl Base {
+    fn sum(self) -> Int {
+        .x + .y
+    }
+}
+
+fn use_base(b: Base) -> Int {
+    b.x + b.y
+}
+
+fn use_base_method(b: Base) -> Int {
+    b.sum()
+}
+
+#[test]
+fn embed_pass_as_base() {
+    s := Something { base: [ 3, 7 ] }
+    result := use_base(s)
+    assert(result == 10, 'sum should be 10')
+}
+
+
+#[test]
+fn embed_pass_as_base_method() {
+    s := Something { base: { x: 4, y: 6 } }
+    result := use_base_method(s)
+    assert(result == 10, 'use_base_method should return 10')
+}
+
+#[test]
+fn embed_extended_field_access() {
+    e := Extended { base: { x: 1, y: 2 }, z: 3 }
+    assert(e.base.x == 1, 'x should be 1')
+    assert(e.base.y == 2, 'y should be 2')
+    assert(e.z == 3, 'z should be 3')
+}
+
+#[test]
+fn embed_extended_pass_as_base() {
+    e := Extended { base: { x: 8, y: 12 }, z: 99 }
+    result := use_base(e)
+    assert(result == 20, 'sum should be 20')
+}
+
+fn overwrite_base(mut b: Base) {
+    b.x = 99
+    b.y = 88
+}
+
+#[test]
+fn embed_borrow_as_base() {
+    mut s = Something { base: { x: 1, y: 2 } }
+    overwrite_base(&s)
+    assert(s.base.x == 99, 'x should be 99 after')
+    assert(s.base.y == 88, 'y should be 88 after')
+}
+
+fn increment_base(mut b: Base) {
+    b.x += 1
+    b.y += 1
+}
+
+#[test]
+fn embed_extended_borrow_as_base() {
+    mut e = Extended { base: { x: 10, y: 20 }, z: 5 }
+    increment_base(&e)
+    assert(e.base.x == 11, 'x should be incremented to 11')
+    assert(e.base.y == 21, 'y should be incremented to 21')
+    assert(e.z == 5, 'z should be unchanged')
+}

@@ -1,0 +1,12 @@
+type Handle = Int
+
+impl Handle {
+    fn zero() -> Handle {
+        0
+    }
+}
+
+#[test]
+fn distinct_scalar_impl_block_is_allowed() {
+    assert(Handle::zero() == 0, "distinct scalar impl should work")
+}

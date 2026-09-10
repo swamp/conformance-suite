@@ -1,0 +1,114 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+// Codepoint literals: c'a', c'😁', c'\u{1F601}'
+
+#[test]
+fn codepoint_ascii() {
+    ch := c'A'
+    assert(ch.int() == 65, 'codepoint A should be 65')
+}
+
+#[test]
+fn codepoint_lowercase() {
+    ch := c'z'
+    assert(ch.int() == 122, 'codepoint z should be 122')
+}
+
+#[test]
+fn codepoint_digit() {
+    ch := c'5'
+    assert(ch.int() == 53, 'codepoint 5 should be 53')
+}
+
+#[test]
+fn codepoint_space() {
+    ch := c' '
+    assert(ch.int() == 32, 'codepoint space should be 32')
+}
+
+#[test]
+fn codepoint_emoji() {
+    emoji_vampire := c'🧛'
+    assert(emoji_vampire.int() == 0x1F9DB, 'vampire emoji should be 0x1F9DB')
+
+    emoji_grin := c'😁'
+    assert(emoji_grin.int() == 0x1F601, 'emoji codepoint should be 0x1F601')
+
+    emoji_sparkles := c'✨'
+    assert(emoji_sparkles.int() == 0x2728, 'sparkles emoji should be 0x2728')
+}
+
+#[test]
+fn codepoint_unicode_escape() {
+    grin := c'\u{1F601}' // 😁
+    assert(grin.int() == 0x1F601, 'unicode escape should be 0x1F601')
+
+    ascii_a := c'\u{0041}' // A
+    assert(ascii_a.int() == 65, 'unicode escape for A should be 65')
+
+    sparkles := c'\u{2728}' // ✨
+    assert(sparkles.int() == 0x2728, 'unicode escape sparkles should be 0x2728')
+}
+
+#[test]
+fn codepoint_newline() {
+    ch := c'\n'
+    assert(ch.int() == 10, 'newline should be 10')
+}
+
+#[test]
+fn codepoint_tab() {
+    ch := c'\t'
+    assert(ch.int() == 9, 'tab should be 9')
+}
+
+#[test]
+fn codepoint_carriage_return() {
+    ch := c'\r'
+    assert(ch.int() == 13, 'carriage return should be 13')
+}
+
+#[test]
+fn codepoint_backslash() {
+    ch := c'\\'
+    assert(ch.int() == 92, 'backslash should be 92')
+}
+
+#[test]
+fn codepoint_single_quote() {
+    ch := c'\''
+    assert(ch.int() == 39, 'single quote should be 39')
+}
+
+#[test]
+fn codepoint_convert_to_string() {
+    ch := c'A'
+    s := ch.string()
+    assert(s == "A", 'codepoint A to string should be "A"')
+}
+
+#[test]
+fn codepoint_emoji_convert_to_string() {
+    ch := c'🎉'
+    s := ch.string()
+    assert(s == "🎉", 'emoji to string should preserve emoji')
+}
+
+#[test]
+fn codepoint_comparison() {
+    a := c'A'
+    b := c'A'
+    c := c'B'
+    assert(a == b, 'identical codepoints should be equal')
+    assert(a != c, 'different codepoints should not be equal')
+}
+
+#[test]
+fn codepoint_ordering() {
+    a := c'A'
+    b := c'B'
+    assert(a < b, 'A should be less than B')
+    assert(b > a, 'B should be greater than A')
+}

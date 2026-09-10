@@ -1,0 +1,62 @@
+struct Entity {
+    dummy: Int
+    priority: Int
+}
+
+#[test]
+fn quick_sort_simple() {
+    mut things : Vec<Entity; 32> = [ [0, 4], [1, 7], [2, -1]]
+
+    things.quick_sort( |a, b| a.priority - b.priority )
+    print('after: {things}')
+
+    assert(things[0].dummy == 2, 'should be sorted')
+    assert(things[0].priority == -1, 'should be sorted')
+    assert(things[1].dummy == 0, 'should be sorted')
+    assert(things[1].priority == 4, 'should be sorted')
+    assert(things[2].dummy == 1, 'should be sorted')
+    assert(things[2].priority == 7, 'should be sorted')
+}
+
+
+#[test]
+fn quick_sort_sorted() {
+    mut things : Vec<Entity; 32> = [
+        [ 0, -32768 ]
+        [ 1, -1 ]
+        [ 2, 2 ]
+        [ 3, 16000 ]
+    ]
+
+    things.quick_sort(|a, b| a.priority - b.priority)
+    print('after: {things}')
+
+    assert(things[0].dummy == 0, 'should be sorted')
+    assert(things[0].priority == -32768, 'should be sorted')
+    assert(things[1].dummy == 1, 'should be sorted')
+    assert(things[1].priority == -1, 'should be sorted')
+    assert(things[2].dummy == 2, 'should be sorted')
+    assert(things[2].priority == 2, 'should be sorted')
+    assert(things[3].dummy == 3, 'should be sorted')
+    assert(things[3].priority == 16000, 'should be sorted')
+}
+
+
+#[test]
+fn quick_sort_reverse() {
+    mut things : Vec<Entity; 8> = [
+        [0, 3]
+        [1, 1]
+        [2, -1]
+    ]
+
+    things.quick_sort(|a, b| a.priority - b.priority)
+
+    print('after: {things}')
+    assert(things[0].dummy == 2, 'should be sorted')
+    assert(things[0].priority == -1, 'should be sorted')
+    assert(things[1].dummy == 1, 'should be sorted')
+    assert(things[1].priority == 1, 'should be sorted')
+    assert(things[2].dummy == 0, 'should be sorted')
+    assert(things[2].priority == 3, 'should be sorted')
+}

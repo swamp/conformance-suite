@@ -1,0 +1,24 @@
+#[test]
+fn loop_basic() {
+    mut i := 0
+    loop {
+        i += 1
+        if i > 30 {
+            break
+        }
+    }
+    assert(i == 31, 'should have looped to 31 {i}')
+}
+
+
+#[test]
+fn loop_basic_2() {
+    mut i := 0
+    loop {
+        i += 1
+        if i & 0x2f == 0x2f {
+            break
+        }
+    }
+    assert(i == 47, 'should have looped to 47: {i}')
+}

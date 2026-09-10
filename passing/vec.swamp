@@ -1,0 +1,530 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+struct Thing {
+    a: Int
+    b: Int
+}
+
+struct Another {
+    things: Vec<Thing; 4>
+}
+
+fn reading_things(things: [Thing]) {
+    thing := things[0]
+    assert(thing.a == 42, 'thing.a is wrong')
+    assert(thing.b == -1024, 'thing.b is wrong')
+    print('thing: a:{thing.a} b: {thing.b}')
+}
+
+fn writing_second_element_in_things(mut things: [Thing]) {
+    print('before things[1]: a:{things[1].a} b: {things[1].b}')
+    new_thing := Thing { a: 100, b: 200 }
+    print('new_thing: a:{new_thing.a} b: {new_thing.b}')
+    things[1] = new_thing
+    print('after things[1]: a:{things[1].a} b: {things[1].b}')
+}
+
+fn writing_second_element_in_things_directly(mut things: [Thing]) {
+    print('before things[1]: a:{things[1].a} b: {things[1].b}') // FIXME: it is allocating temp when it shouldn't
+    things[1] = Thing { a: 100, b: 200 }
+    print('after things[1]: a:{things[1].a} b: {things[1].b}')
+}
+
+fn writing_second_b_in_things(mut things: [Thing]) {
+    things[1].b = -999
+}
+
+fn pass_things_slice(things: [Thing]) {
+    for x in things {
+        print('slice: thing: {x.a}')
+    }
+}
+
+fn pass_things(things: Vec<Thing>) {
+    for x in things {
+        print('vec: thing: {x.a}')
+    }
+}
+
+#[test]
+fn vec_assign_and_subscript() {
+
+    another := Another {
+        things: [
+            Thing { a: 11, b:  1 }
+            Thing { b:  2, a: 12 } // Intentionally swapped
+            [ 13,  3 ]
+        ]
+    }
+
+    second_thing := another.things[1]
+    assert(second_thing.a == 12, 'second_thing.a is wrong')
+    assert(second_thing.b == 2, 'second_thing.b is wrong')
+    print('second_thing: a: {second_thing.a} b: {second_thing.b}')
+
+    assert(another.things[0].a == 11, 'another.things[0].a is wrong')
+    assert(another.things[0].b == 1, 'another.things[0].a is wrong')
+    assert(another.things[1].a == 12, 'another.things[1].b is wrong')
+    assert(another.things[1].b == 2, 'another.things[1].b is wrong')
+    assert(another.things[2].a == 13, 'another.things[2].a is wrong')
+    assert(another.things[2].b == 3, 'another.things[2].b is wrong')
+
+}
+
+#[test]
+fn thing_to_string() {
+    thing := Thing { a: 42, b: 24 }
+    result := thing.string()
+    assert(result == "Thing { a: 42, b: 24 }", 'did not match "{result}"')
+}
+
+#[test]
+fn to_string() {
+      another := Another {
+        things: [
+            Thing { a: 11, b:  1 }
+            Thing { b:  2, a: 12 } // Intentionally swapped
+            Thing { a: 13, b:  3 }
+        ]
+    }
+    print("before")
+    result := another.string()
+    print("after")
+    print(result)
+
+    assert("Another { things: [ Thing { a: 11, b: 1 }, Thing { a: 12, b: 2 }, Thing { a: 13, b: 3 } ] }" == result, 'mismatch! returned "{result}"')
+}
+
+#[test]
+fn parameter_passing() {
+    another := Another {
+        things: [
+            Thing { b:  -1024, a: 42 } // Intentionally swapped
+        ]
+    }
+
+    reading_things(another.things)
+}
+
+#[test]
+fn mut_parameter_passing_one_field() {
+
+    mut another = Another {
+        things: [
+            Thing { b:  -1024, a: 42 } // Intentionally swapped
+            Thing { a:  32, b: 8086 }
+        ]
+    }
+
+    // Check that the values has been set correctly
+    assert(another.things[0].a == 42, 'things[0].a is wrong')
+    assert(another.things[0].b == -1024, 'things[0].b is wrong')
+
+    assert(another.things[1].a == 32, 'initial values: things[1].a has been changed!')
+    assert(another.things[1].b == 8086, 'initial values: things[1].b has been changed!')
+
+    // Call the function that mutates the second element
+    writing_second_b_in_things(&another.things)
+
+
+    // Check that first element is unchanged
+    assert(another.things[0].a == 42, 'after mutation: things[0].a has been changed!')
+    assert(another.things[0].b == -1024, 'after mutation: things[0].b has been changed!')
+
+    // Check that second element.b is changed
+    assert(another.things[1].a == 32, 'after mutation: things[1].a has been changed!')
+    assert(another.things[1].b == -999, 'after mutation: things[1].b should have been changed')
+
+ }
+
+#[test]
+fn mut_parameter_passing_whole_element() {
+
+    mut another = Another {
+        things: [
+            Thing { b:  -1024, a: 42 } // Intentionally swapped
+            Thing { a:  32, b: 8086 }
+        ]
+    }
+
+    // Check that the values has been set correctly
+    assert(another.things[0].a == 42, 'initial values: things[0].a is wrong')
+    assert(another.things[0].b == -1024, 'initial values: things[0].b is wrong')
+
+    assert(another.things[1].a == 32, 'initial values: things[1].a has been changed!')
+    assert(another.things[1].b == 8086, 'initial values: things[1].b has been changed!')
+
+    // Call the function that mutates the second element
+    writing_second_element_in_things(&another.things)
+
+    // Check that first element is unchanged after mutation of the second element
+    assert(another.things[0].a == 42, 'after mutation: things[0].a has been changed!')
+    assert(another.things[0].b == -1024, 'after mutation: things[0].b has been changed!')
+
+    // Check that second element.b is changed
+    assert(another.things[1].a == 100, 'after mutation: things[1].a should have been changed')
+    assert(another.things[1].b == 200, 'after mutation: things[1].b should have been changed')
+
+ }
+
+
+
+#[test]
+fn mut_parameter_passing_whole_element_directly() {
+
+    mut another = Another {
+        things: [
+            Thing { b:  -1024, a: 42 } // Intentionally swapped
+            Thing { a:  32, b: 8086 }
+        ]
+    }
+
+    // Check that the values has been set correctly
+    assert(another.things[0].a == 42, 'initial values: things[0].a is wrong')
+    assert(another.things[0].b == -1024, 'initial values: things[0].b is wrong')
+
+    assert(another.things[1].a == 32, 'initial values: things[1].a has been changed!')
+    assert(another.things[1].b == 8086, 'initial values: things[1].b has been changed!')
+
+    // Call the function that mutates the second element
+    writing_second_element_in_things_directly(&another.things)
+
+    // Check that first element is unchanged after mutation of the second element
+    assert(another.things[0].a == 42, 'after mutation: things[0].a has been changed!')
+    assert(another.things[0].b == -1024, 'after mutation: things[0].b has been changed!')
+
+    // Check that second element.b is changed
+    assert(another.things[1].a == 100, 'after mutation: things[1].a should have been changed')
+    assert(another.things[1].b == 200, 'after mutation: things[1].b should have been changed')
+
+ }
+
+fn returning_a_thing(a: Bool) -> Thing {
+    if a {
+        Thing { a: 22, b: 44 }
+    } else {
+        Thing { a: 33, b: 55 }
+    }
+}
+
+#[test]
+fn fill_thing_from_returning() {
+    thing := returning_a_thing(true)
+    assert(thing.a == 22, 'thing.a is wrong')
+    assert(thing.b == 44, 'thing.b is wrong')
+}
+
+
+fn pushing_a_thing(mut things: Vec<Thing>, a: Int) {
+    things.push(Thing { a: a, b: a + 44 })
+}
+
+#[test]
+fn push() {
+    mut another = Another {
+        things: [
+            Thing { b:  -1024, a: 42 }, // Intentionally swapped
+            Thing { a:  32, b: 8086 },
+        ]
+    }
+
+    assert(another.things.len() == 2, "wrong length after initialization")
+
+    assert(another.things[1].a == 32, 'another.things[1].a is wrong')
+    assert(another.things[1].b == 8086, 'another.things[1].b is wrong')
+
+    another.things.push(Thing { a: 100, b: 200 })
+    assert(another.things.len() == 3, "wrong length after push")
+
+    another.things[2] = Thing { a: 100, b: 200 }
+
+    assert(another.things.len() == 3, "wrong length")
+
+    pushing_a_thing(&another.things, -2)
+
+    assert(another.things.len() == 4, "wrong length after pushing a thing")
+
+    another.things.remove(2)
+
+    print('another.things[2]: a:{another.things[2].a} b: {another.things[2].b}')
+
+    assert(another.things[1].a == 32, 'another.things[1].a is wrong')
+    assert(another.things[1].b == 8086, 'another.things[1].b is wrong')
+
+    assert(another.things[2].a == -2, 'another.things[3].a is wrong')
+    assert(another.things[2].b == -2 + 44, 'another.things[3].b is wrong')
+}
+
+#[test]
+fn pop() {
+    mut another = Another {
+        things: [
+            Thing { b:  -1024, a: 42 } // Intentionally swapped
+            Thing { a:  32, b: 8086 }
+        ]
+    }
+
+    assert(another.things.len() == 2, "wrong length after initialization")
+
+    assert(another.things[1].a == 32, 'another.things[1].a is wrong')
+    assert(another.things[1].b == 8086, 'another.things[1].b is wrong')
+
+    popped_last := another.things.pop()
+
+    print('popped: {popped_last}')
+
+    assert(popped_last.b == 8086, 'last was not correct')
+}
+
+
+//#[test] // TODO: Bring this back when you can have arguments for trap expectations
+// #[should_trap(expected="vec_bounds_fail")]
+// fn trap_remove() {
+//     mut another = Another {
+//         things: [
+//             Thing { b:  -1024, a: 42 }, // Intentionally swapped
+//             Thing { a:  32, b: 8086 },
+//         ]
+//     }
+//     assert(another.things.len() == 2, "wrong length after initialization")
+
+//     another.things.remove(2) // This should trap
+
+//     panic("should not be reached")
+// }
+
+
+#[test]
+fn pass_in_param() {
+    things := [ Thing { a: 33, b: 55 }, Thing { a: -4, b: 9 }, ]
+    pass_things(things)
+    pass_things_slice(things)
+}
+
+#[test]
+fn clear() {
+    mut another = Another {
+        things: [
+            Thing { b:  -1024, a: 42 } // Intentionally swapped
+            Thing { a:  32, b: 8086 }
+        ]
+    }
+
+    assert(another.things.len() == 2, 'should be two {another.things.len()}')
+
+    another.things.clear()
+
+    assert(another.things.len() == 0, 'should be zero {another.things.len()}')
+}
+
+
+
+enum InputEvent {
+	None
+	DebugStartBattle
+	LeaveScreen
+}
+
+fn copy_to_events( mut input_events: Vec<InputEvent> ) {
+	processed_input_events: Vec<InputEvent; 100> = []
+    assert(processed_input_events.capacity() == 100, "must be 100")
+	input_events = processed_input_events
+}
+
+// Tests problem where a VecView couldn't be a target for a copy
+#[test]
+fn copy_from_storage_to_view() {
+	mut test_events: Vec<InputEvent; 32> = [None, DebugStartBattle, None]
+
+    assert(test_events.len() == 3, "3 events")
+    assert(test_events.capacity() == 32, "capacity before")
+    copy_to_events(&test_events)
+    assert(test_events.len() == 0, "should have been copied over")
+    assert(test_events.capacity() == 32, "capacity after")
+}
+
+
+#[test]
+fn shuffle() {
+    mut ints: [Int; 10]
+
+    seed := 2
+
+    ints.shuffle_index(seed, ints.capacity())
+
+    print('order: {ints}')
+
+    assert(ints[2] == 3, "must be same")
+
+    next_seed := 42
+    ints.shuffle_index(next_seed, 10)
+
+    print('order after: {ints}')
+
+    assert(ints[1] == 9, "must be same")
+}
+
+struct Position {
+    x: Int
+    y: Int
+}
+
+#[test]
+fn vec_prepend_scalar() {
+    mut ints: Vec<Int; 10>
+
+    ints.prepend(-1)
+
+    print('prepend {ints}')
+
+    assert(ints[0] == -1, 'should be -1')
+}
+
+#[test]
+fn vec_prepend_aggregate() {
+    mut positions: Vec<Position; 10> = [ [10, 20] ]
+
+    positions.prepend( { x: 30, y: 40 } )
+
+    print('prepend {positions}')
+
+    assert(positions[0].x == 30, 'should be 30')
+    assert(positions[0].y == 40, 'should be 40')
+    assert(positions.len() == 2, 'expected len to be correct')
+}
+
+
+#[test]
+fn shuffle_positions() {
+    mut shuffled_indices: Vec<Int; 2>
+    seed := 4
+    shuffled_indices.shuffle_index(seed, shuffled_indices.capacity())
+
+    source_positions : Vec<Position; 8> = [ [10, 20], [30, 40] ]
+    shuffle_positions : Vec<Position; 8> = source_positions.copy_from_index(shuffled_indices)
+
+    print('before: {source_positions} after: {shuffle_positions}')
+}
+
+
+#[test]
+fn vec_reverse() {
+    ints := [1, 2, 3, 4]
+    reversed: Vec<Int; 4> = ints.rev()
+    print('before: {ints} and reversed: {reversed}')
+    assert(reversed[0] == 4, 'expected to be reversed {reversed}')
+}
+
+
+#[test]
+fn vec_reverse_aggregate() {
+    positions : Vec<Position; 8> = [ [10, 20], [30, 40] ]
+    reversed: Vec<Position; 4> = positions.rev()
+    print('before: {positions} and reversed: {reversed}')
+    assert(reversed[0].x == 30, 'expected to be reversed {reversed}')
+}
+
+
+#[test]
+fn vec_first_aggregate() {
+    positions : Vec<Position; 8> = [ [10, 20], [30, 40] ]
+    first := positions.first()
+
+    print('got first: {first}')
+    assert(first.x == 10, 'first should be 10')
+    assert(first.y == 20, 'first should be 10')
+}
+
+#[test]
+fn vec_last_aggregate() {
+    positions : Vec<Position; 8> = [
+        [10, 20]
+        [30, 40] 
+    ]
+    last := positions.last()
+
+    print('got last: {last}')
+    assert(last.x == 30, 'last should be 10')
+    assert(last.y == 40, 'last should be 10')
+}
+
+#[test]
+fn vec_first_scalar() {
+    values : Vec<Int; 8> = [ 
+        10
+        20
+        30
+    ]
+    first := values.first()
+
+    print('got first: {first}')
+
+    assert(first == 10, 'should be last scalar')
+}
+
+#[test]
+fn vec_last_scalar() {
+    values : Vec<Int; 8> = [ 
+        10
+        20
+        30
+    ]
+    
+    last := values.last()
+
+    print('got last: {last}')
+    assert(last == 30, 'should be last scalar')
+}
+
+#[test]
+fn vec_insert() {
+    mut values : Vec<Int; 4> = [ 
+        10
+        20
+        30
+    ]
+    
+    values.insert(1, 15)
+
+    print('got values: {values}')
+    assert(values[1] == 15, 'should be last scalar')
+}
+
+#[test]
+fn fail_vec_insert_at_the_end() {
+    mut values : Vec<Int; 8> = [ 
+        10
+        20
+        30
+    ]
+    
+    values.insert(3, 15)
+    print('got values: {values}')
+}
+
+#[test]
+#[should_trap(expected="vec_insert_out_of_bounds")]
+fn fail_vec_insert_beyond_the_end() {
+    mut values : Vec<Int; 8> = [ 
+        10
+        20
+        30
+    ]
+    
+    values.insert(4, 15) // should fail. the index is beyond the length
+    print('got values: {values}')
+}
+
+#[test]
+#[should_trap(expected="vec_bounds_fail")]
+fn fail_vec_insert_beyond_capacity() {
+    mut values := [ 
+        10
+        20
+        30
+    ]
+    
+    values.insert(0, 15) // should fail. no capacity for the insert
+    print('got values: {values}')
+}

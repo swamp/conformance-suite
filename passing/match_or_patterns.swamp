@@ -1,0 +1,141 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+// Or patterns in match expressions: pattern1 | pattern2 | pattern3
+// Swamp can not match enum variant literals with payload
+// TODO: support ranges 2..44
+
+enum Status {
+    Active
+    Pending
+    Inactive
+    Suspended
+    Deleted
+}
+
+enum Result {
+    Ok(Int)
+    Error(Int)
+    Timeout
+    Cancelled
+}
+
+#[test]
+fn or_pattern_literal_integers() {
+    value := 2
+    result := match value {
+        1 | 2 | 3 -> "low"
+        4 | 5 | 6 -> "medium"
+        _ -> "high"
+    }
+    assert(result == "low", 'or pattern should work')
+
+    result2 := match 5 {
+        1 | 2 | 3 -> "low"
+        4 | 5 | 6 -> "medium"
+        _ -> "high"
+    }
+    assert(result2 == "medium", 'or pattern should work')
+}
+
+#[test]
+fn or_pattern_no_match() {
+    value := 10
+    result := match value {
+        1 | 2 | 3 -> "low"
+        4 | 5 | 6 -> "medium"
+        _ -> "high"
+    }
+    assert(result == "high", 'or pattern should work')
+}
+
+#[test]
+fn or_pattern_enum_variants() {
+    result := match Status::Pending {
+        Active | Pending -> "working"
+        Inactive | Suspended | Deleted -> "not working"
+    }
+    assert(result == "working", 'enum | pattern should work')
+
+    status2 := Status::Suspended
+    result2 := match status2 {
+        Active | Pending -> "working"
+        Inactive | Suspended | Deleted -> "not working"
+    }
+    assert(result2 == "not working", 'enum | pattern should be inactive')
+}
+
+#[test]
+fn or_pattern_unit_variants() {
+    result_val := Result::Timeout
+    message := match result_val {
+        Timeout | Cancelled -> "operation failed"
+        _ -> "other"
+    }
+    assert(message == "operation failed", 'pattern should work')
+
+    result_val2 := Result::Cancelled
+    message2 := match result_val2 {
+        Timeout | Cancelled -> "operation failed"
+        _ -> "other"
+    }
+    assert(message2 == "operation failed", 'pattern should work')
+}
+
+#[test]
+fn or_pattern_zero_and_negative() {
+    value := 0
+    result := match value {
+        0 | -1 | -2 -> "low or zero"
+        1 | 2 | 3 -> "positive low"
+        _ -> "other"
+    }
+    assert(result == "low or zero", 'or pattern should work')
+
+    value2 := 2
+    result2 := match value2 {
+        0 | -1 | -2 -> "low or zero"
+        1 | 2 | 3 -> "positive low"
+        _ -> "other"
+    }
+    assert(result2 == "positive low", 'or pattern should work')
+}
+
+#[test]
+fn or_pattern_bool() {
+    value := true
+    result := match value {
+        true -> "yes"
+        false -> "no"
+    }
+    assert(result == "yes", 'bool match failed')
+}
+
+#[test]
+fn or_pattern_nested_match() {
+    outer := 2
+    inner := 5
+
+    result := match outer {
+        1 | 2 -> match inner {
+            4 | 5 | 6 -> "low-medium"
+            _ -> "low-other"
+        }
+        3 | 4 -> "medium"
+        _ -> "high"
+    }
+
+    assert(result == "low-medium", 'nested or pattern failed')
+}
+
+#[test]
+fn or_pattern_many_alternatives() {
+    value := 7
+    result := match value {
+        // You should of course not write code like this, it is only for testing purposes :)
+        1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 -> "single digit"
+        _ -> "other"
+    }
+    assert(result == "single digit", 'many alternatives or pattern failed')
+}

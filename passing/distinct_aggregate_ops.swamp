@@ -1,0 +1,28 @@
+struct Point {
+    x: Int
+    y: Int
+}
+
+type GridPoint = Point
+
+impl Point {
+    fn add(self, other: Point) -> Point {
+        {
+            x: self.x + other.x
+            y: self.y + other.y
+        }
+    }
+}
+
+
+#[test]
+fn distinct_aggregate_equality_and_addition() {
+    a: GridPoint = Point { x: 1, y: 2 }
+    b: GridPoint = Point { x: 3, y: 4 }
+
+    same := a == b
+    sum := a + b
+
+    assert(!same, "distinct aggregate equality should compare payload")
+    assert(sum.x == 4 && sum.y == 6, "distinct aggregate addition should call aggregate impl")
+}

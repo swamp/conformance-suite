@@ -1,0 +1,22 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+#[test]
+fn grid_indexing_and_mutate() {
+    mut grid: Grid<Int; (3, 2)> = [10, 11, 12, 20, 21, 22]
+
+    assert(grid.width() == 3, "width should be 3")
+    assert(grid.height() == 2, "height should be 2")
+
+    assert(grid[0, 0] == 10, "top-left")
+    assert(grid[2, 0] == 12, "top-right")
+    assert(grid[0, 1] == 20, "bottom-left")
+    assert(grid[2, 1] == 22, "bottom-right")
+
+    assert(grid[1, 1] == 21, 'before cell encountered {grid[1,1]}')
+
+    grid[1, 1] = 99
+
+    assert(grid[1, 1] == 99, "updated cell")
+}

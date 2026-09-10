@@ -1,0 +1,17 @@
+---
+code: 34
+message: "incompatible types"
+---
+
+type Handle = Int
+type AnotherHandle = Int
+
+fn some_function(another: AnotherHandle) -> Int {
+    another + 3
+}
+
+first_handle: Handle = 3
+
+some_function(
+    first_handle
+)

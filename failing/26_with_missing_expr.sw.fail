@@ -1,0 +1,13 @@
+---
+code: 110
+message: expected '='
+
+---
+
+a := 2
+b := 3
+
+// With requires an expression (place)
+with a, b {
+    print('a : {a}, b: {b}')
+}

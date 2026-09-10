@@ -1,0 +1,41 @@
+#[test]
+fn basic_size() {
+    assert(size_of::<Int> == 4, 'int should be four bytes (i32)')
+}
+
+// Since it aligns by the largest alignment, this should be 8 bytes
+struct SomeCoolStruct {
+    some_bool: Bool // even if this is one byte (U8), it adds 3 bytes padding
+    value: Int
+}
+
+#[test]
+fn struct_size() {
+    assert(size_of::<SomeCoolStruct> == 8, 'expect 8 bytes')
+}
+
+#[repr(uniform)] // WebGPU Uniform layout rules, so usually this would be 4 bytes, but uniforms aligns to 16 bytes
+struct SomeUniformStruct {
+    value: Int
+}
+
+#[test]
+fn uniform_size() {
+    assert(size_of::<SomeUniformStruct> == 16, 'expect 16 bytes since it is a uniform')
+}
+
+// Since it aligns by the largest alignment, this should be 16 bytes
+struct TwoSmallFieldsStruct {
+    some_bool: Bool // even if this is one byte (U8), it adds padding
+    value: Int
+    small: U8
+    second_small: U8
+}
+
+#[test]
+fn offset_of_struct() {
+    assert(offset_of::<TwoSmallFieldsStruct::some_bool> == 0, 'expect 0 offset')
+    assert(offset_of::<TwoSmallFieldsStruct::small> == 8, 'expect 8 offset')
+    assert(offset_of::<TwoSmallFieldsStruct::second_small> == 9, 'expect 9 offset')
+    assert(size_of::<TwoSmallFieldsStruct> == 12, 'expect 12 bytes in size')
+}

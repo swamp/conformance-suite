@@ -1,0 +1,11 @@
+---
+code: 101
+message: unused parameter 'unused_param'
+---
+fn calculate(x: Int, unused_param: Int) -> Int {
+    x * 2
+}
+
+fn main() -> Int {
+    calculate(5, 10)
+}

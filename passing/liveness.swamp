@@ -1,0 +1,18 @@
+fn call(f: Float) -> Float {
+    f
+}
+
+/// Was a liveness bug in FIR, where pointless mutations of a variable would use a temp register instead
+/// and the last change was missing as well as potentially clobbering an unrelated variable
+#[test]
+fn liveness() {
+    y := 10
+    mut x = 23.0
+
+    x = 0.0
+
+    x = call(x)
+
+    assert(x == 0.0, 'x {x}')
+    assert(y == 10, 'y {y}')
+}

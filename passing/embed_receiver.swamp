@@ -1,0 +1,46 @@
+struct Obsidian {
+    last_sprite_index: Int
+}
+
+struct Thing {
+    shiny: Bool
+    value: Int
+}
+
+
+impl Obsidian {
+    fn draw_sprite(mut self, i: Int) {
+        .last_sprite_index = i
+    }
+
+    fn return_thing(mut self, _a: Bool) -> Thing {
+        .last_sprite_index = 909
+        [true, -1]
+    }
+
+    fn return_scalar(self) -> Int {
+        .last_sprite_index
+    }
+}
+
+struct MegaObsidian {
+    embed some_field: Obsidian
+}
+
+
+// Thanks to @catnipped, for the inspiring idea to extend the existing `embed` to
+// include associated functions lookup and desugaring
+#[test]
+fn desugar_associated_function() {
+    mut mega: MegaObsidian
+
+    assert(mega.some_field.last_sprite_index == 0, 'zero to start with')
+    mega.draw_sprite(99)
+    assert(mega.some_field.last_sprite_index == 99, 'last drawn sprite')
+
+    answer := mega.return_thing(false)
+    assert(answer.shiny, 'should be shiny')
+    assert(answer.value == -1, 'not worth much')
+
+    assert(mega.return_scalar() == 909, 'should get the latest value')
+}

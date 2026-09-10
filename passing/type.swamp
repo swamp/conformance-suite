@@ -1,0 +1,47 @@
+type Handle = Int
+
+fn convert_to_handle(handle: Int) -> Handle {
+    handle
+}
+
+#[test]
+fn check_conversion() {
+    _result := convert_to_handle(23)
+}
+
+enum SomeEnum {
+    First
+    Second
+}
+
+struct Destination {
+    map: [SomeEnum: Int; 16]
+}
+
+#[test]
+fn check_conversion_into_place() {
+    _dest := Destination {
+        map: [First : convert_to_handle(23)]
+    }
+}
+
+ fn take_handle(h: Handle) -> Int {
+    h
+}
+
+#[test]
+fn empty_initializer_for_distinct_scalar() {
+    h : Handle
+
+    assert(take_handle(h) == 0, "distinct scalar should zero-initialize")
+}
+
+fn use_handle_from_rest(h: Handle) -> Int {
+    h
+}
+
+#[test]
+fn distinct_scalar_missing_argument_uses_zero_default() {
+    result := use_handle_from_rest(..)
+    assert(result == 0, "distinct scalar missing argument should synthesize zero")
+}

@@ -1,0 +1,124 @@
+#[test]
+fn float_format() {
+    f := 23.12345
+    s := 'value:{f:.2f}'
+
+    assert(s == "value:23.12", 'was wrong: {s}')
+}
+
+#[test]
+fn float_right_format() {
+    f := 23.12345
+    s := 'value:{f:8.2f}'
+
+    assert(s == "value:   23.12", 'was wrong: {s}')
+}
+
+#[test]
+fn float_zero_padded_format() {
+    f := 23.12345
+    s := 'value:{f:08.2f}'
+
+    assert(s == "value:00023.12", 'was wrong: {s}')
+}
+
+#[test]
+fn float_width_does_not_truncate() {
+    f := 12345.6789
+    s := 'value:{f:4.2f}'
+
+    assert(s == "value:12345.68", 'was wrong: {s}')
+}
+
+#[test]
+fn float_left_format() {
+    f := 23.12345
+    s := 'value:{f:<8.2f}'
+
+    assert(s == "value:23.12   ", 'was wrong: {s}')
+}
+
+#[test]
+fn float_center_format() {
+    f := 23.12345
+    s := 'value:{f:^8.2f}'
+
+    assert(s == "value: 23.12  ", 'was wrong: {s}')
+}
+
+#[test]
+fn int_bin_format() {
+    i := 23
+    s := 'value:{i:2b}'
+
+    assert(s == "value:10111", 'was wrong: {s}')
+}
+
+#[test]
+fn int_decimal_left_format() {
+    i := 42
+    s := 'value:{i:<6}'
+
+    assert(s == "value:42    ", 'was wrong: {s}')
+}
+
+#[test]
+fn int_hex_format() {
+    {
+        int_value := -32768
+        s := 'value:{int_value:X}c'
+        assert(s == "value:FFFF8000c", 'was wrong: {s}')
+    }
+
+    {
+        minus_one := -1
+        s := 'value:{minus_one:X}'
+        assert(s == "value:FFFFFFFF", 'was wrong: {s}')
+    }
+
+    {
+        min_i32 := -2147483648
+        s := 'value:{min_i32:X}'
+        assert(s == "value:80000000", 'was wrong: {s}')
+    }
+
+    {
+        mixed_characters := 14612361
+        s := 'value:{mixed_characters:08x}After'
+        assert(s == "value:00def789After", 'was wrong: {s}')
+    }
+}
+
+#[test]
+fn byte_hex_format() {
+    {
+        byte_value : U8 = 0x7f
+        s := 'value:{byte_value:X}After'
+        assert(s == "value:7FAfter", 'was wrong: {s}')
+    }
+}
+
+
+#[test]
+fn string_format() {
+    some_string := "hello"
+    s := 'value:{some_string:16s}'
+
+    assert(s == "value:           hello", 'was wrong: {s}')
+}
+
+#[test]
+fn string_left_format() {
+    some_string := "hello"
+    s := 'value:{some_string:<16s}'
+
+    assert(s == "value:hello           ", 'was wrong: {s}')
+}
+
+#[test]
+fn string_center_format() {
+    some_string := "hello"
+    s := '>{some_string:^8s}<'
+
+    assert(s == "> hello  <", 'was wrong: {s}')
+}

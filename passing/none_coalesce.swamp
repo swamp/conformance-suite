@@ -1,0 +1,92 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+type CoolInt = Int
+
+struct MyStruct {
+  a: CoolInt
+}
+
+fn my_function(optional_struct: MyStruct?) {
+  _thing := optional_struct ?? MyStruct{ a: 1 }
+}
+
+// As usual, thanks to @catnipped for finding this bug, where a none coalesce with an aggregate was producing invalid HIR code
+#[test]
+fn call_with_none() {
+  my_function(none)
+  // just the fact that it doesn't crash is good enough of a test here
+}
+
+fn return_valid_struct(optional_struct: MyStruct?) -> MyStruct {
+  optional_struct ?? MyStruct{ a: 1 }
+}
+
+#[test]
+fn expect_valid_struct() {
+  should_be_nice_struct := return_valid_struct(none)
+
+  assert(should_be_nice_struct.a == 1, 'it should have been a good one')
+}
+
+
+#[test]
+fn expect_own_struct() {
+  should_be_my_struct := return_valid_struct({ a: 42 })
+
+  assert(should_be_my_struct.a == 42, 'it should have been my own')
+}
+
+fn return_valid_two_struct(optional_struct: MyStruct?, another_struct: MyStruct?) -> MyStruct {
+  optional_struct ?? another_struct ?? MyStruct{ a: 1 }
+}
+
+#[test]
+fn expect_fallback() {
+  should_be_my_struct := return_valid_two_struct(none, none)
+
+  assert(should_be_my_struct.a == 1, 'it should have been fallback')
+}
+
+#[test]
+fn expect_own_second_struct() {
+  should_be_my_struct := return_valid_two_struct(none, [42])
+
+  assert(should_be_my_struct.a == 42, 'it should have been mine')
+}
+
+
+fn my_function_int(optional_int: CoolInt?) {
+  _thing := optional_int ??  1::<CoolInt>
+}
+
+#[test]
+fn call_int_with_none() {
+  my_function_int(none)
+  // just the fact that it doesn't crash is good enough of a test here
+}
+
+
+fn return_int_with_fallback(optional_int: CoolInt?) -> CoolInt {
+  optional_int ?? 1::<CoolInt>
+}
+
+
+#[test]
+fn expect_valid_int() {
+  should_be_nice_int := return_int_with_fallback(none)
+
+  assert(should_be_nice_int == 1, 'it should have been a good one')
+}
+
+fn return_valid_two_int(first_optional_int: CoolInt?, second_optional_int: CoolInt?) -> CoolInt {
+  first_optional_int ?? second_optional_int ?? 1::<CoolInt>
+}
+
+
+#[test]
+fn expect_own_second_int() {
+  should_be_my_int := return_valid_two_int(none, 42::<CoolInt>)
+
+  assert(should_be_my_int == 42, 'it should have been my int')
+}

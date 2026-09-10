@@ -1,0 +1,33 @@
+struct Point {
+    x: Int
+    y: Int
+}
+
+fn mutate_maybe(mut point: Point) | point.x > 0 {
+    point.x = point.y
+}
+
+#[test]
+fn guard_mutation() {
+    mut p := Point { x: 0, y: 10 }
+    mutate_maybe(&p)
+
+    assert(p.x == 0, 'x should not change')
+    assert(p.y == 10, 'y should not change')
+
+    p.x = 42
+
+    mutate_maybe(&p)
+    assert(p.x == 10, 'x should be set to y {p}')
+    assert(p.y == 10, 'y should not change')
+}
+
+fn avoid_panic(point: Point) | point.x > 0 {
+    panic('point is wrong: {point}')
+}
+
+#[test]
+fn guard_panic() {
+    p := Point { x: 0, y: 10 }
+    avoid_panic(p)
+}
