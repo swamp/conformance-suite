@@ -60,6 +60,7 @@ mod member_lookahead
 mod member
 
 mod named_arguments
+mod none_coalesce_optional_ref
 mod none_coalesce
 mod number_formats
 mod only

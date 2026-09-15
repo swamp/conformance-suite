@@ -1,0 +1,104 @@
+#[test]
+fn coalesce_assign_overwrite_none() {
+    mut value: Int? = none
+
+    assert(!value, "should be false here")
+
+    value ??= 42
+
+    assert(value ?? 0 == 42, "??= should have overwritten none")
+    assert(value, "??= should have overwritten none and be truthy")
+}
+
+
+#[test]
+fn coalesce_assign_keep() {
+    mut value: Int? = 2
+
+    assert(value, "should be true before")
+
+    value ??= 42
+
+    assert(value ?? 0 == 2, "??= should have overwritten 2")
+    assert(value, "should still be true")
+}
+
+#[test]
+fn coalesce_first_existing_bool_vec() {
+    vec := [-1, 42]
+
+    result := vec[1]? ?? vec[4]? ?? -99
+
+    assert(result==42, "existing 42 from vec[1] should be found")
+}
+
+#[test]
+fn coalesce_second_existing_bool_vec() {
+    vec := [-1, 42]
+
+    result := vec[4]? ?? vec[1]? ?? -99
+
+    assert(result == 42, "existing 42 from vec[1] should be found")
+}
+
+#[test]
+fn coalesce_use_final_fallback() {
+    vec := [10, 20, 30]
+
+    // both vec[4] and vec[5] are none existent
+    result := vec[4]? ?? vec[5]? ?? 99
+
+    assert(result == 99, "final fallback was not selected")
+}
+
+#[test]
+fn coalesce_assign_keeps_first_value_set() {
+    mut value: Int? = none
+
+    value ??= 10 // value should be Some(10) here
+    value ??= 20 // 20 should be ignored
+
+    when v=value {
+        assert(v == 10, "first value should have been kept")
+    } else {
+        panic('it should have been set')
+    }
+}
+
+struct Config {
+    timeout: Int?
+}
+
+#[test]
+fn coalesce_assign_struct_field() {
+    mut config := Config { timeout: none }
+
+    config.timeout ??= 30
+
+    when v=config.timeout {
+        assert(v == 30, "assignment should have been kept")
+    } else {
+        panic('it should have been set')
+    }
+}
+
+
+struct BookKeeping {
+    calls: Int
+}
+
+fn make_fallback(mut state: BookKeeping) -> Int {
+    state.calls += 1
+    99
+}
+
+#[test]
+fn coalesce_not_evaluate_fallback() {
+    mut calls := BookKeeping { .. }
+    value: Int? = 7
+
+    result := value ?? make_fallback(&calls)
+
+    assert(result == 7, "wrong coalesced value")
+    assert(calls.calls == 0, "nice, the make_fallback wasn't called")
+}
