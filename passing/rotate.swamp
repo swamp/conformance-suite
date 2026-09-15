@@ -80,3 +80,11 @@ fn rotate_preserves_all_bits() {
     assert(rotated_left == 0xFFFFFFFF, 'rotate left should preserve all bits')
     assert(rotated_right == 0xFFFFFFFF, 'rotate right should preserve all bits')
 }
+
+#[test]
+fn rotate_u32() {
+    value := 0x80000001u32
+
+    assert(value <<< 1 == 0x00000003u32, 'rotate left u32')
+    assert(value >>> 1 == 0xC0000000u32, 'rotate right U32')
+}
