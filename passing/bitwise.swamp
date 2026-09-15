@@ -2,6 +2,20 @@
 // Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
 //
 
+
+#[test]
+fn bitwise_not() {
+    b := 0b11110000
+    result := ~b
+    assert(result == 0b11111111_11111111_11111111_00001111, 'bitwise NOT failed {result}')
+}
+
+
+// ---------------------------------------------------------------
+//| OR
+// ---------------------------------------------------------------
+
+
 #[test]
 fn bitwise_or() {
     a := 0b00001111
@@ -33,6 +47,11 @@ fn assign_bitwise_or() {
     assert(flags == 0b00000101, "assign via OR failed")
 }
 
+
+// ---------------------------------------------------------------
+//| AND
+// ---------------------------------------------------------------
+
 #[test]
 fn bitwise_and() {
     a := 0b11111111
@@ -60,6 +79,31 @@ fn bitwise_and_compound() {
 
 
 #[test]
+fn bitwise_and_u8() {
+    a := 0x7fu8
+    b := 0b010101u8
+    result := a & b
+    assert(result == 0b010101u8, "bitwise AND with right hand U8")
+}
+
+
+#[test]
+fn bitwise_u32() {
+    a := 0xF0F00F0Fu32
+    b := 0x0FF00FF0u32
+
+    assert(a | b == 0xFFF00FFFu32, "bitwise OR u32")
+    assert(a & b == 0x00F00F00u32, "bitwise AND u32")
+    assert(a ^ b == 0xFF0000FFu32, "bitwise XOR u32")
+}
+
+
+// ---------------------------------------------------------------
+//| XOR
+// ---------------------------------------------------------------
+
+
+#[test]
 fn bitwise_xor() {
     a := 0b11001100
     b := 0b10101010
@@ -81,6 +125,10 @@ fn bitwise_xor_toggle() {
     result := flags ^ toggle_mask
     assert(result == 0b00000001, "XOR toggle of bit 2 failed")
 }
+
+// ---------------------------------------------------------------
+//| Shift
+// ---------------------------------------------------------------
 
 #[test]
 fn shift_left() {
@@ -112,12 +160,22 @@ fn shift_right_divide() {
 
 
 #[test]
-fn bitwise_not() {
-    b := 0b11110000
-    result := ~b
-    assert(result == 0b11111111_11111111_11111111_00001111, 'bitwise NOT failed {result}')
+fn shift_u32() {
+    value := 0x80000001u32
+
+    assert(value << 1 == 0x00000002u32, "left shift")
+    assert(value >> 1 == 0x40000000u32, "unsigned right shift expected for u32")
 }
 
+
+#[test]
+fn signed_and_unsigned_shift_right() {
+    signed := -1
+    unsigned := 0xFFFFFFFFu32
+
+    assert(signed >> 1 == -1, "signed right shift, preserve sign")
+    assert(unsigned >> 1 == 0x7FFFFFFFu32, "unsigned right shift, add zeroes from left")
+}
 
 #[test]
 fn combined_mask_and_shift() {
@@ -130,6 +188,7 @@ fn combined_mask_and_shift() {
 
 
 
+
 #[test]
 fn assign_bitwise_and_clear() {
     mut flags := 0b11111111
@@ -137,6 +196,10 @@ fn assign_bitwise_and_clear() {
     assert(flags == 0b11110000, "assign via AND clear failed")
 }
 
+
+// ---------------------------------------------------------------
+//| Rotate
+// ---------------------------------------------------------------
 
 #[test]
 fn rotate_left() {
