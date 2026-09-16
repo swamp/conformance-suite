@@ -20,26 +20,26 @@ enum Message {
 #[test]
 fn is_variant_with_payload() {
     a := Message::Move(10, 20)
-    assert(a == Move(_), "should match Move variant")
-    assert(a == Move(_, _), "should match tuple payload variant")
-    assert(a == Message::Move(_), "qualified variant should match Move")
-    assert(a == Message::Move(_, _), "qualified tuple payload should match Move")
+    assert(Move(_) == a, "should match Move variant")
+    assert(Move(_, _) == a, "should match tuple payload variant")
+    assert(Message::Move(_) == a, "qualified variant should match Move")
+    assert(Message::Move(_, _) == a, "qualified tuple payload should match Move")
 }
 
 // Basic discriminant check with anonymous struct payload variant
 #[test]
 fn is_struct_variant() {
     a := Message::Position { x: 10, y: 20 }
-    assert(a == Position { _ }, "should match struct payload variant")
-    assert(a == Message::Position { _ }, "qualified struct variant should match")
+    assert(Position { _ } == a, "should match struct payload variant")
+    assert( Message::Position { _ } == a, "qualified struct variant should match")
 }
 
 // != check
 #[test]
 fn is_not_variant() {
     a := Message::Quit
-    assert(a != Move(_), "Quit should not match Move")
-    assert(a != Message::Move(_), "Quit should not match qualified Move")
+    assert(Move(_) != a, "Quit should not match Move")
+    assert(Message::Move(_) != a, "Quit should not match qualified Move")
 }
 
 // Unit variant (no payload) — just use == directly, no wildcard needed
@@ -54,7 +54,7 @@ fn unit_variant_match() {
 #[test]
 fn if_pattern_match() {
     a := Message::Write(99)
-    result := if a == Write(_) { 1 } else { 0 }
+    result := if Write(_) == a { 1 } else { 0 }
     assert(result == 1, "should enter then branch")
 }
 
@@ -76,9 +76,9 @@ fn if_else_if_chain() {
 #[test]
 fn wrong_variant_no_match() {
     a := Message::Move(3, 4)
-    result := if a == Write(_) { 1 } else { 0 }
+    result := if Write(_) == a { 1 } else { 0 }
     assert(result == 0, "Move should not match Write")
 
-    qualified_result := if a == Message::Write(_) { 1 } else { 0 }
+    qualified_result := if Message::Write(_) == a { 1 } else { 0 }
     assert(qualified_result == 0, "should not match")
 }

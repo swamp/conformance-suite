@@ -528,3 +528,21 @@ fn fail_vec_insert_beyond_capacity() {
     values.insert(0, 15) // should fail. no capacity for the insert
     print('got values: {values}')
 }
+
+
+// Surprise, surprise, found by @catnipped
+
+struct VertexBufferLayout {
+    vertex_attribute: Vec<Int; 32>
+}
+
+fn consume(buffers: [VertexBufferLayout], value: Int) {
+    assert(buffers.capacity() == 0, 'vec temp capacity should be zero {buffers.capacity()}')
+    assert(buffers.len() == 0, 'vec temp len should be zero {buffers.len()}')
+    assert(value == 42, 'normal scalar value should be here')
+}
+
+#[test]
+fn rest_operator_with_vec_like_view() {
+    consume(value: 42, ..)
+}

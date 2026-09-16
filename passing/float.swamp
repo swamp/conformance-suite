@@ -40,7 +40,7 @@ fn mid() {
 
 #[test]
 fn div() {
-    assert((-3.0).div(3.0) == -1.0, "div() is wrong")
+    assert((-3.0).div(3.0) == -1.0, 'div() is wrong {(-3.0).div(3.0)}')
 }
 
 #[test]
@@ -79,6 +79,13 @@ fn sin() {
     result2 := half_pi.sin()
     assert((result2 - 1.0).abs() < 0.001, 'sin(PI/2) should be close to 1, got {result2}')
 }
+
+#[test]
+fn pow() {
+    result := 0.5.pow(2.0)
+    assert((result - 0.25).abs() < 0.001, '0.5.pow(2.0) should be close to 0.25, got {result}')
+}
+
 
 #[test]
 fn cos() {

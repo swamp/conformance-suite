@@ -1,0 +1,92 @@
+struct ScopedDefault {
+    value: Int
+}
+
+impl ScopedDefault {
+    fn default() -> ScopedDefault {
+        [41]
+    }
+}
+
+struct OverallStruct {
+    a : ScopedDefault
+}
+
+#[test]
+fn scoped_var() {
+    a ::= 0 while a < 3 {
+        a += 1
+    }
+
+    assert(a == 3, 'should be {a}')
+}
+
+#[test]
+fn scoped_var2() {
+    a ::= 0 a += 1
+
+    assert(a == 1, 'should be {a}')
+}
+
+#[test]
+fn scoped_var3() {
+    a ::= 0 loop {
+        a += 1
+        if a > 7 break
+    }
+
+    assert(a == 8, 'should be {a}')
+}
+
+#[test]
+fn scoped_var4() {
+    mut a ::= 0 for i in 0..10 {
+        a += i
+    }
+
+    assert(a == 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9, 'should be {a}')
+
+    a = 3
+
+    assert(a == 3, 'should be {a}')
+}
+
+#[test]
+fn scoped_var_if() {
+    a ::= 0 if true {
+        a += 2
+    } else {
+        a += 5
+    }
+
+    assert(a == 2, 'should be {a}')
+}
+
+#[test]
+fn scoped_var_if_without_else() {
+    a ::= 0 if false {
+        a += 1
+    }
+
+    assert(a == 0, 'should be {a}')
+}
+
+#[test]
+fn scoped_var_match() {
+    value := 2
+    a : Int : match value {
+        0 -> a += 10
+        _ -> a += 20
+    }
+
+    assert(a == 20, 'should be {a}')
+}
+
+#[test]
+fn scoped_var_aggregate_uses_default() {
+    value ::= OverallStruct{..} if true {
+        value.a.value += 1
+    }
+
+    assert(value.a.value == 42, 'should call default(), got {value.a}')
+}

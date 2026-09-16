@@ -11,7 +11,7 @@ fn add() {
 
 #[test]
 fn div() {
-    assert(-10 / 2 == -5, "div doesn't work")
+    assert(-10 / 2 == -5, 'div does not work {-10/2}')
 }
 
 #[test]
@@ -23,7 +23,7 @@ fn float_mul() {
 
 #[test]
 fn float_div() {
-    assert(-42.0 / 2.0 == -21.0, "float div doesn't work")
+    assert(-42.0 / 2.0 == -21.0, 'float div does not work {-42.0/2.0}')
 }
 
 #[test]

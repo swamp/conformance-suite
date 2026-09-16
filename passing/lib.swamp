@@ -23,6 +23,7 @@ mod const_capacities
 mod constant
 mod continue
 mod codepoint
+mod color
 mod distinct_aggregate_ops
 mod distinct_impl
 mod embed
@@ -81,6 +82,7 @@ mod rotate
 
 
 mod scalar_vs_aggregate
+mod scoped_var_def
 mod slice
 mod sort
 

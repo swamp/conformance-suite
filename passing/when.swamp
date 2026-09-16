@@ -18,3 +18,38 @@ fn when_using_scalar() {
         panic('player.assigned_ship should not be None')
     }
 }
+
+struct Position {
+    x: Int
+    y: Int
+}
+
+enum SomeEnum {
+    VariantFirst
+    AnotherThing { f: Float, position: Position }
+    Third
+}
+
+#[test]
+fn when_using_enum() {
+    e := SomeEnum::AnotherThing { f: 2.0, position: [30, 40 ] }
+
+    when AnotherThing { position } = e {
+        print('it worked: {position}')
+        assert(position.y  == 40, 'should work {position}')
+    } else {
+        panic('should not reach here')
+    }
+}
+
+
+#[test]
+fn when_using_enum_no_bindings() {
+    e : SomeEnum = AnotherThing { f: 2.0, position: [30, 40 ] }
+
+    when AnotherThing { _ } = e {
+        print('it worked:}')
+    } else {
+        panic('should not reach here')
+    }
+}

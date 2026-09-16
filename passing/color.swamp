@@ -1,0 +1,49 @@
+type MyOwnColor = U32
+
+impl MyOwnColor {
+    fn red(self) -> U8 {
+        ((self::<U32> >> 24) & 0xff)::<U8>
+    }
+
+    fn red_as_int(self) -> Int {
+        ((self::<U32> >> 24) & 0xff).int()
+    }
+}
+
+#[test]
+fn check_color() {
+    color : MyOwnColor = #FFEE44
+    assert(color.red() == 0xff, 'works')
+    assert(color.red_as_int() == 0xff, 'works')
+}
+
+#[test]
+fn secret_color_literal() {
+    a := #FF9933ee
+    assert(a == 0xff9933ee, 'was not same {a}')
+}
+
+
+#[test]
+fn secret_color_literal_auto_alpha() {
+    a : U32 = #ff9933
+    assert(a == 0xff9933ff, 'was not same u32 {a}')
+}
+
+
+#[test]
+fn shift_right_color_literal_no_alpha_please() {
+    a : U32 = #ff9933    
+    assert(a >> 8 == 0xff9933, 'was not same shift {a}')
+    b := #ff99332F    
+    assert(b >> 8 == 0xff9933, 'was not same shift {b}')
+}
+
+
+#[test]
+fn shift_right_color_literal_alpha() {
+    a : U32 = #ff99334f
+
+    
+    assert(a >> 8 == 0xff9933, 'was not same shift {a}')
+}
