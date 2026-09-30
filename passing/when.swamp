@@ -27,20 +27,37 @@ struct Position {
 enum SomeEnum {
     VariantFirst
     AnotherThing { f: Float, position: Position }
+    MorePayload { i: Int }
     Third
 }
 
 #[test]
 fn when_using_enum() {
     e := SomeEnum::AnotherThing { f: 2.0, position: [30, 40 ] }
+    b := SomeEnum::MorePayload { i : - 99 }
 
-    when AnotherThing { position } = e {
-        print('it worked: {position}')
+    when AnotherThing { position } = e, MorePayload { i } = b {
+        print('it worked: {position} i: {i}')
         assert(position.y  == 40, 'should work {position}')
     } else {
         panic('should not reach here')
     }
 }
+
+#[test]
+fn when_using_enum_with_newline() {
+    e := SomeEnum::AnotherThing { f: 2.0, position: [30, 40 ] }
+    b := SomeEnum::MorePayload { i : - 99 }
+
+    when AnotherThing { position } = e,
+        MorePayload { i } = b {
+            print('it worked: {position} i: {i}')
+            assert(position.y  == 40, 'should work {position}')
+    } else {
+        panic('should not reach here')
+    }
+}
+
 
 
 #[test]
