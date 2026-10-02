@@ -160,7 +160,7 @@ fn return_string_view_from_string_view() {
 
 #[test]
 fn allowed() {
-    mut a = "hello"
+    mut a := "hello"
     a = "goodbye"
 }
 
@@ -206,7 +206,7 @@ impl Parser {
 
 #[test]
 fn create_parser() {
-    mut p = Parser {..}
+    mut p := Parser {..}
     p.parse("hello")
 
     assert(p.str == "hello", "initialization wrong")

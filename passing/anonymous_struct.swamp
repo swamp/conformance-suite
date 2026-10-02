@@ -56,7 +56,7 @@ fn nested() {
 
 #[test]
 fn mutation() {
-    mut point = { y: 20, x: 10 }
+    mut point := { y: 20, x: 10 }
     point.x = 30
     print('after mutation: x:{point.x}, y:{point.y}')
     assert(point.x == 30, 'mutated x is wrong')
@@ -103,11 +103,11 @@ fn assignment_between_orders() {
 
 #[test]
 fn mutation_mixed() {
-    mut a = {
+    mut a := {
          x: 1
          y: 2 
     }
-    mut b = { y: 4, x: 3 }
+    mut b := { y: 4, x: 3 }
 
     a.x = 5
     b.y = 6

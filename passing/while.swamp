@@ -3,7 +3,7 @@
 //
 #[test]
 fn basic() {
-    mut i = 0
+    mut i := 0
     while i < 10 {
         i = i + 1
         print('i: {i}')
@@ -18,7 +18,7 @@ fn checks_below_four(i: Int) -> Bool {
 
 #[test]
 fn function_condition() {
-    mut i = 0
+    mut i := 0
     while checks_below_four(i) {
         i = i + 1
         print('i: {i}')

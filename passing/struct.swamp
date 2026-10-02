@@ -54,7 +54,7 @@ fn borrow_point() {
     // that forces a `mov r1, r2` (r1=first parameter, r2=point variable) to happen before calling `overwrite_point`.
     dummy :=  3
 
-    mut point = Point { x: 10, y: 20 }
+    mut point := Point { x: 10, y: 20 }
 
     print('before overwrite: x:{point.x}, y:{point.y}')
     assert(point.x == 10, 'before: x value is wrong')
@@ -79,7 +79,7 @@ fn borrow_point_partial_overwrite() {
     // that forces a `mov r1, r2` (r1=first parameter, r2=point variable) to happen before calling `overwrite_point`.
     dummy :=  3
 
-    mut point = Point { x: 10, y: 20 }
+    mut point := Point { x: 10, y: 20 }
 
     print('before overwrite: x:{point.x}, y:{point.y}')
     assert(point.x == 10, 'before: x value is wrong')
@@ -99,7 +99,7 @@ fn borrow_point_inside_struct() {
     // that forces a `mov r1, r2` (r1=first parameter, r2=point variable) to happen before calling `overwrite_point`.
     dummy := 3
 
-    mut something = Something {
+    mut something := Something {
         first_point: Point { x: 10, y: 20 }
         second_point: Point { x: 30, y: 40 }
     }
@@ -131,11 +131,11 @@ struct DeepNest {
 #[test]
 fn deep_nesting() {
     dummy := 3
-    mut deep = DeepNest {
+    mut deep := DeepNest {
         a: Something {
           first_point: Point { x: 1, y: 2 }
           second_point: Point { x: 3, y: 4 }
-        },
+        }
         b: Something {
           first_point: Point { x: 5, y: 6 }
           second_point: Point { x: 7, y: 8 }
@@ -168,7 +168,7 @@ fn test_string_to_string() {
 
 #[test]
 fn automatic_to_string() {
-    mut mixed = Mixed { num: 42, flag: false, text: "hello" }
+    mut mixed := Mixed { num: 42, flag: false, text: "hello" }
     print('Mixed struct: {mixed}')
     result := mixed.string()
     assert(result == "Mixed { num: 42, flag: false, text: \"hello\" }", 'to_string failed "{result}"')
@@ -196,7 +196,7 @@ fn automatic_anon_to_string() {
 /// to_short_string shows named structs as anonymous structs (without the type name)
 #[test]
 fn automatic_to_short_string() {
-    mut mixed = Mixed { num: 42, flag: false, text: "hello" }
+    mut mixed := Mixed { num: 42, flag: false, text: "hello" }
     print('Mixed struct short: {mixed.short_string()}')
     assert(mixed.short_string() == "{ num: 42, flag: false, text: \"hello\" }", "to_short_string failed")
 }
@@ -205,7 +205,7 @@ fn automatic_to_short_string() {
 
 #[test]
 fn rest_operator() {
-    mut point = Point {
+    mut point := Point {
         x: 10
         ..
     }
@@ -215,7 +215,7 @@ fn rest_operator() {
 
 #[test]
 fn rest_operator_again() {
-    mut point = Point {
+    mut point := Point {
         y: 20
         ..
     }

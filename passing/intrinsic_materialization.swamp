@@ -51,14 +51,14 @@ fn int_to_float_from_struct_field() {
 
 #[test]
 fn float_round_to_struct_field() {
-    mut data = TestData { int_value: 0, float_value: 100.9, result_int: 0, result_float: 0.0 }
+    mut data := TestData { int_value: 0, float_value: 100.9, result_int: 0, result_float: 0.0 }
     data.result_int = data.float_value.round()
     assert(data.result_int == 101, "round to struct field is wrong")
 }
 
 #[test]
 fn int_to_float_to_struct_field() {
-    mut data = TestData { int_value: 42, float_value: 0.0, result_int: 0, result_float: 0.0 }
+    mut data := TestData { int_value: 42, float_value: 0.0, result_int: 0, result_float: 0.0 }
     data.result_float = data.int_value.float()
     assert(data.result_float == 42.0, "int to_float to struct field is wrong")
 }
@@ -83,7 +83,7 @@ fn int_to_float_to_tuple() {
 #[test]
 fn float_abs_struct_to_struct() {
     source_data := TestData { int_value: 0, float_value: -3.5, result_int: 0, result_float: 0.0 }
-    mut dest_data = TestData { int_value: 0, float_value: 0.0, result_int: 0, result_float: 0.0 }
+    mut dest_data := TestData { int_value: 0, float_value: 0.0, result_int: 0, result_float: 0.0 }
     dest_data.result_float = source_data.float_value.abs()
     assert(dest_data.result_float == 3.5, "abs struct to struct is wrong")
 }
@@ -91,7 +91,7 @@ fn float_abs_struct_to_struct() {
 #[test]
 fn int_abs_struct_to_struct() {
     source_data := TestData { int_value: -42, float_value: 0.0, result_int: 0, result_float: 0.0 }
-    mut dest_data = TestData { int_value: 0, float_value: 0.0, result_int: 0, result_float: 0.0 }
+    mut dest_data := TestData { int_value: 0, float_value: 0.0, result_int: 0, result_float: 0.0 }
     dest_data.result_int = source_data.int_value.abs()
     assert(dest_data.result_int == 42, "int abs struct to struct is wrong")
 }

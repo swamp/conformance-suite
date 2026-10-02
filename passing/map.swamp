@@ -55,7 +55,7 @@ fn basic_map() {
 #[test]
 #[should_trap(expected="map_out_of_space")]
 fn add_too_many() {
-    mut game = Game {
+    mut game := Game {
         card_templates: [
             CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
             CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 }
@@ -69,7 +69,7 @@ fn add_too_many() {
 
 #[test]
 fn add_to_map() {
-    mut game = Game {
+    mut game := Game {
         card_templates: [
             CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
             CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 }
@@ -86,7 +86,7 @@ fn add_to_map() {
 
 #[test]
 fn overwrite_existing() {
-    mut game = Game {
+    mut game := Game {
         card_templates: [
             CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
             CardId::Earthquake:   CardTemplate { mana: 42, healing_per_second: 0.3 }
@@ -103,7 +103,7 @@ fn overwrite_existing() {
 
 #[test]
 fn remove_card() {
-    mut game = Game {
+    mut game := Game {
         card_templates: [
             CardId::MightyGolem:  CardTemplate { mana: -2, healing_per_second: 42.13 }
             CardId::Earthquake:   CardTemplate { mana: 99, healing_per_second: 0.3 }
@@ -124,7 +124,7 @@ fn remove_card() {
 
 #[test]
 fn remove_card_scalar_key() {
-    mut game = ScalarTemplates {
+    mut game := ScalarTemplates {
         card_templates: [
             1:  CardTemplate { mana: -2, healing_per_second: 42.13 }
             2:   CardTemplate { mana: 99, healing_per_second: 0.3 }
@@ -149,7 +149,7 @@ fn remove_card_scalar_key() {
 #[test]
 #[should_trap(expected="map_entry_remove_failed")]
 fn remove_non_existing_card() {
-    mut game = Game {
+    mut game := Game {
         card_templates: [
             CardId::MightyGolem:  CardTemplate { mana: -2, healing_per_second: 42.13 }
             CardId::Earthquake:   CardTemplate { mana: 99, healing_per_second: 0.3 }
@@ -171,7 +171,7 @@ fn iterate_cards() {
         ]
     }
 
-    mut count = 0
+    mut count := 0
     for card_id, card_template in game.card_templates {
         print('Card ID: {card_id}, Mana: {card_template.mana}, Healing per second: {card_template.healing_per_second}')
         count += 1
@@ -190,7 +190,7 @@ fn iterate_cards_value_only() {
         ]
     }
 
-    mut count = 0
+    mut count := 0
     for card_template in game.card_templates {
         print('Mana: {card_template.mana}, Healing per second: {card_template.healing_per_second}')
         if count == 1 {
@@ -210,7 +210,7 @@ fn overwite_card_template(mut card_template: CardTemplate, some_value: Int) {
 
 #[test]
 fn iterate_cards_and_mutate() {
-    mut game = Game {
+    mut game := Game {
         card_templates: [
             CardId::MightyGolem:  CardTemplate { mana: 5, healing_per_second: 42.13 }
             CardId::Earthquake:   CardTemplate { mana: 3, healing_per_second: 0.3 }
@@ -218,7 +218,7 @@ fn iterate_cards_and_mutate() {
         ]
     }
 
-    mut count = 0
+    mut count := 0
     for mut card_template in game.card_templates {
         print('Before: Mana: {card_template.mana}, Healing per second: {card_template.healing_per_second}')
         overwite_card_template(&card_template, count)
@@ -232,7 +232,7 @@ fn iterate_cards_and_mutate() {
 
 #[test]
 fn length() {
-    mut game = Game {
+    mut game := Game {
         card_templates: [ : ]
     }
 
@@ -264,7 +264,7 @@ struct ScalarGame {
 
 #[test]
 fn scalar_key() {
-    mut game = ScalarGame {
+    mut game := ScalarGame {
         card_templates: [ -909: CardTemplate { mana: 3, healing_per_second: 0.3 } ]
     }
     assert(game.card_templates.len() == 1, "should be 1 after adding a card")
@@ -291,7 +291,7 @@ fn scalar_key_for() {
 
     //NOTE: this test is brittle since it assumes the hash function and order
     // in the hashmap implementation
-    mut index = 0
+    mut index := 0
     for id, _card in game.card_templates {
         if index == 1 {
             assert(id == -909, 'second key wrong {id}')
@@ -323,7 +323,7 @@ fn scalar_value() {
 
 #[test]
 fn scalar_value_insert() {
-    mut holder = DeckHolder {
+    mut holder := DeckHolder {
         deck: Deck {
             card_id_to_mana: [2: 3.14]
         }
@@ -390,7 +390,7 @@ struct Battle {
 // `battle.teams[Alliance::West]`
 #[test]
 fn map_chaining_bug() {
-    mut battle = Battle {
+    mut battle := Battle {
         teams: [
             Alliance::West :
             Team {
@@ -416,7 +416,7 @@ fn map_chaining_bug() {
 /// Bug found by the excellent @catnipped !
 #[test]
 fn map_chaining_bug_easy() {
-    mut game = ScalarGame {
+    mut game := ScalarGame {
         card_templates: [ -909: CardTemplate { mana: 3, healing_per_second: 0.3 }, 1342: CardTemplate { mana: 5, healing_per_second: 0.3 } ]
     }
 

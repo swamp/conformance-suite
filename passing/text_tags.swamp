@@ -41,7 +41,7 @@ struct Element {
 
 impl Element {
     fn string(self) -> String {
-        mut args = ""
+        mut args := ""
         for field in self.args {
             args = '{args} {field}'
         }
@@ -127,7 +127,7 @@ impl Parser {
    }
 
     fn parse_identifier(mut self, mut raw_name: Vec<U8>) {
-        mut done = false
+        mut done := false
         while !done && !self.is_eof {
             ch := self.peek()
             if (ch >= b'a' && ch <= b'z') || ch == b'_' {
@@ -141,7 +141,7 @@ impl Parser {
 
     fn parse_text_until_space_or_delimiter(mut self) -> String {
         mut raw_text : Vec<U8; 64> = []
-        mut done = false
+        mut done := false
 
         while !done && !self.is_eof {
             ch := self.peek()
@@ -161,7 +161,7 @@ impl Parser {
 
     fn parse_text_until_quote(mut self) -> String {
         mut raw_text : Vec<U8; 64> = []
-        mut done = false
+        mut done := false
 
         while !done && !self.is_eof {
             ch := self.peek()
@@ -267,9 +267,9 @@ impl Parser {
     }
 
     fn parse_args(mut self, mut args: Vec<Field>) {
-        mut done = false
+        mut done := false
         mut raw_name: String<42> = ""
-        mut first = true
+        mut first := true
         while !done && !self.is_eof {
             self.skip_ws()
             if !self.is_eof {
@@ -310,7 +310,7 @@ impl Parser {
 
         self.skip() // Discard `[`
 
-        mut element = Element {
+        mut element := Element {
             ..
         }
 
@@ -329,7 +329,7 @@ impl Parser {
 
     fn parse_text(mut self) -> String {
         mut raw_text : String<64> = ""
-        mut done = false
+        mut done := false
         while !done && !self.is_eof {
             ch := self.peek()
             if ch == b'[' {
@@ -368,7 +368,7 @@ impl Parser {
 
 #[test]
 fn parse() {
-    mut parser = Parser::new()
+    mut parser := Parser::new()
 
     parser.parse('[test]hello [after 23 a=3 b="text value"] and then [color rgb(23,44,98)] [color rgba(191, 201, 233, 0.99)]')
 

@@ -7,7 +7,7 @@ fn call(f: Float) -> Float {
 #[test]
 fn liveness() {
     y := 10
-    mut x = 23.0
+    mut x := 23.0
 
     x = 0.0
 

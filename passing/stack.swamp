@@ -78,7 +78,7 @@ fn for_loop() {
     stack: Stack<Int; 42> = [1, 2, 3, 4, 5]
 
     assert(stack.len() == 5, "len")
-    mut sum = 0
+    mut sum := 0
     for val in stack {
         sum += val
     }
@@ -97,8 +97,8 @@ fn for_loop_index() {
 
     assert(stack.capacity() == 42, "capacity failed")
     assert(stack.len() == 5, "len")
-    mut sum = 0
-    mut index = 0
+    mut sum := 0
+    mut index := 0
     for i, val in stack {
         assert(i == index, "index should match")
         sum += val
@@ -124,8 +124,8 @@ fn for_mut_aggregate_type() {
     assert(stack.capacity() == 23, "capacity failed")
     assert(stack.len() == 5, "len")
 
-    mut sum = 0.0
-    mut index = 0
+    mut sum := 0.0
+    mut index := 0
     for i, mut val in stack {
         assert(i == index, "index should match")
         sum += val.f
@@ -136,7 +136,7 @@ fn for_mut_aggregate_type() {
     }
     assert(sum == 15.0, "sum should be 15")
 
-    mut sum_after = 0.0
+    mut sum_after := 0.0
     for val in stack {
         sum_after += val.f
     }

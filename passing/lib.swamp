@@ -18,16 +18,17 @@ mod call_guard
 mod call
 mod callee_save
 mod capacities
+mod codepoint
+mod color
+mod compound_assignment
 mod const_borrow
 mod const_capacities
 mod constant
 mod continue
-mod codepoint
-mod color
 mod distinct_aggregate_ops
 mod distinct_impl
-mod embed
 mod embed_receiver
+mod embed
 mod enum_bugs
 mod enum_guards
 mod enum_pattern_match
@@ -39,7 +40,7 @@ mod for
 mod format
 mod grid
 mod guard
-
+mod if
 mod indirect_memory
 mod initializer
 mod int
@@ -54,8 +55,8 @@ mod map_in_map
 mod map
 
 mod match_literal
-mod match
 mod match_or_patterns
+mod match
 
 mod member_lookahead
 mod member
@@ -90,14 +91,14 @@ mod sret_out_param
 mod stack
 
 mod string_basic
-mod string_other
 mod string_const
+mod string_other
 
 mod struct_map
 mod struct
 
 mod tag
-// TODO: not working yet: mod text_tags
+mod text_tags
 mod to_string
 
 mod transformer_bugs

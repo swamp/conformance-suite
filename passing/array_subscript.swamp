@@ -16,8 +16,7 @@ impl Stuff {
 
 #[test]
 fn test_shuffle() {
-    mut array = [10, 20, 30]
-
+    mut array := [10, 20, 30]
 
     Stuff::shuffle_int_list(&array)
 }

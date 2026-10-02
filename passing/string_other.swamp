@@ -31,8 +31,8 @@ fn string_storage_to_string_view() {
 
 #[test]
 fn for_loop_ascii() {
-    mut codepoints = 0
-    mut build_string_again = ""
+    mut codepoints := 0
+    mut build_string_again := ""
 
     chars : Vec<Char; 25> = "hello, world!".chars()
 
@@ -49,8 +49,8 @@ fn for_loop_ascii() {
 
 #[test]
 fn for_loop_unicode() {
-    mut codepoints = 0
-    mut rebuilt = ""
+    mut codepoints := 0
+    mut rebuilt := ""
 
     chars : Vec<Char; 25> = "🧛✨🌟".chars()
     for c in chars {
@@ -107,7 +107,7 @@ fn empty_string_with_interpolation() {
 
 #[test]
 fn test_append() {
-    mut str = ""
+    mut str := ""
     str = '{str}a word'
     print(str)
     assert(str == "a word", 'could not append')
@@ -120,14 +120,14 @@ fn empty_string_behaviors() {
     assert(s.len() == 0, 'len was {s.len()}')
     assert(s.capacity() == 0, "didn't follow the capacity rules of swamp") // capacity is never allowed to be zero for a collection in Swamp
     assert(s.is_empty(), "is_empty() was wrong")
-    mut iterated = 0
+    mut iterated := 0
     for _ in "" { iterated += 1 }
     assert(iterated == 0, "should not iterate at all")
 }
 
 #[test]
 fn compare_with_char() {
-    mut codepoints = 0
+    mut codepoints := 0
 
     for index, char in "hello, world!" {
         if index == 4 {
@@ -285,7 +285,7 @@ fn string_in_constant() {
 
 enum Action {
     Move // steps
-    VenomAttack(Int) // disease amount
+    VenomAttack Int // disease amount
 }
 
 enum Keyword {
@@ -294,8 +294,8 @@ enum Keyword {
 }
 
 enum RegionType {
-    Action(Action)
-    Keyword(Keyword)
+    Action Action
+    Keyword Keyword
 }
 
 struct Region {
@@ -311,7 +311,7 @@ struct RegionString {
 fn get_description(region_type: RegionType) -> RegionString {
     match region_type {
         Keyword keyword -> {
-            mut description = RegionString {..}
+            mut description := RegionString {..}
             match keyword {
                 Cloaked -> 
                     description.string = "This unit can't be targeted unless it holds the [region 0]objective.[/region]"

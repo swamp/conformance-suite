@@ -12,7 +12,7 @@ enum Direction {
 enum Message {
     Quit
     Move(Int, Int)
-    Write(Int)
+    Write Int
     Position { x: Int, y: Int }
 }
 

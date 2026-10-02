@@ -146,11 +146,11 @@ fn chained_sret_calls() {
 }
 
 fn create_large_data(value: Int) -> LargeData {
-    mut data = LargeData {
+    mut data := LargeData {
         values: []
         checksum: 0
     }
-    mut sum = 0
+    mut sum := 0
     for i in 0..16 {
         data.values[i] = value + i
         sum += data.values[i]

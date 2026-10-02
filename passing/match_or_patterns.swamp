@@ -15,8 +15,8 @@ enum Status {
 }
 
 enum Result {
-    Ok(Int)
-    Error(Int)
+    Ok Int
+    Error Int
     Timeout
     Cancelled
 }

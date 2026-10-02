@@ -28,7 +28,7 @@ impl SliceTarget {
 /// into a register before use-ensuring it's properly "flattened".
 #[test]
 fn slice_target() {
-    mut target = SliceTarget {..}
+    mut target := SliceTarget {..}
 
     data := [10, 20, 30, 40]
 

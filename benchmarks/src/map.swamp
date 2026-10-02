@@ -1,0 +1,91 @@
+alias CreatureId = Int
+
+#[bench]
+fn monsters_map() {
+    mut damaged_creatures: [CreatureId: Int; 128]
+
+    for i in 0..16 {
+        damaged_creatures[i * 4] = i * 32
+    }
+
+    mut found_count := 0
+    for _benchmark_iterations in 0..10_000 {
+
+        for creature_id in 0..64 {
+            when found_damage = damaged_creatures[creature_id]? {
+                if found_damage > 42 {
+                    found_count += 1
+                }
+            }
+        }
+    }
+}
+
+#[bench]
+fn monsters_array() {
+    mut damaged_creatures: [Int; 128] // the index is the `CreatureId`
+
+    for i in 0..16 {
+        damaged_creatures[i * 4] = i * 32
+    }
+
+    mut found_count := 0
+    for _benchmark_iterations in 0..10_000 {
+        for creature_id in 0..64 {
+            found_damage := damaged_creatures[creature_id]
+            if found_damage != 0 {
+                if found_damage > 42 {
+                    found_count += 1
+                }
+            }
+        }
+    }
+}
+
+
+struct Monster {
+    health: Int
+    other_thing: [Int; 32]
+}
+impl Monster {
+    fn hello(self, named_int: Int) -> Int {
+        self.health + named_int + 42
+    }
+}
+
+#[bench]
+fn optionals() {
+    mut maybe_creatures: [Monster?; 128]
+
+    for i in 0..16 {
+        maybe_creatures[i * 4] = Monster { health: 10 .. }
+    }
+
+    mut found_count := 0
+    for _benchmark_iterations in 0..10_000 {
+        for _creature_id in 0..64 {
+                    found_count += 1
+        }
+    }
+}
+
+#[bench]
+fn zii() {
+    mut maybe_creatures: [Monster; 128]
+
+    for i in 0..16 {
+        maybe_creatures[i * 4] = Monster { health: 10 ..}
+    }
+
+    mut found_count := 0
+    for _benchmark_iterations in 0..10_000 {
+        for creature_id in 0..64 {
+            if maybe_creatures[creature_id].health != 0 {
+                creature := maybe_creatures[creature_id]
+                val := 42
+                found_count += creature.health + val + creature.hello(42)
+                found_count += 1
+            }
+        }
+    }
+}

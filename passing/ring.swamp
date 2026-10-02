@@ -78,7 +78,7 @@ fn for_loop() {
     ring: Ring<Int; 8> = [1, 2, 3, 4, 5]
 
     assert(ring.len() == 5, "len should be 5")
-    mut sum = 0
+    mut sum := 0
     for val in ring {
         sum += val
     }
@@ -91,8 +91,8 @@ fn for_loop_index() {
 
     assert(ring.capacity() == 8, "capacity should be 8")
     assert(ring.len() == 3, "len should be 3")
-    mut sum = 0
-    mut index = 0
+    mut sum := 0
+    mut index := 0
     for i, val in ring {
         assert(i == index, "index should match")
         sum += val

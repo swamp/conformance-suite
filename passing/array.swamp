@@ -74,7 +74,7 @@ fn parameter_passing() {
 #[test]
 fn mut_parameter_passing_one_field() {
 
-    mut another = Another {
+    mut another := Another {
         things: [
           Thing { b:  -1024, a: 42 } // Intentionally swapped
           Thing { a:  32, b: 8086 }
@@ -105,7 +105,7 @@ fn mut_parameter_passing_one_field() {
 #[test]
 fn mut_parameter_passing_whole_element() {
 
-    mut another = Another {
+    mut another := Another {
         things: [
           Thing { b:  -1024, a: 42 } // Intentionally swapped
           Thing { a:  32, b: 8086 }
@@ -135,7 +135,7 @@ fn mut_parameter_passing_whole_element() {
 #[test]
 fn mut_parameter_passing_whole_element_directly() {
 
-    mut another = Another {
+    mut another := Another {
         things: [
           Thing { b:  -1024, a: 42 } // Intentionally swapped
           Thing { a:  32, b: 8086 }
@@ -179,7 +179,7 @@ fn fill_thing_from_returning() {
 
 #[test]
 fn push() {
-    mut another = Another {
+    mut another := Another {
         things: [
           Thing { b:  -1024, a: 42 } // Intentionally swapped
           Thing { a:  32, b: 8086 }

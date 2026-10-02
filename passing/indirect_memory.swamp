@@ -76,7 +76,7 @@ fn deep_aggregate_field_access() {
 
 #[test]
 fn mutable_deep_scalar_modification() {
-    mut scene = Scene {
+    mut scene := Scene {
         shapes: [
             Shape {
                 lines: [
@@ -108,7 +108,7 @@ fn mutable_deep_scalar_modification() {
 
 #[test]
 fn mutable_deep_aggregate_modification() {
-    mut scene = Scene {
+    mut scene := Scene {
         shapes: [
             Shape {
                 lines: [
@@ -146,7 +146,7 @@ fn modify_line_by_reference(mut line: Line) {
 
 #[test]
 fn function_calls_with_nested_aggregate_refs() {
-    mut scene = Scene {
+    mut scene := Scene {
         shapes: [
             Shape {
                 lines: [
@@ -176,7 +176,7 @@ fn function_calls_with_nested_aggregate_refs() {
 
 #[test]
 fn collection_operations_with_nested_scalars() {
-    mut scene = Scene {
+    mut scene := Scene {
         shapes: []
         background_color: 0
         metadata: { name: "collection test", version: 1 }
@@ -218,9 +218,9 @@ fn collection_iteration_with_complex_elements() {
         }
     ]
 
-    mut total_start_x = 0
-    mut total_center_y = 0
-    mut total_scale = 0.0
+    mut total_start_x :=0
+    mut total_center_y := 0
+    mut total_scale := 0.0
 
     for shape in shapes_data {
         // Test scalar access during iteration

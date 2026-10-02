@@ -28,7 +28,7 @@ struct Action {
 }
 
 enum Keyword {
-	EnterAction(Action)
+	EnterAction Action
 	Confused
 }
 
@@ -46,7 +46,7 @@ struct Game {
 
 // Intentionally avoid using transformer to find keyword
 fn find_keyword(keywords: Vec<Keyword>, target_keyword: Keyword) -> Bool {
-	mut found = false
+	mut found := false
 	for k in keywords{
 		if k.discriminant() == target_keyword.discriminant() { found = true }
 	}
@@ -130,7 +130,7 @@ fn find_in_bool_condition() {
     }
 
 
-    keyword_to_not_find := Keyword::EnterAction({ type: Blank })
+    keyword_to_not_find := Keyword::EnterAction { type: Blank }
 
     if game.units_spawned[instance_id].keywords.find(|k| k.discriminant() == keyword_to_not_find.discriminant()) {
         panic("you should NOT find it")

@@ -3,7 +3,7 @@
 //
 enum BasicEnum {
     First
-    Second(Int)
+    Second Int
 }
 
 #[test]

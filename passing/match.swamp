@@ -48,7 +48,7 @@ enum DeclarationOrder {
 // Patterns mistakingly was using anonymous field index instead of declaration index if the payload is a named struct.
 #[test]
 fn match_declaration_order() {
-    scrutinee := DeclarationOrder::Payload({ i: false, c: 10, b: 0.3 })
+    scrutinee := DeclarationOrder::Payload { i: false, c: 10, b: 0.3 }
 
     match scrutinee {
         Payload { b, c } -> {

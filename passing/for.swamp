@@ -3,7 +3,7 @@
 //
 #[test]
 fn basic() {
-    mut sum = 0
+    mut sum := 0
     for x in 0..3 {
         sum += x
     }
@@ -12,7 +12,7 @@ fn basic() {
 
 #[test]
 fn inclusive() {
-    mut sum = 0
+    mut sum := 0
     for x in 0..=3 {
         sum += x
     }

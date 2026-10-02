@@ -36,7 +36,7 @@ fn iterate() {
     b := pool.add(Pos { x: 2, .. })
     _c := pool.add(Pos { x: 3 .. })
 
-    mut count = 0
+    mut count := 0
     for v in pool {
         print('element: {count}: {v}')
         count += 1

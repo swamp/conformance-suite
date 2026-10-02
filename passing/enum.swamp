@@ -5,7 +5,7 @@ enum Color {
     Red
     Green
     Blue
-    Unknown(Int)
+    Unknown Int
 }
 
 impl Color {
@@ -335,10 +335,16 @@ fn automatic_enum_to_string() {
     assert(b.string() == "SimpleEnum::Second", "enum to_string failed")
 }
 
+struct NamedStruct {
+    x: Int
+    y: Int
+}
+
 enum MixedSyntaxEnum {
     DirectInt Int
     TuplePair ( Int, Int )
     StructData { count: Int, value: Int }
+    NamedPayload NamedStruct
 }
 
 struct DiscriminantTest {
@@ -352,7 +358,7 @@ fn discriminant() {
     d := variant1.discriminant()
     assert(d == 1, 'wrong discriminant {d}')
 
-    mut x = DiscriminantTest {..}
+    mut x := DiscriminantTest {..}
 
     variant2 := MixedSyntaxEnum::StructData { count: 5, value: 100 }
     x.d = variant2.discriminant()
@@ -488,6 +494,7 @@ fn mixed_syntax_comprehensive() {
                 print('Struct data: count={count}, value={value}')
                 count * 10 + value
             }
+            NamedPayload -> 0
         }
         results.push(result)
     }
@@ -501,8 +508,9 @@ fn mixed_syntax_comprehensive() {
 fn mixed_to_string() {
     variants := [
         MixedSyntaxEnum::DirectInt(42)
-        MixedSyntaxEnum::TuplePair(10, 20)
+        MixedSyntaxEnum::TuplePair (10, 20)
         MixedSyntaxEnum::StructData { count: 5, value: 100 }
+        NamedPayload { x: 10, y: 20 }
     ]
 
     s0 := variants[0].string()
