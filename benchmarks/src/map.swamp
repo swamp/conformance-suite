@@ -9,7 +9,7 @@ fn monsters_map() {
     }
 
     mut found_count := 0
-    for _benchmark_iterations in 0..10_000 {
+    for _benchmark_iterations in 0..100_000 {
 
         for creature_id in 0..64 {
             when found_damage = damaged_creatures[creature_id]? {
@@ -19,6 +19,8 @@ fn monsters_map() {
             }
         }
     }
+    // 14 of the 16 populated entries have damage greater than 42.
+    assert(found_count == 1_400_000, 'monsters_map incorrect')
 }
 
 #[bench]
@@ -30,7 +32,7 @@ fn monsters_array() {
     }
 
     mut found_count := 0
-    for _benchmark_iterations in 0..10_000 {
+    for _benchmark_iterations in 0..100_000 {
         for creature_id in 0..64 {
             found_damage := damaged_creatures[creature_id]
             if found_damage != 0 {
@@ -40,6 +42,8 @@ fn monsters_array() {
             }
         }
     }
+    // 14 of the 16 populated entries have damage greater than 42.
+    assert(found_count == 1_400_000, 'monsters_array incorrect')
 }
 
 
@@ -62,11 +66,17 @@ fn optionals() {
     }
 
     mut found_count := 0
-    for _benchmark_iterations in 0..10_000 {
-        for _creature_id in 0..64 {
+    for _benchmark_iterations in 0..100_000 {
+        for creature_id in 0..64 {
+            when creature = maybe_creatures[creature_id] {
+                if creature.health > 0 {
                     found_count += 1
+                }
+            }
         }
     }
+    // 16 populated optionals per traversal.
+    assert(found_count == 1_600_000, 'optionals incorrect')
 }
 
 #[bench]
@@ -78,7 +88,7 @@ fn zii() {
     }
 
     mut found_count := 0
-    for _benchmark_iterations in 0..10_000 {
+    for _benchmark_iterations in 0..100_000 {
         for creature_id in 0..64 {
             if maybe_creatures[creature_id].health != 0 {
                 creature := maybe_creatures[creature_id]
@@ -88,4 +98,6 @@ fn zii() {
             }
         }
     }
+    // 16 creatures each contribute 10 + 42 + (10 + 42 + 42) + 1 = 147.
+    assert(found_count == 235_200_000, 'zii incorrect')
 }

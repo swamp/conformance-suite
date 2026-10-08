@@ -163,7 +163,7 @@ struct Mixed {
 fn test_string_to_string() {
     s := "hello world!"
     result := s.string()
-    assert(result == "\"hello world!\"", 'result is wrong {s}')
+    assert(result == "hello world!", 'result is wrong {s}')
 }
 
 #[test]

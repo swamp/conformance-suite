@@ -1,0 +1,90 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+struct GuardTrace {
+    checks: Int
+    actions: Int
+}
+
+fn checked(mut trace: GuardTrace, result: Bool) -> Bool {
+    trace.checks += 1
+    result
+}
+
+fn acted(mut trace: GuardTrace, result: Int) -> Int {
+    trace.actions += 1
+    result
+}
+
+#[test]
+fn scoped_guard_selects_first_match() {
+    mut trace := GuardTrace { .. }
+    result := | {
+        checked(&trace, false) -> acted(&trace, 10)
+        checked(&trace, true) -> acted(&trace, 20)
+        checked(&trace, true) -> acted(&trace, 30)
+        _ -> acted(&trace, 40)
+    }
+
+    assert(result == 20, "first matching")
+    assert(trace.checks == 2, "number of checks is wrong")
+    assert(trace.actions == 1, "only one action")
+}
+
+#[test]
+fn scoped_guard_uses_fallback() {
+    mut trace := GuardTrace { .. }
+    result := | {
+        checked(&trace, false) -> acted(&trace, 10)
+        checked(&trace, false) -> acted(&trace, 20)
+        _ -> acted(&trace, 30)
+    }
+
+    assert(result == 30, "was wildcard/fallback")
+    assert(trace.checks == 2, "two checks before")
+    assert(trace.actions == 1, "acted on it once")
+}
+
+#[test]
+fn scoped_guard_accepts_comma_separated_arms() {
+    value := 5
+    result := | { value < 0 -> -1, value == 5 -> 50, _ -> 0 }
+    assert(result == 50, "should work")
+}
+
+#[test]
+fn scoped_guard_statement_can_fall_through() {
+    mut count := 7
+    direction := 0
+    | {
+        direction > 0 -> count += 1
+        direction < 0 -> count -= 1
+    }
+    assert(count == 7, "it didn't match anything")
+}
+
+#[test]
+fn scoped_guard_statement_executes_only_one_arm() {
+    mut count := 0
+    | {
+        true -> count += 1
+        true -> count += 10
+    }
+    assert(count == 1, "statement guard first arm only, even if more matches")
+}
+
+#[test]
+fn scoped_guards_nest() {
+    result := | {
+        true -> | {
+            false -> 10
+            _ -> 20
+        }
+        _ -> 30
+    }
+
+    mut count := result
+    | { true -> count += 1 }
+    | { true -> count += 2 }
+    assert(count == 20 + 1 + 2, "it should find 20 + 1 + 2")
+}

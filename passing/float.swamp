@@ -35,18 +35,18 @@ fn max() {
 
 #[test]
 fn mid() {
-    assert((-3.0).clamp(1.0, 9.0) == 1.0, "clamp() is wrong")
+    assert(-3.0.clamp(1.0, 9.0) == 1.0, "clamp() is wrong")
 }
 
 #[test]
 fn div() {
-    assert((-3.0).div(3.0) == -1.0, 'div() is wrong {(-3.0).div(3.0)}')
+    assert(-3.0.div(3.0) == -1.0, 'div() is wrong {-3.0.div(3.0)}')
 }
 
 #[test]
 fn rem() {
-    assert((-3.0).rem(2.0) == -1.0, "rem() is wrong")
-    assert((-3.0) % 2.0 == -1.0, "remainder float is wrong")
+    assert(-3.0.rem(2.0) == -1.0, "rem() is wrong")
+    assert(-3.0 % 2.0 == -1.0, "remainder float is wrong")
 }
 
 
@@ -77,29 +77,41 @@ fn sin() {
 
     half_pi := 1.5708
     result2 := half_pi.sin()
-    assert((result2 - 1.0).abs() < 0.001, 'sin(PI/2) should be close to 1, got {result2}')
+    assert(
+        (result2 - 1.0).abs() < 0.001
+        'sin(PI/2) should be close to 1, got {result2}'
+    )
 }
 
 #[test]
 fn pow() {
     result := 0.5.pow(2.0)
-    assert((result - 0.25).abs() < 0.001, '0.5.pow(2.0) should be close to 0.25, got {result}')
+    assert(
+        (result - 0.25).abs() < 0.001
+        '0.5.pow(2.0) should be close to 0.25, got {result}'
+    )
 }
 
 
 #[test]
 fn cos() {
     result := 0.0.cos()
-    assert((result - 1.0).abs() < 0.001, 'cos(0) should be close to 1, got {result}')
+    assert(
+        (result - 1.0).abs() < 0.001
+        'cos(0) should be close to 1, got {result}'
+    )
 
     pi := 3.14159
     result2 := pi.cos()
-    assert((result2 + 1.0).abs() < 0.001, 'cos(PI) should be close to -1, got {result2}')
+    assert(
+        (result2 + 1.0).abs() < 0.001
+        'cos(PI) should be close to -1, got {result2}'
+    )
 }
 
 #[test]
 fn atan2() {
-    assert(almost_equal(3.14.atan2(4.5), 0.60, 0.01), 'should be close to 0.6')
+    assert(almost_equal(3.14.atan2(4.5), 0.60, 0.01), "should be close to 0.6")
 
     result2 := 0.0.atan2(1.0)
     assert(result2 == 0.0, 'atan2(0, 1) should be close to 0, got {result2}')
@@ -108,33 +120,33 @@ fn atan2() {
 
 #[test]
 fn atan2_axis() {
-    assert(almost_equal(0.0.atan2(1.0) , 0.0, 0.001), 'positive x-axis')
-    assert(almost_equal(1.0.atan2(0.0) , 1.5708, 0.001), 'positive y-axis')
-    assert(almost_equal(0.0.atan2(-1.0) , 3.1415, 0.001), 'negative x-axis')
-    assert(almost_equal(-1.0.atan2(0.0) , -1.5708, 0.001), 'negative y-axis')
+    assert(almost_equal(0.0.atan2(1.0), 0.0, 0.001), "positive x-axis")
+    assert(almost_equal(1.0.atan2(0.0), 1.5708, 0.001), "positive y-axis")
+    assert(almost_equal(0.0.atan2(-1.0), 3.1415, 0.001), "negative x-axis")
+    assert(almost_equal(-1.0.atan2(0.0), -1.5708, 0.001), "negative y-axis")
 }
 
 #[test]
 fn atan2_quadrants() {
-    assert(almost_equal(1.0.atan2(1.0) , 0.7853, 0.001), 'quadrant 1')
-    assert(almost_equal(1.0.atan2(-1.0), 2.3561, 0.001), 'quadrant 2')
-    assert(almost_equal(-1.0.atan2(-1.0), -2.35611, 0.001), 'quadrant 3')
-    assert(almost_equal(-1.0.atan2(1.0), -0.7853, 0.001), 'quadrant 4')
+    assert(almost_equal(1.0.atan2(1.0), 0.7853, 0.001), "quadrant 1")
+    assert(almost_equal(1.0.atan2(-1.0), 2.3561, 0.001), "quadrant 2")
+    assert(almost_equal(-1.0.atan2(-1.0), -2.35611, 0.001), "quadrant 3")
+    assert(almost_equal(-1.0.atan2(1.0), -0.7853, 0.001), "quadrant 4")
 }
 
 #[test]
 fn atan2_angles() {
-    assert(almost_equal(4.5.atan2(999.4), 0.0045, 0.001), 'shallow angle')
-    assert(almost_equal(999.4.atan2(4.5), 1.5663, 0.001), 'steep angle')
+    assert(almost_equal(4.5.atan2(999.4), 0.0045, 0.001), "shallow angle")
+    assert(almost_equal(999.4.atan2(4.5), 1.5663, 0.001), "steep angle")
 }
 
 #[test]
 fn atan2_big_numbers() {
-    assert(almost_equal(32000.0.atan2(32000.0), 0.7853, 0.001), 'big number')
-    assert(almost_equal(-32000.0.atan2(32000.0), -0.7853, 0.001), 'big number')
+    assert(almost_equal(32000.0.atan2(32000.0), 0.7853, 0.001), "big number")
+    assert(almost_equal(-32000.0.atan2(32000.0), -0.7853, 0.001), "big number")
 
-    assert(almost_equal(32000.0.atan2(-32000.0), 2.3561, 0.001), 'big number')
-    assert(almost_equal(-32000.0.atan2(-32000.0), -2.3561, 0.001), 'big number')
+    assert(almost_equal(32000.0.atan2(-32000.0), 2.3561, 0.001), "big number")
+    assert(almost_equal(-32000.0.atan2(-32000.0), -2.3561, 0.001), "big number")
 }
 
 
@@ -143,29 +155,44 @@ fn atan2_close_to_zero() {
     // (0,0) has no mathematically defined direction.
     // Returning 0.0 is actually wrong, but used as a practical convention used by many runtimes
     // (e.g. Rust, C (libm), Go, Swift, C#).
-    assert(0.0.atan2(0.0) == 0.0, 'zero')
+    assert(0.0.atan2(0.0) == 0.0, "zero")
 }
 
 #[test]
 fn magnitude() {
     result := 4.5.magnitude(7.8)
-    assert(almost_equal(result, 9.005, 0.001), 'magnitude(4.5, 7.8) should be around 9.005, got {result}')
+    assert(
+        almost_equal(result, 9.005, 0.001)
+        'magnitude(4.5, 7.8) should be around 9.005, got {result}'
+    )
 
     // magnitude of (3.0, 4.0) = 5.0 (the classic 3-4-5 triangle)
     result2 := 3.0.magnitude(4.0)
-    assert(almost_equal(result2, 5.0, 0.0005), 'magnitude(3.0, 4.0) should be 5.0, got {result2}')
+    assert(
+        almost_equal(result2, 5.0, 0.0005)
+        'magnitude(3.0, 4.0) should be 5.0, got {result2}'
+    )
 
-    result3 := (-4245.44).magnitude(3844.99)
-    assert(almost_equal(result3, 5727.8, 0.01), 'known magnitude wrong {result3}')
+    result3 := -4245.44.magnitude(3844.99)
+    assert(
+        almost_equal(result3, 5727.8, 0.01)
+        'known magnitude wrong {result3}'
+    )
 }
 
 #[test]
 fn magnitude_close_to_zero() {
     result := 4.5.magnitude(0.0)
-    assert(almost_equal(result, 4.5, 0.01), 'magnitude(4.5, 0.0) should be around 4.5, got {result}')
+    assert(
+        almost_equal(result, 4.5, 0.01)
+        'magnitude(4.5, 0.0) should be around 4.5, got {result}'
+    )
 
     result2 := 0.0.magnitude(4.0)
-    assert(almost_equal(result2, 4.0, 0.0005), 'magnitude(0.0, 4.0) should be 4.0, got {result2}')
+    assert(
+        almost_equal(result2, 4.0, 0.0005)
+        'magnitude(0.0, 4.0) should be 4.0, got {result2}'
+    )
 }
 
 
@@ -176,11 +203,13 @@ fn normalize() {
 
         magnitude := x.magnitude(y)
 
-        assert(almost_equal(magnitude,1.0, 0.001), 'normalized vector should have magnitude 1, got {magnitude}')
+        assert(
+            almost_equal(magnitude, 1.0, 0.001)
+            'normalized vector should have magnitude 1, got {magnitude}'
+        )
     } else {
-        panic('should have been normalized')
+        panic("should have been normalized")
     }
-
 }
 
 
@@ -189,13 +218,15 @@ fn normalize_close_to_zero() {
     x, y = when normalized = 119.5.normalize(0.001) {
         normalized
     } else {
-        panic('should have been normalized')
+        panic("should have been normalized")
     }
 
     magnitude := x.magnitude(y)
 
-    assert(almost_equal(magnitude, 1.0, 0.01), 'normalized vector should have magnitude 1, got {magnitude}')
-
+    assert(
+        almost_equal(magnitude, 1.0, 0.01)
+        'normalized vector should have magnitude 1, got {magnitude}'
+    )
 }
 
 
@@ -204,12 +235,107 @@ fn normalize_big_number() {
     x, y = when normalized = 862.0.normalize(283.0) {
         normalized
     } else {
-        panic('should have been normalized')
+        panic("should have been normalized")
     }
 
     print('x: {x}, y: {y}')
 
     magnitude := x.magnitude(y)
 
-    assert((magnitude - 1.0).abs() < 0.01, 'normalized vector should have magnitude 1, got {magnitude}')
+    assert(
+        (magnitude - 1.0).abs() < 0.01
+        'normalized vector should have magnitude 1, got {magnitude}'
+    )
+}
+
+struct Position {
+    x: Float
+    y: Float
+}
+
+impl Position {
+    fn direction(self) -> Position {
+        angle := .y.atan2(.x)
+        cos_x := angle.cos()
+        sin_y := angle.sin()
+        Position {
+            y: sin_y
+            x: cos_x
+        }
+    }
+
+    fn normalize(self) -> Position {
+        norm_x, norm_y = when normalized = .x.normalize(.y) {
+            normalized
+        } else {
+            (0.0, 0.0)
+        }
+        Position {
+            x: norm_x
+            y: norm_y
+        }
+    }
+}
+
+#[test]
+fn atan2_direction_sret() {
+    positive := Position {
+        x: 3.0
+        y: 4.0
+    }.direction()
+    assert(almost_equal(positive.x, 0.6, 0.03), 'dir x: {positive.x}')
+    assert(almost_equal(positive.y, 0.8, 0.03), 'dir y: {positive.y}')
+
+    negative := Position {
+        x: -3.0
+        y: -4.0
+    }.direction()
+    assert(
+        almost_equal(negative.x, -0.6, 0.03)
+        'neg dir x: {negative.x}'
+    )
+    assert(
+        almost_equal(negative.y, -0.8, 0.03)
+        'neg dir y: {negative.y}'
+    )
+}
+
+#[test]
+fn normalize_struct_return_components() {
+    normalized := Position {
+        x: 3.0
+        y: -4.0
+    }.normalize()
+    assert(
+        almost_equal(normalized.x, 0.6, 0.001)
+        'normalized x: {normalized.x}'
+    )
+    assert(
+        almost_equal(normalized.y, -0.8, 0.001)
+        'normalized y: {normalized.y}'
+    )
+
+    swapped := Position {
+        x: -4.0
+        y: 3.0
+    }.normalize()
+    
+    assert(
+        almost_equal(swapped.x, -0.8, 0.001)
+        'swapped normalized x: {swapped.x}'
+    )
+    assert(
+        almost_equal(swapped.y, 0.6, 0.001)
+        'swapped normalized y: {swapped.y}'
+    )
+}
+
+#[test]
+fn normalize_struct_return_zero() {
+    normalized := Position {
+        x: 0.0
+        y: 0.0
+    }.normalize()
+    assert(normalized.x == 0.0, 'zero normalized x: {normalized.x}')
+    assert(normalized.y == 0.0, 'zero normalized y: {normalized.y}')
 }

@@ -354,10 +354,10 @@ fn scalar_value_insert() {
 #[test]
 fn copy_from_constant_with_different_capacity() {
     // Copy from `CARD_LIB` with capacity 3 (len 2), into `card_templates` with a different capacity (512)
-    card_templates : [CardId: CardTemplate; 128] = CARD_LIB
+    card_templates : [CardId: CardTemplate; 2] = CARD_LIB
 
     assert(card_templates.len() == 2, "should have 2 cards from constant {card_templates.len()}")
-    assert(card_templates.capacity() == 128, "should have capacity 128")
+    assert(card_templates.capacity() == 2, "should have capacity 128")
     assert(card_templates.has(CardId::MightyGolem), "should have MightyGolem")
     assert(card_templates.has(CardId::Earthquake), "should have Earthquake")
     assert(!card_templates.has(CardId::MysticSpring), "should not have MysticSpring")

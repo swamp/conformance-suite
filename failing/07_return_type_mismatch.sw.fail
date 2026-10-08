@@ -1,8 +1,7 @@
 ---
-code: 107
-message: unexpected token
+code: 34
+message: incompatible types: required utf8, encountered Int
 ---
-fn getString() -> String {
+fn get_string() -> String {
     42
 }
-

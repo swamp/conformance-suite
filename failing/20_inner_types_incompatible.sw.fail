@@ -1,19 +1,18 @@
 ---
 code: 34
-message: incompatible types
+message: incompatible types: required Map<Int, Vec<Bool, 10>, 30>, encountered IntVectors
 ---
 
-type VecInMap20 = [Int : Vec<Int;10>  ;30]
+type IntVectors = [Int : Vec<Int;10>  ;30]
 
 struct Game {
-    something:    [Int : Vec<Int;20>  ;40],
+    something:    [Int : Vec<Bool;10>  ;30],
 }
 
 impl Game {
-    fn new(other_map: VecInMap20) -> Game {
+    fn new(other_map: IntVectors) -> Game {
         Game {
-            // This should be a type checking error. the "inner" types are not the same. 10 vs 20.
-            // Swamp only allows bitwise copyable types
+            // Equal capacities isolate incompatible nested element types: Int vs Bool.
             something: other_map,
         }
     }

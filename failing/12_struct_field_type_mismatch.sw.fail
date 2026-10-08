@@ -1,6 +1,6 @@
 ---
 code: 34
-message: incompatible types
+message: incompatible types: required Int, encountered utf8
 ---
 struct Point {
     x: Int,

@@ -6,22 +6,24 @@ mod map
 fn arithmetic_loop() {
     mut sum := 0
 
-    for i in 0..1_000_000 {
+    for i in 0..10_000_000 {
         sum += i * 2 - 1
     }
 
-    //assert(sum == 1409865408, 'arithmetic loop incorrect {sum}')
+    // N * (N - 2), wrapped to signed 32-bit Int.
+    assert(sum == 256_447_232, 'arithmetic loop incorrect')
 }
 
 #[bench]
 fn for_loop_iteration() {
     mut sum := 0
 
-    for i in 0..1_000_000 {
+    for i in 0..10_000_000 {
         sum += i % 100
     }
 
-    //assert(sum == 4950000, 'for loop iteration incorrect {sum}')
+    // 100,000 cycles of 0 + ... + 99.
+    assert(sum == 495_000_000, 'for loop iteration incorrect')
 }
 
 struct Point {
@@ -33,11 +35,12 @@ struct Point {
 fn struct_creation() {
     mut last_point := Point { x: 0, y: 0 }
 
-    for i in 0..1_000_000 {
+    for i in 0..10_000_000 {
         last_point = [ i, i * 2 ]
     }
 
-   // assert(last_point.x == 999, 'struct creation failed {last_point}')
+    assert(last_point.x == 9_999_999, 'struct creation x incorrect')
+    assert(last_point.y == 19_999_998, 'struct creation y incorrect')
 }
 
 #[bench]
@@ -46,13 +49,13 @@ fn array_iteration() {
 
     mut sum := 0
 
-    for _ in 0..100_000 {
+    for _ in 0..1_000_000 {
         for item in arr {
             sum += item
         }
     }
 
-   // assert(sum == 5500, 'array iteration failed {sum}')
+    assert(sum == 55_000_000, 'array iteration incorrect')
 }
 
 #[bench]
@@ -60,26 +63,28 @@ fn fibonacci() {
     mut a := 0
     mut b := 1
 
-    for _ in 0..1_000_000 {
+    for _ in 0..10_000_000 {
         temp := a + b
         a = b
         b = temp
     }
 
-    //assert(b == 1346269, 'fibonacci failed {b}')
+    // F(10,000,000) and F(10,000,001), wrapped to signed 32-bit Int.
+    assert(a == -1_448_735_941, 'fibonacci a incorrect')
+    assert(b == -1_612_145_123, 'fibonacci b incorrect')
 }
 
 #[bench]
 fn nested_loops() {
     mut count := 0
 
-    for _ in 0..1_000 {
+    for _ in 0..10_000 {
         for _ in 0..1_000 {
             count += 1
         }
     }
 
-    //assert(count == 10000, 'nested loops failed {count}')
+    assert(count == 10_000_000, 'nested loops incorrect')
 }
 
 struct Data {
@@ -96,13 +101,14 @@ fn struct_field_access() {
 
     mut sum := 0
 
-    for _ in 0..70_000 {
+    for _ in 0..700_000 {
         for i in 0..data.values.len() {
             sum += data.values[i] + data.multiplier
         }
     }
 
-    //assert(sum == 11000, 'struct field access failed {sum}')
+    // Each traversal adds 55 + 10 * 2 = 75.
+    assert(sum == 52_500_000, 'struct field access incorrect')
 }
 
 fn add(a: Int, b: Int) -> Int {
@@ -113,10 +119,11 @@ fn add(a: Int, b: Int) -> Int {
 fn function_calls() {
     mut result := 0
 
-    for i in 0..500_000 {
+    for i in 0..5_000_000 {
         result = add(result, i)
     }
 
-    //assert(result == 499500, 'function calls failed {result}')
+    // N * (N - 1) / 2, wrapped to signed 32-bit Int.
+    assert(result == 1_642_668_640, 'function calls incorrect')
 }
 

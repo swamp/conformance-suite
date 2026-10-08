@@ -40,6 +40,8 @@ mod for
 mod format
 mod grid
 mod guard
+mod scoped_guard
+mod separated_block
 mod if
 mod indirect_memory
 mod initializer

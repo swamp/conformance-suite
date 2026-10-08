@@ -53,7 +53,7 @@ fn configure_system(cfg: Config, name: String) -> String {
 }
 
 fn calculate_distance(p: Point) -> Int {
-    (p.x * p.x) + (p.y * p.y)
+    p.x * p.x + p.y * p.y
 }
 
 
@@ -72,7 +72,7 @@ fn rest_args_with_named() {
 #[test]
 fn rest_args_config_reordered() {
     // Named arg with rest operator
-    msg := configure_system(name: "prod_system" ..)
+    msg := configure_system(name: "prod_system", ..)
     assert(msg == "Config 'prod_system' loaded", "reordered with rest failed")
 }
 
@@ -85,15 +85,13 @@ fn rest_args_without_struct_default() {
 
 #[test]
 fn rest_args_with_string_first() {
-    result := with_string("Status" ..) // intentionally without comma
+    result := with_string("Status", ..) // intentionally without comma
     assert(result == "Status: health=100", "string with rest failed")
 
     result2 := with_string(
-        "Status" 
-        ..
-       )
+        "Status"
+    ..)
     assert(result2 == "Status: health=100", "string with rest failed")
-
 }
 
 // Test with custom defaults
@@ -155,7 +153,11 @@ impl Entity {
 
 #[test]
 fn rest_args_member_function() {
-    e := Entity { health: 50, damage: 15, speed: 2.0 }
+    e := Entity {
+        health: 50
+        damage: 15
+        speed: 2.0
+    }
     // Note: self can't use .., but other params can
     result := e.boost(2)
     assert(result == 100, "boost should work")
@@ -163,7 +165,28 @@ fn rest_args_member_function() {
 
 #[test]
 fn rest_args_member_with_struct_param() {
-    e := Entity { health: 50, damage: 15, speed: 2.0 }
+    e := Entity {
+        health: 50
+        damage: 15
+        speed: 2.0
+    }
     result := e.combine(..) // other: Entity filled with default
     assert(result == 150, "should be 50 + 100 = 150")
+}
+
+fn check_it_is_empty(values: Vec<Int>) {
+    assert(values.is_empty(), "default vector should be empty")
+}
+
+fn construct_default_vector() {
+    check_it_is_empty(..)
+}
+
+#[test]
+fn default_vector_argument_preserves_caller_frame() {
+    sentinel: Vec<Int; 4> = [17, 29]
+    construct_default_vector()
+    assert(sentinel.len() == 2, "sentinel should not be changed")
+    assert(sentinel[0] == 17, "first same")
+    assert(sentinel[1] == 29, "second same")
 }

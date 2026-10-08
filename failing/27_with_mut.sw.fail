@@ -11,7 +11,7 @@ struct Enemy {
 
 mut enemy := Enemy { id: -1, .. }
 
-mut outside_scope = 2
+mut outside_scope := 2
 
 with enemy_immut_borrow = &enemy {
     outside_scope += 1

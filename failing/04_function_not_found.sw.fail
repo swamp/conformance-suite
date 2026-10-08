@@ -1,6 +1,6 @@
 ---
 code: 47
-message: unknown identifier
+message: unknown identifier: 'non'
 ---
 result := nonExistentFunction(42)
 

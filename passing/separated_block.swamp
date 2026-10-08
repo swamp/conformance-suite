@@ -1,0 +1,70 @@
+//
+// Copyright (c) Peter Bjorklund. All rights reserved. https://github.com/swamp/conformance-suite
+//
+
+#[test]
+fn separated_blocks_execute_in_order_and_share_outer_values() {
+    base := 10
+    mut result := 0
+    ---
+    result = base + 1
+    ---
+    result *= 2
+    assert(result == 22, "should work")
+}
+
+#[test]
+fn separated_blocks_no_shadowing() {
+    mut result := 0
+    --- // first value
+    value := 10
+    result += value
+    --- // second different `value`
+    value := 20
+    result += value
+    assert(result == 30, "multi blocks")
+}
+
+#[test]
+fn strange_extra_block_at_end() {
+    mut result := 0
+    {
+        --- // previous scope ends here
+        value := 10
+        result += value
+    }
+    value := 20
+    result += value
+    assert(result == 30, "should work")
+}
+
+#[test]
+fn separated_blocks_inside_normal_blocks() {
+    mut result := 0
+    --- // outer seperator
+    outer := 10
+    {
+        --- // first seperator
+        value := 1
+        result += outer + value
+        --- // second separator
+        value := 2
+        result += outer + value
+    }
+    result += outer
+    --- // another outer one
+    outer := 20
+    result += outer
+    assert(result == 53, "nested separators")
+}
+
+#[test]
+fn many_empty_blocks() {
+    mut result := 0
+    ---
+    --- // comment
+    result += 1
+    --- // empty section again
+    assert(result == 1, "empty sections")
+    ---
+}
