@@ -67,8 +67,7 @@ fn create_something_with_default_should_zero
 fn create_something_with_default_should_zero()
 ; mut something : Something
 t0: Something := alloc Something
-t0.0.0 = 0
-t0.0.1 = 0
+t0 <-clear fields 0..1
 ; something.a.x = 1
 t0.0.0 = 1
 //>
